@@ -4,12 +4,12 @@
     <div class="row p-1">
       <div class="d-flex justify-content-between">
         <div>
-          <h2 class="card-title">All users</h2>
+          <h2 class="card-title">All Captains</h2>
         </div>
         <div>
           <!-- <button class="btn btn-success text-white mx-2">
-            Export to current
-          </button> -->
+              Export to current
+            </button> -->
           <button
             class="btn btn-success text-white mx-3 dropdown-toggle"
             data-bs-toggle="dropdown"
@@ -58,7 +58,7 @@
                 role="tab"
                 aria-controls="profile-tab-pane"
                 aria-selected="false"
-                (click)="getDeletedUsers()"
+                (click)="getDeletedCaptains()"
               >
                 Deleted users
               </button>
@@ -80,17 +80,31 @@
                       <th scope="col">First name</th>
                       <th scope="col">Last name</th>
                       <th scope="col">Email</th>
-                      <th scope="col">Email verified</th>
+                      <th scope="col">Vehicle type</th>
+                      <th scope="col">Status</th>
                       <th scope="col">Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let user of activeUsers">
-                      <td>{{ user._id }}</td>
-                      <td>{{ user.fullname.firstname }}</td>
-                      <td>{{ user.fullname.lastname }}</td>
-                      <td>{{ user.email }}</td>
-                      <td>{{ user.isEmailVerified }}</td>
+                    <tr *ngFor="let captain of activeCaptains">
+                      <td>{{ captain._id }}</td>
+                      <td>{{ captain.fullname.firstname }}</td>
+                      <td>{{ captain.fullname.lastname }}</td>
+                      <td>{{ captain.email }}</td>
+                      <td>{{ captain.vehicle.vehicleType }}</td>
+                      <td>
+                        {{
+                          captain.status === 0
+                            ? "Pending"
+                            : captain.status === 1
+                            ? "InProgress"
+                            : captain.status === 2
+                            ? "Approved"
+                            : captain.status === 3
+                            ? "reject"
+                            : null
+                        }}
+                      </td>
                       <td>
                         <div class="dropdown">
                           <button
@@ -107,11 +121,11 @@
                                 class="dropdown-item"
                                 data-bs-toggle="modal"
                                 data-bs-target="#exampleModal"
-                                >Edit user</a
+                                >Edit captain</a
                               >
                             </li>
                             <li>
-                              <a class="dropdown-item">Delete user</a>
+                              <a class="dropdown-item">Delete captain</a>
                             </li>
                           </ul>
                         </div>
@@ -119,15 +133,15 @@
                     </tr>
                   </tbody>
                 </table>
-                <div *ngIf="totalActiveUsers == 0" class="text-danger my-4">
+                <div *ngIf="totalActiveCaptains == 0" class="text-danger my-4">
                   <p class="fw-bold fs-5">Data Not Found..!</p>
                 </div>
                 <ngb-pagination
-                  [collectionSize]="totalActiveUsers"
-                  [(page)]="activeUserscurrentPage"
+                  [collectionSize]="totalActiveCaptains"
+                  [(page)]="activeCaptainscurrentPage"
                   [maxSize]="5"
-                  [pageSize]="activeUsersTableSize"
-                  (pageChange)="onTableActiveUserDataChange($event)"
+                  [pageSize]="activeCaptainsTableSize"
+                  (pageChange)="onTableActiveCaptainDataChange($event)"
                   ><ng-template ngbPaginationPrevious>Prev</ng-template>
                   <ng-template ngbPaginationNext>Next</ng-template>
                 </ngb-pagination>
@@ -153,12 +167,25 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let user of deletedUsers">
-                      <td>{{ user._id }}</td>
-                      <td>{{ user.fullname.firstname }}</td>
-                      <td>{{ user.fullname.lastname }}</td>
-                      <td>{{ user.email }}</td>
-                      <td>{{ user.isEmailVerified }}</td>
+                    <tr *ngFor="let captain of deletedCaptains">
+                      <td>{{ captain._id }}</td>
+                      <td>{{ captain.fullname.firstname }}</td>
+                      <td>{{ captain.fullname.lastname }}</td>
+                      <td>{{ captain.email }}</td>
+                      <td>{{ captain.vehicle.vehicleType }}</td>
+                      <td>
+                        {{
+                          captain.status === 0
+                            ? "Pending"
+                            : captain.status === 1
+                            ? "InProgress"
+                            : captain.status === 2
+                            ? "Approved"
+                            : captain.status === 3
+                            ? "reject"
+                            : null
+                        }}
+                      </td>
                       <td>
                         <div class="dropdown">
                           <button
@@ -171,23 +198,7 @@
                           </button>
                           <ul class="dropdown-menu">
                             <li>
-                              <a
-                                class="dropdown-item"
-                                data-bs-toggle="modal"
-                                data-bs-target="#exampleModal"
-                                >View details</a
-                              >
-                            </li>
-                            <li>
-                              <a
-                                class="dropdown-item"
-                                data-bs-toggle="modal"
-                                data-bs-target="#exampleModal1"
-                                >Edit user</a
-                              >
-                            </li>
-                            <li>
-                              <a class="dropdown-item">Delete user</a>
+                              <a class="dropdown-item">Delete captain</a>
                             </li>
                           </ul>
                         </div>
@@ -195,15 +206,15 @@
                     </tr>
                   </tbody>
                 </table>
-                <div *ngIf="totalDeletedUsers == 0" class="text-danger my-4">
+                <div *ngIf="totalDeletedCaptains == 0" class="text-danger my-4">
                   <p class="fw-bold fs-5">Data Not Found..!</p>
                 </div>
                 <ngb-pagination
-                  [collectionSize]="totalDeletedUsers"
-                  [(page)]="deletedUserscurrentPage"
+                  [collectionSize]="totalDeletedCaptains"
+                  [(page)]="deletedCaptainscurrentPage"
                   [maxSize]="5"
-                  [pageSize]="deletedUsersTableSize"
-                  (pageChange)="onTableDeletedUserDataChange($event)"
+                  [pageSize]="deletedCaptainsTableSize"
+                  (pageChange)="onTableDeletedCaptainDataChange($event)"
                   ><ng-template ngbPaginationPrevious>Prev</ng-template>
                   <ng-template ngbPaginationNext>Next</ng-template>
                 </ngb-pagination>

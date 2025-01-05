@@ -34,6 +34,13 @@ export const routes: Routes = [
             (m) => m.UsersComponent
           ),
       },
+      {
+        path: 'captains',
+        loadComponent: () =>
+          import('./component/captains/captains.component').then(
+            (m) => m.CaptainsComponent
+          ),
+      },
     ],
   },
 

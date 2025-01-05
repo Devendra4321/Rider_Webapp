@@ -32,6 +32,11 @@ export const navItems: INavData[] = [
     url: '/dashboard/users',
     iconComponent: { name: 'cil-user' },
   },
+  {
+    name: 'Captains',
+    url: '/dashboard/captains',
+    iconComponent: { name: 'cil-user' },
+  },
   // {
   //   name: 'Base',
   //   url: '/base',
