@@ -6,10 +6,12 @@ export const navItems: INavData[] = [
     url: '/dashboard',
     iconComponent: { name: 'cil-speedometer' },
   },
-  {
-    title: true,
-    name: 'Theme',
-  },
+
+  // {
+  //   title: true,
+  //   name: 'Theme',
+  // },
+
   // {
   //   name: 'Colors',
   //   url: '/theme/colors',
@@ -24,6 +26,11 @@ export const navItems: INavData[] = [
   {
     name: 'Components',
     title: true,
+  },
+  {
+    name: 'Users',
+    url: '/dashboard/users',
+    iconComponent: { name: 'cil-user' },
   },
   // {
   //   name: 'Base',
@@ -247,6 +254,7 @@ export const navItems: INavData[] = [
     title: true,
     name: 'Extras',
   },
+
   // {
   //   name: 'Pages',
   //   url: '/login',

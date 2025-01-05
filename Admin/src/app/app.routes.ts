@@ -27,6 +27,13 @@ export const routes: Routes = [
             (m) => m.DashboardComponent
           ),
       },
+      {
+        path: 'users',
+        loadComponent: () =>
+          import('./component/users/users.component').then(
+            (m) => m.UsersComponent
+          ),
+      },
     ],
   },
 

@@ -31,10 +31,7 @@
             "inlineStyleLanguage": "scss",
             "preserveSymlinks": true,
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": [
-              "src/scss/styles.scss",
-              "node_modules/ngx-toastr/toastr.css"
-            ],
+            "styles": ["src/scss/styles.scss"],
             "scripts": [],
             "allowedCommonJsDependencies": [],
             "stylePreprocessorOptions": {
@@ -89,7 +86,11 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": ["zone.js", "zone.js/testing"],
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing",
+              "@angular/localize/init"
+            ],
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "inlineStyleLanguage": "scss",
