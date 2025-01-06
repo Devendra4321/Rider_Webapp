@@ -18,11 +18,23 @@ module.exports.createRide = async (req, res, next) => {
 
   const fare = await rideService.getFare(pickup, destination);
 
+  const pickupLatLng = await mapService.getCoordinates(pickup);
+
+  const destinationLatLng = await mapService.getCoordinates(destination);
+
   try {
     const ride = new rideModel({
       user: req.user._id,
       pickup,
+      pickupLatLng: {
+        ltd: pickupLatLng.latitude,
+        lng: pickupLatLng.longitude,
+      },
       destination,
+      destinationLatLng: {
+        ltd: destinationLatLng.latitude,
+        lng: destinationLatLng.longitude,
+      },
       otp: rideService.getOtp(6),
       paymentDetails: {
         paymentMethod: paymentMethod,

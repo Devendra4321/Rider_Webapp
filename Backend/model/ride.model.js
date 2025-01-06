@@ -14,9 +14,29 @@ const rideSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  pickupLatLng: {
+    ltd: {
+      type: Number,
+      required: true,
+    },
+    lng: {
+      type: Number,
+      required: true,
+    },
+  },
   destination: {
     type: String,
     required: true,
+  },
+  destinationLatLng: {
+    ltd: {
+      type: Number,
+      required: true,
+    },
+    lng: {
+      type: Number,
+      required: true,
+    },
   },
   fare: {
     type: Number,
@@ -60,6 +80,14 @@ const rideSchema = new mongoose.Schema({
     type: Number,
     select: false,
     required: true,
+  },
+  createOn: {
+    type: String,
+    default: new Date().toLocaleString(),
+  },
+  createdOnTs: {
+    type: Date,
+    default: Date.now,
   },
 });
 

@@ -14,6 +14,8 @@ router.post("/getAllUsers", adminController.getAllUsers);
 
 router.post("/getAllCaptains", adminController.getAllCaptains);
 
+router.post("/getAllRides", adminController.getAllRides);
+
 router.post(
   "/updateCaptainStatus/:captainId",
   authMiddelware.authAdmin,

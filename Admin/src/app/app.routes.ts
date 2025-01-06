@@ -41,6 +41,13 @@ export const routes: Routes = [
             (m) => m.CaptainsComponent
           ),
       },
+      {
+        path: 'rides',
+        loadComponent: () =>
+          import('./component/rides/rides.component').then(
+            (m) => m.RidesComponent
+          ),
+      },
     ],
   },
 

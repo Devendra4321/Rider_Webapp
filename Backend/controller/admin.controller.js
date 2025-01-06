@@ -2,6 +2,7 @@ const adminModel = require("../model/admin.model");
 const captainModel = require("../model/captain.model");
 const userModel = require("../model/user.model");
 const blackListTokenModel = require("../model/blackListingToken.model");
+const rideModel = require("../model/ride.model");
 
 module.exports.addAdmin = async (req, res, next) => {
   const authAdmin = req.admin;
@@ -171,6 +172,43 @@ module.exports.getAllUsers = async (req, res, next) => {
     totalUsers,
     totalPages,
     data: users,
+  });
+};
+
+module.exports.getAllRides = async (req, res, next) => {
+  const { page = 1, perPage = 5 } = req.body;
+  const pageNumber = parseInt(page, 10);
+  const pageSize = parseInt(perPage, 10);
+  if (
+    isNaN(pageNumber) ||
+    isNaN(pageSize) ||
+    pageNumber <= 0 ||
+    pageSize <= 0
+  ) {
+    return res.status(400).json({
+      statuscode: 400,
+      message:
+        "Invalid pagination parameters. 'page' and 'perPage' must be positive integers.",
+    });
+  }
+
+  const rides = await rideModel
+    .find({})
+    .skip((pageNumber - 1) * pageSize)
+    .limit(pageSize)
+    .populate("user")
+    .populate("captain")
+    .sort({ _id: -1 });
+
+  const totalRides = await rideModel.countDocuments({});
+  const totalPages = Math.ceil(totalRides / pageSize);
+
+  res.status(200).json({
+    statuscode: 200,
+    message: "All rides fetched successfully",
+    totalRides,
+    totalPages,
+    data: rides,
   });
 };
 
