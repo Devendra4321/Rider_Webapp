@@ -495,3 +495,39 @@ module.exports.paymentVerify = async (req, res, next) => {
     });
   }
 };
+
+module.exports.getRideById = async (req, res, next) => {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).json({
+      statusCode: 400,
+      message: "Ride ID is required",
+    });
+  }
+
+  try {
+    const ride = await rideModel
+      .findById(id)
+      .populate("user")
+      .populate("captain");
+
+    if (!ride) {
+      return res.status(404).json({
+        statusCode: 404,
+        message: "Ride not found",
+      });
+    }
+
+    res.status(200).json({
+      statusCode: 200,
+      message: "Ride details retrieved successfully",
+      ride: ride,
+    });
+  } catch (error) {
+    res.status(500).json({
+      statusCode: 500,
+      message: "Internal server error",
+    });
+  }
+};

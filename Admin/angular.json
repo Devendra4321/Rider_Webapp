@@ -31,7 +31,10 @@
             "inlineStyleLanguage": "scss",
             "preserveSymlinks": true,
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/scss/styles.scss"],
+            "styles": [
+              "src/scss/styles.scss",
+              "node_modules/mapbox-gl/dist/mapbox-gl.css"
+            ],
             "scripts": [],
             "allowedCommonJsDependencies": [],
             "stylePreprocessorOptions": {

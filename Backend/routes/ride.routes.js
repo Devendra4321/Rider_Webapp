@@ -24,4 +24,6 @@ router.get("/paymentVerify", rideController.paymentVerify);
 
 router.post("/sendNotification", rideController.sendNotification);
 
+router.get("/getRideById/:id", rideController.getRideById);
+
 module.exports = router;

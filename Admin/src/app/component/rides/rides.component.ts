@@ -3,10 +3,11 @@ import { Component } from '@angular/core';
 import { NgbPagination, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { RideService } from '../../services/rides/ride.service';
 import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-rides',
-  imports: [CommonModule, HttpClientModule, NgbPaginationModule],
+  imports: [CommonModule, HttpClientModule, NgbPaginationModule, RouterModule],
   templateUrl: './rides.component.html',
   styleUrl: './rides.component.scss',
   providers: [RideService],

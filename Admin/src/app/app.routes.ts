@@ -47,6 +47,14 @@ export const routes: Routes = [
           import('./component/rides/rides.component').then(
             (m) => m.RidesComponent
           ),
+        children: [],
+      },
+      {
+        path: 'trackorder/:id',
+        loadComponent: () =>
+          import('./component/trackorder/trackorder.component').then(
+            (m) => m.TrackorderComponent
+          ),
       },
     ],
   },
