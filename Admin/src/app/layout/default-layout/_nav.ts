@@ -264,6 +264,11 @@ export const navItems: INavData[] = [
     title: true,
     name: 'Extras',
   },
+  {
+    name: 'Captain request',
+    url: '/dashboard/captainrequest',
+    iconComponent: { name: 'cil-people' },
+  },
 
   // {
   //   name: 'Pages',

@@ -56,6 +56,13 @@ export const routes: Routes = [
             (m) => m.TrackorderComponent
           ),
       },
+      {
+        path: 'captainrequest',
+        loadComponent: () =>
+          import('./component/capatinrequest/capatinrequest.component').then(
+            (m) => m.CapatinrequestComponent
+          ),
+      },
     ],
   },
 

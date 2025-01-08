@@ -212,6 +212,49 @@ module.exports.getAllRides = async (req, res, next) => {
   });
 };
 
+module.exports.getAllCaptainsRequest = async (req, res, next) => {
+  const { page = 1, perPage = 5, status } = req.body;
+  const pageNumber = parseInt(page, 10);
+  const pageSize = parseInt(perPage, 10);
+
+  if (
+    isNaN(pageNumber) ||
+    isNaN(pageSize) ||
+    pageNumber <= 0 ||
+    pageSize <= 0
+  ) {
+    return res.status(400).json({
+      statuscode: 400,
+      message:
+        "Invalid pagination parameters. 'page' and 'perPage' must be positive integers.",
+    });
+  }
+
+  if (typeof status !== "number") {
+    return res.status(400).json({
+      statuscode: 400,
+      message: "Invalid 'status' parameter. It must be a number value.",
+    });
+  }
+
+  const captains = await captainModel
+    .find({ status })
+    .skip((pageNumber - 1) * pageSize)
+    .limit(pageSize)
+    .sort({ _id: -1 });
+
+  const totalCaptains = await captainModel.countDocuments({ status });
+  const totalPages = Math.ceil(totalCaptains / pageSize);
+
+  res.status(200).json({
+    statuscode: 200,
+    message: "All captains fetched successfully",
+    totalCaptains,
+    totalPages,
+    data: captains,
+  });
+};
+
 module.exports.getAllCaptains = async (req, res, next) => {
   const { page = 1, perPage = 5, isDeleted } = req.body;
   const pageNumber = parseInt(page, 10);

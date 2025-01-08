@@ -132,6 +132,10 @@ const captainSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  createOn: {
+    type: String,
+    default: new Date().toLocaleString(),
+  },
 });
 
 captainSchema.methods.generateAuthToken = function () {

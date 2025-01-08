@@ -14,6 +14,8 @@ router.post("/getAllUsers", adminController.getAllUsers);
 
 router.post("/getAllCaptains", adminController.getAllCaptains);
 
+router.post("/getAllCaptainsRequest", adminController.getAllCaptainsRequest);
+
 router.post("/getAllRides", adminController.getAllRides);
 
 router.post(
