@@ -3,10 +3,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { CaptainRequestService } from '../../services/captainrequest/captain-request.service';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-capatinrequest',
-  imports: [CommonModule, HttpClientModule, NgbPaginationModule],
+  imports: [CommonModule, HttpClientModule, NgbPaginationModule, FormsModule],
   templateUrl: './capatinrequest.component.html',
   styleUrl: './capatinrequest.component.scss',
   providers: [CaptainRequestService],
@@ -22,6 +23,7 @@ export class CapatinrequestComponent {
   inProgressCaptain: any = [];
   approvedCaptain: any = [];
   rejectedCaptain: any = [];
+  captain: any = [];
 
   getPendingCaptains() {
     const data = {
@@ -125,5 +127,47 @@ export class CapatinrequestComponent {
   onTableRejectedCaptainDataChange(event: any) {
     this.activeApprovedCaptaincurrentPage = event;
     this.getInProgressCaptains();
+  }
+
+  fullName: any = {};
+  vehicleData: any = {};
+
+  getCaptainById(id: any) {
+    this.captainRequestService.getCaptainById(id).subscribe((result: any) => {
+      if (result.statusCode == 200) {
+        console.log('Captain fetched by id', result);
+        this.captain = result.data;
+        this.fullName = this.captain.fullname;
+        this.vehicleData = this.captain.vehicle;
+      } else {
+        console.log('Failed to fetched the captain by id');
+      }
+    });
+  }
+
+  selectedFile: File | null = null;
+
+  onUpload(event: Event, name: string): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+      console.log('Selected file:', this.selectedFile);
+      if (this.selectedFile) {
+        const formData = new FormData();
+        formData.append('document', this.selectedFile);
+        formData.append('documentName', name);
+        formData.append('captainId', this.captain._id);
+
+        this.captainRequestService
+          .uploadDocumnet(formData)
+          .subscribe((result: any) => {
+            if (result.statusCode == 200) {
+              console.log('Documnet uploaded', result);
+            } else {
+              console.log('Failed to upload documnet');
+            }
+          });
+      }
+    }
   }
 }

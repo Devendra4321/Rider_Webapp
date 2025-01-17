@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const adminController = require("../controller/admin.controller");
 const authMiddelware = require("../middlewarers/auth.middelware");
+const upload = require("../cloudinary.config");
 
 router.post("/addAdmin", authMiddelware.authAdmin, adminController.addAdmin);
 
@@ -48,4 +49,12 @@ router.post("/searchInCaptain", adminController.searchInCaptain);
 
 router.post("/searchInAdmin", adminController.searchInAdmin);
 
+router.get("/getCaptainById/:captainId", adminController.getCaptainById);
+
+router.post(
+  "/uploadCaptainDocument",
+  authMiddelware.authAdmin,
+  upload.single("document"),
+  adminController.uploadCaptainDocument
+);
 module.exports = router;

@@ -30,10 +30,10 @@ router.patch(
 router.get("/logoutCaptain", captainController.logoutCaptain);
 
 router.post(
-  "/uploadDocumnets",
+  "/uploadDocuments",
   authMiddleware.authCaptain,
   upload.single("document"),
-  captainController.uploadDocumnets
+  captainController.uploadDocuments
 );
 
 router.get(

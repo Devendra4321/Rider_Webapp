@@ -14,4 +14,19 @@ export class CaptainRequestService {
       data
     );
   }
+
+  getCaptainById(id: any) {
+    return this.http.get(`${STRINGS.APP_DEV_URL}/admin/getCaptainById/${id}`);
+  }
+
+  uploadDocumnet(data: any) {
+    const headers = {
+      Authorization: 'Bearer ' + localStorage.getItem('token'),
+    };
+    return this.http.post(
+      STRINGS.APP_DEV_URL + '/admin/uploadCaptainDocument',
+      data,
+      { headers }
+    );
+  }
 }

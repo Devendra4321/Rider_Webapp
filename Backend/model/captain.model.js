@@ -99,7 +99,7 @@ const captainSchema = new mongoose.Schema({
       url: {
         type: String,
       },
-      filName: {
+      fileName: {
         type: String,
       },
     },
@@ -107,7 +107,7 @@ const captainSchema = new mongoose.Schema({
       url: {
         type: String,
       },
-      filName: {
+      fileName: {
         type: String,
       },
     },
@@ -115,7 +115,7 @@ const captainSchema = new mongoose.Schema({
       url: {
         type: String,
       },
-      filName: {
+      fileName: {
         type: String,
       },
     },
@@ -123,7 +123,7 @@ const captainSchema = new mongoose.Schema({
       url: {
         type: String,
       },
-      filName: {
+      fileName: {
         type: String,
       },
     },

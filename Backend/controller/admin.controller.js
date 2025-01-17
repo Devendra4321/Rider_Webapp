@@ -532,3 +532,77 @@ module.exports.logoutAdmin = async (req, res, next) => {
     message: "Logged out",
   });
 };
+
+module.exports.getCaptainById = async (req, res, next) => {
+  const { captainId } = req.params;
+
+  if (!captainId) {
+    return res.status(400).json({
+      statusCode: 400,
+      message: "Id is required",
+    });
+  }
+
+  const captain = await captainModel.findById(captainId);
+
+  if (!captain) {
+    return res.status(400).json({
+      statusCode: 400,
+      message: "Captain not found",
+    });
+  }
+
+  res.status(200).json({
+    statusCode: 200,
+    message: "Captain fetched",
+    data: captain,
+  });
+};
+
+module.exports.uploadCaptainDocument = async (req, res, next) => {
+  const { documentName, captainId } = req.body;
+
+  if (!documentName || !captainId) {
+    return res.status(400).json({
+      statusCode: 400,
+      message: "All information is required",
+    });
+  }
+
+  const admin = req.admin;
+
+  if (admin.type == "admin") {
+    return res.status(403).json({
+      statusCode: 403,
+      message: "You have not authority to upload documents",
+    });
+  }
+
+  const captain = await captainModel.findById(captainId);
+
+  if (!captain) {
+    return res.status(400).json({
+      statusCode: 400,
+      message: "Captain not found",
+    });
+  }
+
+  if (req.file) {
+    captain.documents[documentName] = {
+      url: req.file.path,
+      fileName: req.body.documentName,
+    };
+
+    await captain.save();
+
+    res.status(200).json({
+      statusCode: 200,
+      message: "Image uploaded successfully",
+    });
+  } else {
+    res.status(400).json({
+      statusCode: 400,
+      message: "Failed to upload image",
+    });
+  }
+};

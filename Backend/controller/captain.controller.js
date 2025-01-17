@@ -342,13 +342,13 @@ module.exports.logoutCaptain = async (req, res, next) => {
   });
 };
 
-module.exports.uploadDocumnets = async (req, res, next) => {
+module.exports.uploadDocuments = async (req, res, next) => {
   if (req.file) {
     const captain = req.captain;
 
     captain.documents[req.body.documentName] = {
       url: req.file.path,
-      filName: req.file.filename,
+      fileName: req.body.documentName,
     };
 
     await captain.save();
