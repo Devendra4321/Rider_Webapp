@@ -9,6 +9,7 @@ const captainRoutes = require("./routes/captain.routes");
 const adminRoutes = require("./routes/admin.routes");
 const mapRoutes = require("./routes/map.routes");
 const rideRoutes = require("./routes/ride.routes");
+const walletRoutes = require("./routes/wallet.routes");
 
 connectToDb();
 
@@ -22,5 +23,6 @@ app.use("/captains", captainRoutes);
 app.use("/admin", adminRoutes);
 app.use("/map", mapRoutes);
 app.use("/ride", rideRoutes);
+app.use("/wallet", walletRoutes);
 
 module.exports = app;

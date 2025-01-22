@@ -69,6 +69,10 @@ const rideSchema = new mongoose.Schema({
       type: String,
       enum: ["online", "cash"],
     },
+    isCaptainPaid: {
+      type: Number,
+      default: 0,
+    },
   },
   orderId: {
     type: String,
@@ -84,10 +88,6 @@ const rideSchema = new mongoose.Schema({
   createOn: {
     type: String,
     default: new Date().toLocaleString(),
-  },
-  createdOnTs: {
-    type: Date,
-    default: Date.now,
   },
 });
 
