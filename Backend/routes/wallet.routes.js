@@ -38,4 +38,10 @@ router.post(
   walletController.AddInCaptainWallet
 );
 
+router.post(
+  "/getAllCaptainWalletTransactions",
+  authMiddleware.authCaptain,
+  walletController.getAllCaptainWalletTransactions
+);
+
 module.exports = router;

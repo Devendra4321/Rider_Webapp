@@ -1,9 +1,19 @@
 const walletModel = require("../model/wallet.model");
 const transactionModel = require("../model/transaction.model");
 const rideModel = require("../model/ride.model");
+const captainModel = require("../model/captain.model");
 
 module.exports.createCaptainWallet = async (req, res, next) => {
   try {
+    const captain = await captainModel.findById(req.captain._id);
+
+    if (captain.isDeleted == 1) {
+      return res.status(400).json({
+        statusCode: 400,
+        message: "Captain is deleted",
+      });
+    }
+
     const walletDb = await walletModel.findOne({ captainId: req.captain._id });
 
     if (walletDb) {
@@ -34,9 +44,7 @@ module.exports.createCaptainWallet = async (req, res, next) => {
 
 module.exports.getCaptainWallet = async (req, res, next) => {
   try {
-    const wallet = await walletModel
-      .findOne({ captainId: req.captain._id })
-      .populate("transactions");
+    const wallet = await walletModel.findOne({ captainId: req.captain._id });
 
     if (!wallet) {
       return res.status(404).json({
@@ -125,6 +133,7 @@ module.exports.debitInCaptainWallet = async (req, res, next) => {
 
     const transaction = new transactionModel({
       captainId: req.captain._id,
+      rideId: ride._id,
       amount: amount.toFixed(2),
       transactionType: "debit",
       description: "Ride amount debited from captain wallet",
@@ -211,6 +220,7 @@ module.exports.creditInCaptainWallet = async (req, res, next) => {
 
     const transaction = new transactionModel({
       captainId: req.captain._id,
+      rideId: ride._id,
       amount: amount.toFixed(2),
       transactionType: "credit",
       description: "Ride amount credited in captain wallet",
@@ -353,6 +363,64 @@ module.exports.AddInCaptainWallet = async (req, res, next) => {
       statusCode: 200,
       message: "Amount added successfully",
       data: wallet,
+    });
+  } catch (error) {
+    res.status(500).json({
+      statusCode: 500,
+      message: error.message,
+    });
+  }
+};
+
+module.exports.getAllCaptainWalletTransactions = async (req, res, next) => {
+  try {
+    const { page = 1, perPage = 5 } = req.body;
+    const pageNumber = parseInt(page, 10);
+    const pageSize = parseInt(perPage, 10);
+
+    if (
+      isNaN(pageNumber) ||
+      isNaN(pageSize) ||
+      pageNumber <= 0 ||
+      pageSize <= 0
+    ) {
+      return res.status(400).json({
+        statuscode: 400,
+        message:
+          "Invalid pagination parameters. 'page' and 'perPage' must be positive integers.",
+      });
+    }
+
+    const wallet = await walletModel.findOne({ captainId: req.captain._id });
+
+    if (!wallet) {
+      return res.status(404).json({
+        statusCode: 404,
+        message: "Captain wallet not found",
+      });
+    }
+
+    const transactions = await transactionModel
+      .find({ _id: { $in: wallet.transactions } })
+      .populate("rideId")
+      .sort({ date: -1 })
+      .skip((pageNumber - 1) * pageSize)
+      .limit(pageSize);
+
+    const totalTransactions = await transactionModel
+      .find({ _id: { $in: wallet.transactions } })
+      .countDocuments();
+
+    const totalPages = Math.ceil(totalTransactions / pageSize);
+
+    res.status(200).json({
+      statusCode: 200,
+      message: "Captain wallet transactions",
+      data: {
+        totalTransactions,
+        totalPages,
+        transactions,
+      },
     });
   } catch (error) {
     res.status(500).json({

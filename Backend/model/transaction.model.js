@@ -9,6 +9,10 @@ const transactionSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "captain",
   },
+  rideId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "ride",
+  },
   amount: {
     type: Number,
     required: true,
