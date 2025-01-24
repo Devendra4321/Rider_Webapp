@@ -1,0 +1,72 @@
+.hero {
+  padding: 50px 0;
+}
+.section {
+  padding: 40px 0;
+}
+/* .qr-code {
+  text-align: center;
+} */
+.footer-links a {
+  color: white;
+  text-decoration: none;
+  margin-right: 15px;
+}
+.social-icons a {
+  color: white;
+  font-size: 20px;
+  margin: 0 10px;
+}
+.hero-icon {
+  background-color: rgb(236, 230, 230);
+  border-radius: 0.2rem;
+  padding: 0.2rem 0.2rem;
+  width: 2rem;
+}
+.card {
+  background-color: #f3f3f3;
+}
+.suggestions {
+  background-color: #f3f3f3;
+  border-radius: 1rem;
+  padding: 1.5rem;
+}
+.suggestions-img {
+  width: 10rem;
+  height: 10rem;
+}
+
+.intermediate-p:hover {
+  position: relative;
+  cursor: pointer;
+}
+
+.intermediate-p:hover::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 2px;
+  background-color: black;
+  transition: width 0.3s ease;
+}
+
+.intermediate-p:hover:hover::after {
+  width: 100%;
+}
+.qr-section-img {
+  width: 9rem;
+  height: 9rem;
+}
+.qr-div {
+  background-color: white;
+  padding: 1rem;
+}
+.footer-img {
+  width: 10rem;
+  height: 10rem;
+}
+#map {
+  height: 75vh; /* Adjust height as needed */
+}
