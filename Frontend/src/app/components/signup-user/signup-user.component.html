@@ -1,0 +1,62 @@
+<!-- Main Section -->
+<section *ngIf="emailDiv">
+  <div class="container">
+    <div class="login-container">
+      <h5>What's your phone number or email?</h5>
+      <input
+        type="text"
+        class="form-control my-3 main-btn"
+        placeholder="Enter first name"
+      />
+      <input
+        type="text"
+        class="form-control my-3 main-btn"
+        placeholder="Enter last name"
+      />
+      <input
+        type="text"
+        class="form-control my-3 main-btn"
+        placeholder="Enter phone number or email"
+      />
+      <button class="btn btn-black" (click)="getDetails()">Continue</button>
+
+      <div class="divider">or</div>
+
+      <button class="btn main-btn w-100">
+        <i class="bi bi-google mx-1"></i>
+        Continue with Google
+      </button>
+      <button class="btn main-btn w-100 mt-2">
+        <i class="bi bi-apple mx-1"></i>
+        Continue with Apple
+      </button>
+
+      <p class="text-muted text-left mt-3 small">
+        By proceeding, you consent to get calls, WhatsApp or SMS/RCS messages,
+        including by automated means, from Uber and its affiliates to the number
+        provided.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- password section -->
+<section *ngIf="passwordDiv">
+  <div class="container">
+    <div class="password-container">
+      <h5>Enter your password</h5>
+      <p>Enter the password for your account.</p>
+
+      <input
+        type="password"
+        class="form-control my-3 main-btn"
+        placeholder="Enter password"
+      />
+      <a href="#" class="text-decoration-none">Forgot your password?</a>
+
+      <div>
+        <button class="btn btn-secondary w-100 mt-3 btn-black">Sign up</button>
+      </div>
+    </div>
+  </div>
+</section>
