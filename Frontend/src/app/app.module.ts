@@ -15,6 +15,9 @@ import { SignupCaptainComponent } from './components/signup-captain/signup-capta
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { UserHomeComponent } from './pages/user-home/user-home.component';
 import { RideReviewComponent } from './pages/ride-review/ride-review.component';
+import { RideOngoingComponent } from './pages/ride-ongoing/ride-ongoing.component';
+import { TripsComponent } from './pages/trips/trips.component';
+import { TripsByIdComponent } from './pages/trips-by-id/trips-by-id.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +34,9 @@ import { RideReviewComponent } from './pages/ride-review/ride-review.component';
     NavbarComponent,
     UserHomeComponent,
     RideReviewComponent,
+    RideOngoingComponent,
+    TripsComponent,
+    TripsByIdComponent,
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],

@@ -11,6 +11,9 @@ import { SignupUserComponent } from './components/signup-user/signup-user.compon
 import { SignupCaptainComponent } from './components/signup-captain/signup-captain.component';
 import { UserHomeComponent } from './pages/user-home/user-home.component';
 import { RideReviewComponent } from './pages/ride-review/ride-review.component';
+import { RideOngoingComponent } from './pages/ride-ongoing/ride-ongoing.component';
+import { TripsComponent } from './pages/trips/trips.component';
+import { TripsByIdComponent } from './pages/trips-by-id/trips-by-id.component';
 
 const routes: Routes = [
   {
@@ -65,6 +68,18 @@ const routes: Routes = [
   {
     path: 'ride-review',
     component: RideReviewComponent,
+  },
+  {
+    path: 'ride-ongoing',
+    component: RideOngoingComponent,
+  },
+  {
+    path: 'trips',
+    component: TripsComponent,
+  },
+  {
+    path: 'trips/:rideId',
+    component: TripsByIdComponent,
   },
 ];
 

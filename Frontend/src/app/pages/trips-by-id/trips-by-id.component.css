@@ -1,0 +1,25 @@
+.back-btn {
+  border: none;
+  padding: 0.5rem;
+  border-radius: 0.35rem;
+  width: 9rem;
+  cursor: pointer;
+  text-align: center;
+}
+
+.back-btn:hover {
+  background-color: #f5f5f5;
+}
+
+.trip-status-btn {
+  background-color: black;
+  color: white;
+  padding: 0.2rem;
+  width: 6rem;
+  text-align: center;
+  border-radius: 0.5rem;
+}
+
+#map {
+  height: 50vh; /* Adjust height as needed */
+}
