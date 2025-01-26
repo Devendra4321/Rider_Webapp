@@ -1,0 +1,267 @@
+<!-- Navbar -->
+<app-navbar></app-navbar>
+
+<!-- Main section -->
+<section class="mt-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3 col-md-5">
+        <div class="shadow-lg p-3 mb-md-5 mb-4 bg-body-tertiary rounded">
+          <div>
+            <p class="fs-4 fw-bolder mx-1">Get a ride</p>
+          </div>
+          <div>
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control main-btn"
+                id="floatingInput"
+                placeholder="Enter pickup location"
+              />
+              <label for="floatingInput">Pickup location</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control main-btn"
+                id="floatingInput"
+                placeholder="Enter drop location"
+              />
+              <label for="floatingInput">Drop location</label>
+            </div>
+            <button class="btn btn-dark form-control p-2 mb-2">Search</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-5 col-md-7 order-2 mt-lg-0 mt-md-0 mt-sm-4 mt-4">
+        <div class="main">
+          <div>
+            <p class="fs-1 fw-bolder mx-1">Choose a ride</p>
+            <p class="fs-5 fw-bolder mx-1">Recommended</p>
+          </div>
+          <div class="choose-vehicle">
+            <!-- first vehicle -->
+            <div class="card mb-3 vehicle-card" tabindex="0">
+              <div class="d-flex align-items-center">
+                <div>
+                  <img
+                    src="../../../assets/images/rider_bik.webp"
+                    class="img-fluid rounded-start img-vehicle"
+                    alt="..."
+                  />
+                </div>
+                <div
+                  class="d-flex justify-content-between align-items-center w-100"
+                >
+                  <div class="card-body p-0 me-lg-5 me-sm-5">
+                    <h5 class="card-title fw-bold mb-0">2-Wheeler</h5>
+                    <p class="card-text">
+                      Affordable compact rides <br />
+                      <small class="text-body-secondary">7 mins away</small>
+                    </p>
+                  </div>
+                  <div>
+                    <h5 class="card-title fw-bold ms-5 me-2">330.02</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- second vehicle -->
+            <div class="card mb-3 vehicle-card" tabindex="0">
+              <div class="d-flex align-items-center">
+                <div>
+                  <img
+                    src="../../../assets/images/rider_Auto.webp"
+                    class="img-fluid rounded-start img-vehicle"
+                    alt="..."
+                  />
+                </div>
+                <div
+                  class="d-flex justify-content-between align-items-center w-100"
+                >
+                  <div class="card-body p-0 me-lg-5 me-sm-5">
+                    <h5 class="card-title fw-bold mb-0">Auto</h5>
+                    <p class="card-text">
+                      Affordable compact rides <br />
+                      <small class="text-body-secondary">7 mins away</small>
+                    </p>
+                  </div>
+                  <div>
+                    <h5 class="card-title fw-bold ms-5 me-2">330.02</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- third vehicle -->
+            <div class="card mb-3 vehicle-card" tabindex="0">
+              <div class="d-flex align-items-center">
+                <div>
+                  <img
+                    src="../../../assets/images/ride_car.png"
+                    class="img-fluid rounded-start img-vehicle"
+                    alt="..."
+                  />
+                </div>
+                <div
+                  class="d-flex justify-content-between align-items-center w-100"
+                >
+                  <div class="card-body p-0 me-lg-5 me-sm-5">
+                    <h5 class="card-title fw-bold mb-0">Car</h5>
+                    <p class="card-text">
+                      Affordable compact rides <br />
+                      <small class="text-body-secondary">7 mins away</small>
+                    </p>
+                  </div>
+                  <div>
+                    <h5 class="card-title fw-bold ms-5 me-2">330.02</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- fourth vehicle -->
+            <div class="card mb-3 vehicle-card" tabindex="0">
+              <div class="d-flex align-items-center">
+                <div>
+                  <img
+                    src="../../../assets/images/rider_4wheeler.webp"
+                    class="img-fluid rounded-start img-vehicle"
+                    alt="..."
+                  />
+                </div>
+                <div
+                  class="d-flex justify-content-between align-items-center w-100"
+                >
+                  <div class="card-body p-0 me-lg-5 me-sm-5">
+                    <h5 class="card-title fw-bold mb-0">4-Wheeler</h5>
+                    <p class="card-text">
+                      Affordable compact rides <br />
+                      <small class="text-body-secondary">7 mins away</small>
+                    </p>
+                  </div>
+                  <div>
+                    <h5 class="card-title fw-bold ms-5 me-2">330.02</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="payment-method d-flex justify-content-between align-items-center mb-3 mb-md-0"
+          >
+            <div>
+              <p
+                class="m-0 fw-bold"
+                data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop"
+                role="button"
+                tabindex="0"
+              >
+                Cash
+                <i class="bi bi-chevron-down mx-2 mt-2"></i>
+              </p>
+            </div>
+            <div>
+              <button class="btn" (click)="rideGeneratePopup()">
+                Request Car
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="col-lg-4 col-md-12 order-lg-2 order-md-2 order-1 mt-md-5 mt-lg-0"
+      >
+        <div id="map"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Payment Modal -->
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-4 fw-bold" id="staticBackdropLabel">
+          Payment options
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row mb-3">
+          <div class="mb-3 fs-5 fw-semibold">Rider cash:</div>
+          <div>
+            <p class="fs-6 fw-semibold">
+              <i class="bi bi-wallet2 me-2"></i>Rider cash:<i
+                class="bi bi-currency-rupee mx-1"
+              ></i
+              >0.00
+            </p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="mb-3 fs-5 fw-semibold">Payment method:</div>
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <p class="fs-6 fw-semibold">
+                <i class="bi bi-cash-stack me-2"></i> Cash
+              </p>
+            </div>
+            <div>
+              <input
+                type="radio"
+                class="form-check-input custom-radio-btn"
+                name="payment-method"
+                id="cash"
+                checked
+              />
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center mt-2">
+            <div>
+              <p class="fs-6 fw-semibold">
+                <i class="bi bi-credit-card-fill me-2"></i> Online
+              </p>
+            </div>
+            <div>
+              <input
+                type="radio"
+                class="form-check-input custom-radio-btn"
+                name="payment-method"
+                id="online"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-dark w-100"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

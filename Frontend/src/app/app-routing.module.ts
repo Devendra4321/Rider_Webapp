@@ -9,6 +9,8 @@ import { SignupComponent } from './pages/signup/signup.component';
 import { SignupMainComponent } from './components/signup-main/signup-main.component';
 import { SignupUserComponent } from './components/signup-user/signup-user.component';
 import { SignupCaptainComponent } from './components/signup-captain/signup-captain.component';
+import { UserHomeComponent } from './pages/user-home/user-home.component';
+import { RideReviewComponent } from './pages/ride-review/ride-review.component';
 
 const routes: Routes = [
   {
@@ -55,6 +57,14 @@ const routes: Routes = [
         component: SignupCaptainComponent,
       },
     ],
+  },
+  {
+    path: 'user-home',
+    component: UserHomeComponent,
+  },
+  {
+    path: 'ride-review',
+    component: RideReviewComponent,
   },
 ];
 
