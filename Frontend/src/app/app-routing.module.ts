@@ -15,6 +15,8 @@ import { RideOngoingComponent } from './pages/ride-ongoing/ride-ongoing.componen
 import { TripsComponent } from './pages/trips/trips.component';
 import { TripsByIdComponent } from './pages/trips-by-id/trips-by-id.component';
 import { WalletUserComponent } from './pages/wallet-user/wallet-user.component';
+import { UserProfileComponent } from './pages/user-profile/user-profile.component';
+import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 
 const routes: Routes = [
   {
@@ -85,6 +87,14 @@ const routes: Routes = [
   {
     path: 'wallet-user',
     component: WalletUserComponent,
+  },
+  {
+    path: 'user-profile',
+    component: UserProfileComponent,
+  },
+  {
+    path: 'forgot-password',
+    component: ForgotPasswordComponent,
   },
 ];
 

@@ -20,6 +20,9 @@ import { TripsComponent } from './pages/trips/trips.component';
 import { TripsByIdComponent } from './pages/trips-by-id/trips-by-id.component';
 import { MapComponent } from './components/map/map.component';
 import { WalletUserComponent } from './pages/wallet-user/wallet-user.component';
+import { UserProfileComponent } from './pages/user-profile/user-profile.component';
+import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
+import { PasswordComponent } from './components/password/password.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +44,9 @@ import { WalletUserComponent } from './pages/wallet-user/wallet-user.component';
     TripsByIdComponent,
     MapComponent,
     WalletUserComponent,
+    UserProfileComponent,
+    ForgotPasswordComponent,
+    PasswordComponent,
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],
