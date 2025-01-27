@@ -23,6 +23,8 @@ import { WalletUserComponent } from './pages/wallet-user/wallet-user.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { PasswordComponent } from './components/password/password.component';
+import { NavbarCaptainComponent } from './components/navbar-captain/navbar-captain.component';
+import { CaptainHomeComponent } from './pages/captain-home/captain-home.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +49,8 @@ import { PasswordComponent } from './components/password/password.component';
     UserProfileComponent,
     ForgotPasswordComponent,
     PasswordComponent,
+    NavbarCaptainComponent,
+    CaptainHomeComponent,
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],

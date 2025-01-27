@@ -17,6 +17,7 @@ import { TripsByIdComponent } from './pages/trips-by-id/trips-by-id.component';
 import { WalletUserComponent } from './pages/wallet-user/wallet-user.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
+import { CaptainHomeComponent } from './pages/captain-home/captain-home.component';
 
 const routes: Routes = [
   {
@@ -64,6 +65,9 @@ const routes: Routes = [
       },
     ],
   },
+
+  //User routes
+
   {
     path: 'user-home',
     component: UserHomeComponent,
@@ -95,6 +99,13 @@ const routes: Routes = [
   {
     path: 'forgot-password',
     component: ForgotPasswordComponent,
+  },
+
+  //Captain routes
+
+  {
+    path: 'captain-home',
+    component: CaptainHomeComponent,
   },
 ];
 
