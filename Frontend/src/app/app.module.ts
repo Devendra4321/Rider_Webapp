@@ -19,6 +19,7 @@ import { RideOngoingComponent } from './pages/ride-ongoing/ride-ongoing.componen
 import { TripsComponent } from './pages/trips/trips.component';
 import { TripsByIdComponent } from './pages/trips-by-id/trips-by-id.component';
 import { MapComponent } from './components/map/map.component';
+import { WalletUserComponent } from './pages/wallet-user/wallet-user.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { MapComponent } from './components/map/map.component';
     TripsComponent,
     TripsByIdComponent,
     MapComponent,
+    WalletUserComponent,
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],

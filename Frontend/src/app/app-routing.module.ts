@@ -14,6 +14,7 @@ import { RideReviewComponent } from './pages/ride-review/ride-review.component';
 import { RideOngoingComponent } from './pages/ride-ongoing/ride-ongoing.component';
 import { TripsComponent } from './pages/trips/trips.component';
 import { TripsByIdComponent } from './pages/trips-by-id/trips-by-id.component';
+import { WalletUserComponent } from './pages/wallet-user/wallet-user.component';
 
 const routes: Routes = [
   {
@@ -80,6 +81,10 @@ const routes: Routes = [
   {
     path: 'trips/:rideId',
     component: TripsByIdComponent,
+  },
+  {
+    path: 'wallet-user',
+    component: WalletUserComponent,
   },
 ];
 

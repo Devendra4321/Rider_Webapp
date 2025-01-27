@@ -1,0 +1,22 @@
+.add-cash-btn {
+  background-color: black;
+  color: white;
+  padding: 0.2rem;
+  width: 6rem;
+  text-align: center;
+  border-radius: 0.5rem;
+}
+
+.cash-card {
+  border-radius: 0.7rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cash-card:hover {
+  background-color: #f5f5f5;
+  cursor: pointer;
+}
+
+.cash-input {
+  background-color: #f5f5f5;
+}
