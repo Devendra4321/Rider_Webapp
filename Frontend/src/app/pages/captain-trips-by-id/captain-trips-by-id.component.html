@@ -1,0 +1,41 @@
+<!-- Navbar -->
+<app-navbar-captain></app-navbar-captain>
+
+<!-- Main section -->
+<section>
+  <div class="container">
+    <div class="row mt-4">
+      <p class="fw-medium back-btn">
+        <i class="bi bi-arrow-left me-2"></i>Back to trips
+      </p>
+    </div>
+    <div class="row">
+      <div class="col-2"></div>
+      <div class="col-lg-8 mx-2 mx-md-0 mx-lg-0">
+        <p class="fs-2 fw-bold">Your ride</p>
+
+        <p class="fs-5 fw-semibold">
+          Akurdi Railway Station, Akurdi, Pune - Shivaji Nagar, J M Corner, Pune
+        </p>
+
+        <p>
+          <i class="bi bi-currency-rupee"></i>0.00<i class="bi bi-dot"
+            >User name </i
+          ><i class="bi bi-dot">Vehicle type</i>
+        </p>
+
+        <div class="d-flex justify-content-between">
+          <p>12:12:16 PM, June 4 2024</p>
+          <p class="trip-status-btn">Completed</p>
+        </div>
+      </div>
+    </div>
+    <div class="row my-4">
+      <div class="col-2"></div>
+      <app-map
+        class="col-lg-8 mx-2 mx-md-0 mx-lg-0"
+        [height]="'50vh'"
+      ></app-map>
+    </div>
+  </div>
+</section>

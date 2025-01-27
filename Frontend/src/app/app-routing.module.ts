@@ -18,6 +18,8 @@ import { WalletUserComponent } from './pages/wallet-user/wallet-user.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { CaptainHomeComponent } from './pages/captain-home/captain-home.component';
+import { CaptainTripsComponent } from './pages/captain-trips/captain-trips.component';
+import { CaptainTripsByIdComponent } from './pages/captain-trips-by-id/captain-trips-by-id.component';
 
 const routes: Routes = [
   {
@@ -106,6 +108,14 @@ const routes: Routes = [
   {
     path: 'captain-home',
     component: CaptainHomeComponent,
+  },
+  {
+    path: 'captain-trips',
+    component: CaptainTripsComponent,
+  },
+  {
+    path: 'captain-trips/:rideId',
+    component: CaptainTripsByIdComponent,
   },
 ];
 

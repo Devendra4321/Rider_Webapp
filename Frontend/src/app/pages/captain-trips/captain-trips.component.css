@@ -1,0 +1,15 @@
+.card-img {
+  height: 23vh;
+  object-fit: cover;
+  border-radius: 1rem 1rem 0 0;
+}
+
+.trips-btn {
+  background-color: #f5f5f5;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 0.35rem;
+  width: 6.9rem;
+  font-size: 1rem;
+  cursor: pointer;
+}

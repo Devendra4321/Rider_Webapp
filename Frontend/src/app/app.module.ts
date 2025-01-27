@@ -25,6 +25,8 @@ import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password
 import { PasswordComponent } from './components/password/password.component';
 import { NavbarCaptainComponent } from './components/navbar-captain/navbar-captain.component';
 import { CaptainHomeComponent } from './pages/captain-home/captain-home.component';
+import { CaptainTripsComponent } from './pages/captain-trips/captain-trips.component';
+import { CaptainTripsByIdComponent } from './pages/captain-trips-by-id/captain-trips-by-id.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +53,8 @@ import { CaptainHomeComponent } from './pages/captain-home/captain-home.componen
     PasswordComponent,
     NavbarCaptainComponent,
     CaptainHomeComponent,
+    CaptainTripsComponent,
+    CaptainTripsByIdComponent,
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],
