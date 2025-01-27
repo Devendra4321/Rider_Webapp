@@ -29,6 +29,8 @@ import { CaptainTripsComponent } from './pages/captain-trips/captain-trips.compo
 import { CaptainTripsByIdComponent } from './pages/captain-trips-by-id/captain-trips-by-id.component';
 import { RideOngoingInfoComponent } from './components/ride-ongoing-info/ride-ongoing-info.component';
 import { CaptainRideOngoingComponent } from './pages/captain-ride-ongoing/captain-ride-ongoing.component';
+import { CaptainProfileComponent } from './pages/captain-profile/captain-profile.component';
+import { CaptainUploadDocumentComponent } from './pages/captain-upload-document/captain-upload-document.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +61,8 @@ import { CaptainRideOngoingComponent } from './pages/captain-ride-ongoing/captai
     CaptainTripsByIdComponent,
     RideOngoingInfoComponent,
     CaptainRideOngoingComponent,
+    CaptainProfileComponent,
+    CaptainUploadDocumentComponent,
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],

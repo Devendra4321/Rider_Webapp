@@ -21,6 +21,8 @@ import { CaptainHomeComponent } from './pages/captain-home/captain-home.componen
 import { CaptainTripsComponent } from './pages/captain-trips/captain-trips.component';
 import { CaptainTripsByIdComponent } from './pages/captain-trips-by-id/captain-trips-by-id.component';
 import { CaptainRideOngoingComponent } from './pages/captain-ride-ongoing/captain-ride-ongoing.component';
+import { CaptainProfileComponent } from './pages/captain-profile/captain-profile.component';
+import { CaptainUploadDocumentComponent } from './pages/captain-upload-document/captain-upload-document.component';
 
 const routes: Routes = [
   {
@@ -121,6 +123,14 @@ const routes: Routes = [
   {
     path: 'captain-ride-ongoing/:rideId',
     component: CaptainRideOngoingComponent,
+  },
+  {
+    path: 'captain-profile',
+    component: CaptainProfileComponent,
+  },
+  {
+    path: 'captain-upload-document',
+    component: CaptainUploadDocumentComponent,
   },
 ];
 
