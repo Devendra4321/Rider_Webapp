@@ -1,0 +1,86 @@
+<!-- Main section -->
+<section class="my-md-5 my-lg-5 my-2">
+  <div class="container">
+    <div class="row">
+      <div
+        class="col-lg-5 col-md-10 offset-md-1 offset-lg-0 order-md-2 order-sm-2 order-2 mt-md-4 mt-lg-0 mt-3"
+      >
+        <p class="fs-3 fw-bold">Ride is accepted by captain</p>
+
+        <div class="card my-3 order-md-1">
+          <div class="card-body">
+            <p class="fs-5 fw-bold">Ride details:</p>
+            <p class="fs-6 fw-semibold">
+              Pickup location:
+              <span class="float-lg-end float-md-end float-sm-end fw-normal"
+                >Akurdi Railway Station, Akurdi, Pune</span
+              >
+            </p>
+            <p class="fs-6 fw-semibold">
+              Drop location:
+              <span class="float-lg-end float-md-end float-sm-end fw-normal"
+                >Shivaji nagar, Pune</span
+              >
+            </p>
+            <p class="fs-6 fw-semibold">
+              Distance:
+              <span class="float-lg-end float-md-end float-sm-end fw-normal"
+                >350 km</span
+              >
+            </p>
+            <p class="fs-6 fw-semibold">
+              Estimated time:
+              <span class="float-lg-end float-md-end float-sm-end fw-normal"
+                >4 hours</span
+              >
+            </p>
+            <p class="fs-6 fw-semibold">
+              Estimated fare:
+              <span class="float-lg-end float-md-end float-sm-end fw-normal"
+                >Rs. 5000</span
+              >
+            </p>
+          </div>
+        </div>
+
+        <div class="card my-3 order-md-2">
+          <div class="card-body">
+            <p class="fs-5 fw-bold">Captain details:</p>
+            <p class="fs-6 fw-semibold">
+              Name:
+              <span class="float-lg-end float-md-end float-sm-end fw-normal"
+                >John Doe</span
+              >
+            </p>
+            <p class="fs-6 fw-semibold">
+              Phone:
+              <span class="float-lg-end float-md-end float-sm-end fw-normal"
+                >+923001234567</span
+              >
+            </p>
+            <p class="fs-6 fw-semibold">
+              Vehicle:
+              <span class="float-lg-end float-md-end float-sm-end fw-normal"
+                >Toyota Corolla</span
+              >
+            </p>
+          </div>
+        </div>
+        <div>
+          <button
+            class="btn btn-dark w-100 mb-md-0 mb-lg-0"
+            (click)="rideCancelledPopup()"
+          >
+            Cancel ride
+          </button>
+        </div>
+      </div>
+      <div
+        class="col-lg-7 col-md-10 offset-md-1 offset-lg-0 order-md-1 order-md-1 order-1"
+      >
+        <!-- <div id="map"></div> -->
+        <app-map [height]="'78vh'"></app-map>
+      </div>
+    </div>
+  </div>
+</section>

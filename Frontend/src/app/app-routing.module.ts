@@ -20,6 +20,7 @@ import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password
 import { CaptainHomeComponent } from './pages/captain-home/captain-home.component';
 import { CaptainTripsComponent } from './pages/captain-trips/captain-trips.component';
 import { CaptainTripsByIdComponent } from './pages/captain-trips-by-id/captain-trips-by-id.component';
+import { CaptainRideOngoingComponent } from './pages/captain-ride-ongoing/captain-ride-ongoing.component';
 
 const routes: Routes = [
   {
@@ -79,7 +80,7 @@ const routes: Routes = [
     component: RideReviewComponent,
   },
   {
-    path: 'ride-ongoing',
+    path: 'ride-ongoing/:rideId',
     component: RideOngoingComponent,
   },
   {
@@ -116,6 +117,10 @@ const routes: Routes = [
   {
     path: 'captain-trips/:rideId',
     component: CaptainTripsByIdComponent,
+  },
+  {
+    path: 'captain-ride-ongoing/:rideId',
+    component: CaptainRideOngoingComponent,
   },
 ];
 
