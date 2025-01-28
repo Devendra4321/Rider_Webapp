@@ -72,11 +72,11 @@ export class LoginUserComponent {
     this.loginService
       .userVerifyOtp({
         email: this.loginData.emailMob,
-        otp: this.loginData.otp,
+        otp: Number(this.loginData.otp),
       })
       .subscribe({
         next: (result: any) => {
-          if (result.statusCode === 200) {
+          if (result.statusCode == 200) {
             this.spinner.hide();
             console.log('Verify OTP', result);
             this.toaster.success(result.message);
@@ -115,7 +115,7 @@ export class LoginUserComponent {
             if (result.statusCode == 200) {
               this.spinner.hide();
               console.log('login data', result);
-              localStorage.setItem('token', result.token);
+              localStorage.setItem('user-token', result.token);
               this.toaster.success(result.message);
               this.route.navigate(['/user-home']);
             }
@@ -155,6 +155,5 @@ export class LoginUserComponent {
 
   combineOTP() {
     this.loginData.otp = `${this.otp1}${this.otp2}${this.otp3}${this.otp4}`;
-    console.log(this.loginData);
   }
 }

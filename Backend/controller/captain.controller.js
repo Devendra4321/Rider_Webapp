@@ -147,7 +147,7 @@ module.exports.sendOtp = async (req, res, next) => {
     res.status(200).send({
       statusCode: 200,
       message: "OTP sent successfully",
-      otp: captain,
+      otp: captain.otpData,
     });
   } catch (error) {
     res.status(500).send({
