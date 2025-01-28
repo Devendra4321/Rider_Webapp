@@ -23,6 +23,7 @@ import { CaptainTripsByIdComponent } from './pages/captain-trips-by-id/captain-t
 import { CaptainRideOngoingComponent } from './pages/captain-ride-ongoing/captain-ride-ongoing.component';
 import { CaptainProfileComponent } from './pages/captain-profile/captain-profile.component';
 import { CaptainUploadDocumentComponent } from './pages/captain-upload-document/captain-upload-document.component';
+import { WalletCaptainComponent } from './pages/wallet-captain/wallet-captain.component';
 
 const routes: Routes = [
   {
@@ -131,6 +132,10 @@ const routes: Routes = [
   {
     path: 'captain-upload-document',
     component: CaptainUploadDocumentComponent,
+  },
+  {
+    path: 'wallet-captain',
+    component: WalletCaptainComponent,
   },
 ];
 

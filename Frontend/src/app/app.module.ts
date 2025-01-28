@@ -31,6 +31,7 @@ import { RideOngoingInfoComponent } from './components/ride-ongoing-info/ride-on
 import { CaptainRideOngoingComponent } from './pages/captain-ride-ongoing/captain-ride-ongoing.component';
 import { CaptainProfileComponent } from './pages/captain-profile/captain-profile.component';
 import { CaptainUploadDocumentComponent } from './pages/captain-upload-document/captain-upload-document.component';
+import { WalletCaptainComponent } from './pages/wallet-captain/wallet-captain.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { CaptainUploadDocumentComponent } from './pages/captain-upload-document/
     CaptainRideOngoingComponent,
     CaptainProfileComponent,
     CaptainUploadDocumentComponent,
+    WalletCaptainComponent,
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],
