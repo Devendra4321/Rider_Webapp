@@ -32,6 +32,11 @@ import { CaptainRideOngoingComponent } from './pages/captain-ride-ongoing/captai
 import { CaptainProfileComponent } from './pages/captain-profile/captain-profile.component';
 import { CaptainUploadDocumentComponent } from './pages/captain-upload-document/captain-upload-document.component';
 import { WalletCaptainComponent } from './pages/wallet-captain/wallet-captain.component';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -66,7 +71,20 @@ import { WalletCaptainComponent } from './pages/wallet-captain/wallet-captain.co
     CaptainUploadDocumentComponent,
     WalletCaptainComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      timeOut: 2000,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+      closeButton: true,
+    }),
+    NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

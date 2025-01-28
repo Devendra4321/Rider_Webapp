@@ -3,12 +3,39 @@
   <div class="container">
     <div class="login-container">
       <h5>What's your phone number or email?</h5>
-      <input
-        type="text"
-        class="form-control my-3 main-btn"
-        placeholder="Enter phone number or email"
-      />
-      <button class="btn btn-black" (click)="getOtp()">Continue</button>
+      <form #loginForm="ngForm" (ngSubmit)="getOtp(loginForm)">
+        <div class="my-3">
+          <input
+            type="text"
+            class="form-control main-btn"
+            placeholder="Enter phone number or email"
+            name="emailMob"
+            [(ngModel)]="loginData.emailMob"
+            required
+            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$|^\d{10}$"
+            #emailMobRef="ngModel"
+          />
+          <div
+            *ngIf="emailMobRef.invalid && emailMobRef.touched"
+            class="text-danger text-start"
+          >
+            <small class="text-start" *ngIf="emailMobRef.errors?.['required']"
+              >Email or phone number is required.</small
+            >
+            <small *ngIf="emailMobRef.errors?.['pattern']"
+              >Invalid email or phone number format.</small
+            >
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          class="btn btn-black"
+          [disabled]="loginForm.invalid"
+        >
+          Continue
+        </button>
+      </form>
 
       <div class="divider">or</div>
 
@@ -42,7 +69,7 @@
   <div class="container">
     <div class="otp-container">
       <h5>Welcome back, User.</h5>
-      <p>Enter the 4-digit code sent via SMS at 09764715488.</p>
+      <p>Enter the 4-digit code sent via SMS at {{ loginData.emailMob }}.</p>
       <a href="#" class="text-decoration-none">Changed your mobile number?</a>
 
       <div class="d-flex justify-content-center my-3">
@@ -50,23 +77,32 @@
           type="text"
           class="otp-input form-control main-btn"
           maxlength="1"
+          [(ngModel)]="otp1"
+          (input)="moveFocus($event, otp2, 1)"
         />
         <input
           type="text"
           class="otp-input form-control main-btn"
           maxlength="1"
+          [(ngModel)]="otp2"
+          (input)="moveFocus($event, otp3, 2)"
         />
         <input
           type="text"
           class="otp-input form-control main-btn"
           maxlength="1"
+          [(ngModel)]="otp3"
+          (input)="moveFocus($event, otp4, 3)"
         />
         <input
           type="text"
           class="otp-input form-control main-btn"
           maxlength="1"
+          [(ngModel)]="otp4"
+          (input)="combineOTP()"
         />
       </div>
+      <p *ngIf="wrongOtp" class="text-danger">Enter valid otp</p>
 
       <button class="btn main-btn">Resend code via SMS</button>
       <button class="btn main-btn mt-2">More options</button>
@@ -94,16 +130,39 @@
       <h5>Enter your password</h5>
       <p>Enter the password for your account.</p>
 
-      <input
-        type="password"
-        class="form-control my-3 main-btn"
-        placeholder="Enter password"
-      />
-      <a href="#" class="text-decoration-none">Forgot your password?</a>
+      <form #passwordForm="ngForm" (ngSubmit)="userLogin(passwordForm)">
+        <div class="my-3">
+          <input
+            type="password"
+            class="form-control main-btn"
+            placeholder="Enter password"
+            name="password"
+            [(ngModel)]="loginData.password"
+            required
+            #passwordRef="ngModel"
+          />
+          <div
+            *ngIf="passwordRef.invalid && passwordRef.touched"
+            class="text-danger text-start"
+          >
+            <small class="text-start" *ngIf="passwordRef.errors?.['required']"
+              >Password is required.</small
+            >
+          </div>
+        </div>
 
-      <div>
-        <button class="btn btn-secondary w-100 mt-3 btn-black">Login</button>
-      </div>
+        <a href="#" class="text-decoration-none">Forgot your password?</a>
+
+        <div>
+          <button
+            type="submit"
+            class="btn btn-secondary w-100 mt-3 btn-black"
+            [disabled]="passwordForm.invalid"
+          >
+            Login
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </section>
