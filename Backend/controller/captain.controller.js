@@ -89,9 +89,23 @@ module.exports.sendOtp = async (req, res, next) => {
     });
   }
 
-  const otp = Math.floor(100000 + Math.random() * 900000);
+  const otp = Math.floor(1000 + Math.random() * 9000);
 
   const captain = await captainModel.findOne({ email });
+
+  if (!captain) {
+    return res.status(404).json({
+      statusCode: 404,
+      message: "Captain not found",
+    });
+  }
+
+  if (captain.isDeleted == true) {
+    return res.status(404).json({
+      statusCode: 404,
+      message: "Captain is deleted",
+    });
+  }
 
   captain.otpData.otp = otp;
   captain.otpData.expiresAt = Date.now() + 5 * 60 * 1000;

@@ -84,7 +84,7 @@ module.exports.sendOtp = async (req, res, next) => {
     });
   }
 
-  const otp = Math.floor(100000 + Math.random() * 900000);
+  const otp = Math.floor(1000 + Math.random() * 9000);
 
   const user = await userModel.findOne({ email });
 
@@ -92,6 +92,13 @@ module.exports.sendOtp = async (req, res, next) => {
     return res.status(404).json({
       statusCode: 404,
       message: "User not found",
+    });
+  }
+
+  if (user.isDeleted == 1) {
+    return res.status(404).json({
+      statusCode: 404,
+      message: "User deleted",
     });
   }
 
