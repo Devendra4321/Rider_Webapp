@@ -9,7 +9,7 @@ const crypto = require("crypto");
 module.exports.createRide = async (req, res, next) => {
   const { pickup, destination, vehicleType, paymentMethod } = req.body;
 
-  if (!pickup || !destination || !vehicleType) {
+  if (!pickup || !destination || !vehicleType || !paymentMethod) {
     res.status(400).json({
       statusCode: 400,
       message: "All information required",
@@ -529,5 +529,35 @@ module.exports.getRideById = async (req, res, next) => {
       statusCode: 500,
       message: "Internal server error",
     });
+  }
+};
+
+module.exports.getVehiclePrices = async (req, res, next) => {
+  const { pickup, destination } = req.body;
+
+  if (!pickup || !destination) {
+    res.status(400).json({
+      statusCode: 400,
+      message: "All information required",
+    });
+  }
+
+  try {
+    const fare = await rideService.getFare(pickup, destination);
+
+    if (!fare) {
+      res.status(400).json({
+        statusCode: 400,
+        message: "Vehicles prices are not calculated",
+      });
+    }
+
+    res.status(200).json({
+      statusCode: 200,
+      message: "Vehicle prices fetched",
+      data: fare,
+    });
+  } catch (error) {
+    res.status(500).json({ statusCode: 500, message: "Internal server error" });
   }
 };
