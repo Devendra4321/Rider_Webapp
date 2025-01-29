@@ -3,22 +3,75 @@
   <div class="container">
     <div class="login-container">
       <h5>What's your phone number or email?</h5>
-      <input
-        type="text"
-        class="form-control my-3 main-btn"
-        placeholder="Enter first name"
-      />
-      <input
-        type="text"
-        class="form-control my-3 main-btn"
-        placeholder="Enter last name"
-      />
-      <input
-        type="text"
-        class="form-control my-3 main-btn"
-        placeholder="Enter phone number or email"
-      />
-      <button class="btn btn-black" (click)="getDetails()">Continue</button>
+      <form #signUpForm="ngForm" (ngSubmit)="getDetails(signUpForm)">
+        <div class="my-3">
+          <input
+            type="text"
+            class="form-control main-btn"
+            placeholder="Enter first name"
+            name="firstname"
+            [(ngModel)]="signUpData.firstName"
+            required
+            #firstName="ngModel"
+          />
+          <div
+            *ngIf="firstName.invalid && firstName.touched"
+            class="text-danger text-start"
+          >
+            <small class="text-start" *ngIf="firstName.errors?.['required']"
+              >First name is required.</small
+            >
+          </div>
+        </div>
+
+        <div class="my-3">
+          <input
+            type="text"
+            class="form-control main-btn"
+            placeholder="Enter last name"
+            name="lastname"
+            [(ngModel)]="signUpData.lastName"
+            required
+            #lastName="ngModel"
+          />
+          <div
+            *ngIf="lastName.invalid && lastName.touched"
+            class="text-danger text-start"
+          >
+            <small class="text-start" *ngIf="lastName.errors?.['required']"
+              >Last name is required.</small
+            >
+          </div>
+        </div>
+
+        <div class="my-3">
+          <input
+            type="text"
+            class="form-control main-btn"
+            placeholder="Enter phone number or email"
+            name="emailmob"
+            [(ngModel)]="signUpData.emailMob"
+            required
+            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$|^\d{10}$"
+            #emailMob="ngModel"
+          />
+          <div
+            *ngIf="emailMob.invalid && emailMob.touched"
+            class="text-danger text-start"
+          >
+            <small class="text-start" *ngIf="emailMob.errors?.['required']"
+              >Email is required.</small
+            >
+            <small *ngIf="emailMob.errors?.['pattern']"
+              >Invalid email or phone number format.</small
+            >
+          </div>
+        </div>
+
+        <button class="btn btn-black" [disabled]="signUpForm.invalid">
+          Continue
+        </button>
+      </form>
 
       <div class="divider">or</div>
 
@@ -47,16 +100,43 @@
       <h5>Enter your password</h5>
       <p>Enter the password for your account.</p>
 
-      <input
-        type="password"
-        class="form-control my-3 main-btn"
-        placeholder="Enter password"
-      />
-      <a href="#" class="text-decoration-none">Forgot your password?</a>
+      <form #passwordForm="ngForm" (ngSubmit)="userSignUp(passwordForm)">
+        <div class="my-3">
+          <input
+            type="password"
+            class="form-control main-btn"
+            placeholder="Enter password"
+            name="password"
+            [(ngModel)]="signUpData.password"
+            required
+            #passwordRef="ngModel"
+          />
+          <div
+            *ngIf="passwordRef.invalid && passwordRef.touched"
+            class="text-danger text-start"
+          >
+            <small class="text-start" *ngIf="passwordRef.errors?.['required']"
+              >Email is required.</small
+            >
+          </div>
+        </div>
 
-      <div>
-        <button class="btn btn-secondary w-100 mt-3 btn-black">Sign up</button>
-      </div>
+        <a href="#" class="text-decoration-none">Forgot your password?</a>
+
+        <div>
+          <button
+            class="btn btn-secondary w-100 mt-3 btn-black"
+            [disabled]="passwordForm.invalid"
+          >
+            Sign up
+          </button>
+        </div>
+        <div class="mt-4">
+          <button class="btn-nav" (click)="backToEmail()">
+            <i class="bi bi-arrow-left"></i>
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </section>

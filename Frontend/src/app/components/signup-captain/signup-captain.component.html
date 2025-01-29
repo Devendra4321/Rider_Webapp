@@ -3,22 +3,79 @@
   <div class="container">
     <div class="login-container">
       <h5>What's your phone number or email?</h5>
-      <input
-        type="text"
-        class="form-control my-3 main-btn"
-        placeholder="Enter first name"
-      />
-      <input
-        type="text"
-        class="form-control my-3 main-btn"
-        placeholder="Enter last name"
-      />
-      <input
-        type="text"
-        class="form-control my-3 main-btn"
-        placeholder="Enter phone number or email"
-      />
-      <button class="btn btn-black" (click)="getDetails()">Continue</button>
+
+      <form
+        #personalDetailsForm="ngForm"
+        (ngSubmit)="getDetails(personalDetailsForm)"
+      >
+        <div class="my-3">
+          <input
+            type="text"
+            class="form-control main-btn"
+            placeholder="Enter first name"
+            name="firstname"
+            [(ngModel)]="signUpData.fullname.firstname"
+            required
+            #firstName="ngModel"
+          />
+          <div
+            *ngIf="firstName.invalid && firstName.touched"
+            class="text-danger text-start"
+          >
+            <small class="text-start" *ngIf="firstName.errors?.['required']"
+              >First name is required.</small
+            >
+          </div>
+        </div>
+
+        <div class="my-3">
+          <input
+            type="text"
+            class="form-control main-btn"
+            placeholder="Enter last name"
+            name="lastname"
+            [(ngModel)]="signUpData.fullname.lastname"
+            required
+            #lastName="ngModel"
+          />
+          <div
+            *ngIf="lastName.invalid && lastName.touched"
+            class="text-danger text-start"
+          >
+            <small class="text-start" *ngIf="lastName.errors?.['required']"
+              >Last name is required.</small
+            >
+          </div>
+        </div>
+
+        <div class="my-3">
+          <input
+            type="text"
+            class="form-control main-btn"
+            placeholder="Enter phone number or email"
+            name="emailmob"
+            [(ngModel)]="signUpData.email"
+            required
+            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$|^\d{10}$"
+            #emailMob="ngModel"
+          />
+          <div
+            *ngIf="emailMob.invalid && emailMob.touched"
+            class="text-danger text-start"
+          >
+            <small class="text-start" *ngIf="emailMob.errors?.['required']"
+              >Email is required.</small
+            >
+            <small *ngIf="emailMob.errors?.['pattern']"
+              >Invalid email or phone number format.</small
+            >
+          </div>
+        </div>
+
+        <button class="btn btn-black" [disabled]="personalDetailsForm.invalid">
+          Continue
+        </button>
+      </form>
 
       <div class="divider">or</div>
 
@@ -47,50 +104,119 @@
       <h5>Enter your vehicle details.</h5>
       <p>Enter the basic details of your vehicle.</p>
 
-      <select
-        class="form-select my-3 main-btn"
-        aria-label="Default select example"
+      <form
+        #vehicleDetailsForm="ngForm"
+        (ngSubmit)="nextToPassword(vehicleDetailsForm)"
       >
-        <option selected>Enter your vehicle type</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-      </select>
-
-      <input
-        type="text"
-        class="form-control my-3 main-btn"
-        placeholder="Enter vehicle number"
-      />
-
-      <input
-        type="text"
-        class="form-control my-3 main-btn"
-        placeholder="Enter vehicle color"
-      />
-
-      <select
-        class="form-select my-3 main-btn"
-        aria-label="Default select example"
-      >
-        <option selected>Enter your vehicle capacity</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-      </select>
-
-      <div class="d-flex justify-content-between align-items-center mt-4">
-        <div>
-          <button class="btn-nav" (click)="backToEmail()">
-            <i class="bi bi-arrow-left"></i>
-          </button>
+        <div class="my-3">
+          <select
+            class="form-select main-btn"
+            aria-label="Default select example"
+            name="vehicletype"
+            [(ngModel)]="signUpData.vehicle.vehicleType"
+            required
+            #vehicleType="ngModel"
+          >
+            <option value="" disabled selected>Enter your vehicle type</option>
+            <option value="motorcycle">Motor Cycle</option>
+            <option value="auto">Auto</option>
+            <option value="car">Car</option>
+          </select>
+          <div
+            *ngIf="vehicleType.invalid && vehicleType.touched"
+            class="text-danger text-start"
+          >
+            <small class="text-start" *ngIf="vehicleType.errors?.['required']">
+              Vehicle type is required.
+            </small>
+          </div>
         </div>
-        <div>
-          <button class="btn btn-secondary" (click)="nextToPassword()">
-            Next <i class="bi bi-arrow-right"></i>
-          </button>
+
+        <div class="my-3">
+          <input
+            type="text"
+            class="form-control main-btn"
+            placeholder="Enter vehicle number"
+            name="vehiclenumber"
+            [(ngModel)]="signUpData.vehicle.plate"
+            required
+            #vehicleNumber="ngModel"
+          />
+          <div
+            *ngIf="vehicleNumber.invalid && vehicleNumber.touched"
+            class="text-danger text-start"
+          >
+            <small *ngIf="vehicleNumber.errors?.['required']">
+              Vehicle number is required.
+            </small>
+          </div>
         </div>
-      </div>
+
+        <div class="my-3">
+          <input
+            type="text"
+            class="form-control main-btn"
+            placeholder="Enter vehicle color"
+            name="vehiclecolor"
+            [(ngModel)]="signUpData.vehicle.color"
+            required
+            #vehicleColor="ngModel"
+          />
+          <div
+            *ngIf="vehicleColor.invalid && vehicleColor.touched"
+            class="text-danger text-start"
+          >
+            <small *ngIf="vehicleColor.errors?.['required']">
+              Vehicle color is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="my-3">
+          <select
+            class="form-select main-btn"
+            aria-label="Default select example"
+            name="vehiclecapacity"
+            [(ngModel)]="signUpData.vehicle.capacity"
+            required
+            #vehicleCapacity="ngModel"
+          >
+            <option value="" disabled selected>
+              Enter your vehicle capacity in (kg)
+            </option>
+            <option value="20">20</option>
+            <option value="100">100</option>
+            <option value="200">200</option>
+          </select>
+          <div
+            *ngIf="vehicleCapacity.invalid && vehicleCapacity.touched"
+            class="text-danger text-start"
+          >
+            <small
+              class="text-start"
+              *ngIf="vehicleCapacity.errors?.['required']"
+            >
+              Vehicle capacity is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <!-- <div>
+            <button class="btn-nav" (click)="backToEmail()">
+              <i class="bi bi-arrow-left"></i>
+            </button>
+          </div> -->
+          <div>
+            <button
+              class="btn btn-secondary w-100"
+              [disabled]="vehicleDetailsForm.invalid"
+            >
+              Next <i class="bi bi-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </section>
@@ -102,16 +228,43 @@
       <h5>Enter your password</h5>
       <p>Enter the password for your account.</p>
 
-      <input
-        type="password"
-        class="form-control my-3 main-btn"
-        placeholder="Enter password"
-      />
-      <a href="#" class="text-decoration-none">Forgot your password?</a>
+      <form #passwordForm="ngForm" (ngSubmit)="captainSignUp(passwordForm)">
+        <div class="my-3">
+          <input
+            type="password"
+            class="form-control main-btn"
+            placeholder="Enter password"
+            name="password"
+            [(ngModel)]="signUpData.password"
+            required
+            #passwordRef="ngModel"
+          />
+          <div
+            *ngIf="passwordRef.invalid && passwordRef.touched"
+            class="text-danger text-start"
+          >
+            <small class="text-start" *ngIf="passwordRef.errors?.['required']"
+              >Email is required.</small
+            >
+          </div>
+        </div>
 
-      <div>
-        <button class="btn btn-secondary w-100 mt-3 btn-black">Sign up</button>
-      </div>
+        <a href="#" class="text-decoration-none">Forgot your password?</a>
+
+        <div>
+          <button
+            class="btn btn-secondary w-100 mt-3 btn-black"
+            [disabled]="passwordForm.invalid"
+          >
+            Sign up
+          </button>
+        </div>
+        <div class="mt-4">
+          <button class="btn-nav" (click)="backToVehicle()">
+            <i class="bi bi-arrow-left"></i>
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </section>
