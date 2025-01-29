@@ -26,6 +26,8 @@
                 class="form-control"
                 id="floatingInputGrid"
                 placeholder="Enter first name"
+                [value]="userDetail.fullname.firstname"
+                disabled
               />
               <label for="floatingInputGrid">First name</label>
             </div>
@@ -37,23 +39,43 @@
                 class="form-control"
                 id="floatingInputGrid"
                 placeholder="Enter last name"
+                [value]="userDetail.fullname.lastname"
+                disabled
               />
               <label for="floatingInputGrid">Last name</label>
             </div>
           </div>
         </div>
         <div class="row mt-3">
-          <div class="form-floating mb-3">
-            <input
-              type="email"
-              class="form-control"
-              id="floatingInput"
-              placeholder="name@example.com"
-            />
-            <label for="floatingInput" class="mx-2">Email address</label>
+          <div
+            class=""
+            [ngClass]="{
+              'col-lg-10 col-md-10 col-sm-9': !userDetail.isEmailVerified
+            }"
+          >
+            <div class="form-floating mb-3">
+              <input
+                type="email"
+                class="form-control"
+                id="floatingInput"
+                placeholder="name@example.com"
+                [value]="userDetail.email"
+                disabled
+              />
+              <label for="floatingInput" class="mx-2">Email address</label>
+            </div>
+          </div>
+          <div
+            *ngIf="!userDetail.isEmailVerified"
+            class=""
+            [ngClass]="{
+              'col-lg-2 col-md-2 col-sm-3': !userDetail.isEmailVerified
+            }"
+          >
+            <button class="btn btn-dark w-100 p-3">Verify</button>
           </div>
         </div>
-        <div class="row">
+        <!-- <div class="row">
           <div class="form-floating mb-3">
             <input
               type="email"
@@ -63,7 +85,7 @@
             />
             <label for="floatingInput" class="mx-2">Mobile number</label>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
