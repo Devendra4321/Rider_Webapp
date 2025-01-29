@@ -103,7 +103,7 @@ const routes: Routes = [
     component: UserProfileComponent,
   },
   {
-    path: 'forgot-password',
+    path: 'forgot-password/user',
     component: ForgotPasswordComponent,
   },
 
