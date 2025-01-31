@@ -17,4 +17,12 @@ export class LogoutService {
       headers,
     });
   }
+
+  captainLogout() {
+    const token = localStorage.getItem('captain-token');
+    const headers = { Authorization: `Bearer ${token}` };
+    return this.http.get(environment.API_URL_CAPTAIN + 'logoutCaptain', {
+      headers,
+    });
+  }
 }

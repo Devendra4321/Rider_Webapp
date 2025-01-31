@@ -37,10 +37,19 @@
             Details
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li>
+              <a class="dropdown-item" routerLink="/wallet-captain">Wallet</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="/captain-profile"
+                >Manage profile</a
+              >
+            </li>
+            <li><a class="dropdown-item" href="#">Forgot password</a></li>
             <li><hr class="dropdown-divider" /></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+            <li>
+              <a class="dropdown-item" (click)="logOutCaptain()">Log out</a>
+            </li>
           </ul>
         </li>
       </ul>

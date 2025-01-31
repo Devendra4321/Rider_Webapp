@@ -14,6 +14,8 @@
         </p>
       </div>
     </div>
+
+    <!-- Basic info section -->
     <div class="row">
       <div class="col-lg-2"></div>
       <div class="col-lg-8 mb-3 mb-md-0 my-3">
@@ -26,6 +28,8 @@
                 class="form-control"
                 id="floatingInputGrid"
                 placeholder="Enter first name"
+                [value]="captainDetail.fullname.firstname"
+                disabled
               />
               <label for="floatingInputGrid">First name</label>
             </div>
@@ -37,6 +41,8 @@
                 class="form-control"
                 id="floatingInputGrid"
                 placeholder="Enter last name"
+                [value]="captainDetail.fullname.lastname"
+                disabled
               />
               <label for="floatingInputGrid">Last name</label>
             </div>
@@ -49,11 +55,13 @@
               class="form-control"
               id="floatingInput"
               placeholder="name@example.com"
+              [value]="captainDetail.email"
+              disabled
             />
             <label for="floatingInput" class="mx-2">Email address</label>
           </div>
         </div>
-        <div class="row">
+        <!-- <div class="row">
           <div class="form-floating mb-3">
             <input
               type="email"
@@ -63,10 +71,11 @@
             />
             <label for="floatingInput" class="mx-2">Mobile number</label>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
 
+    <!-- Vehicle Info section -->
     <div class="row">
       <div class="col-lg-2"></div>
       <div class="col-lg-8 mb-3 mb-md-0 my-md-3 my-lg-3">
@@ -79,6 +88,8 @@
                 class="form-control"
                 id="floatingInputGrid"
                 placeholder="Enter first name"
+                [value]="captainDetail.vehicle.vehicleType"
+                disabled
               />
               <label for="floatingInputGrid">Vehicle type</label>
             </div>
@@ -90,6 +101,8 @@
                 class="form-control"
                 id="floatingInputGrid"
                 placeholder="Enter last name"
+                [value]="captainDetail.vehicle.plate"
+                disabled
               />
               <label for="floatingInputGrid">Vehicle number</label>
             </div>
@@ -103,6 +116,8 @@
                 class="form-control"
                 id="floatingInputGrid"
                 placeholder="Enter first name"
+                [value]="captainDetail.vehicle.color"
+                disabled
               />
               <label for="floatingInputGrid">Vehicle color</label>
             </div>
@@ -114,6 +129,8 @@
                 class="form-control"
                 id="floatingInputGrid"
                 placeholder="Enter last name"
+                [value]="captainDetail.vehicle.capacity"
+                disabled
               />
               <label for="floatingInputGrid">Vehicle capacity</label>
             </div>
@@ -122,97 +139,137 @@
       </div>
     </div>
 
+    <!-- Document section -->
     <div class="row">
       <div class="col-lg-2"></div>
       <div class="col-lg-8 mb-3 mb-md-0 my-md-3 my-lg-3 my-0">
         <p class="fs-4 fw-bold mt-md-4 mt-lg-4 mt-3">Uploaded document info</p>
-        <div class="row g-2">
-          <div class="col-lg-6 col-md-6">
-            <div class="card my-2">
-              <img
-                src="../../../assets/images/rider_uploaded_doc.jpg"
-                class="card-img-top document-img"
-                alt="..."
-              />
-              <div class="card-body">
-                <p class="card-title fs-5 fw-semibold mt-1">
-                  Aadhar card front side
-                </p>
-                <!-- <p class="card-text">
+        <div *ngIf="documentsAvailable">
+          <div class="row g-2">
+            <div class="col-lg-6 col-md-6">
+              <div
+                class="card my-2"
+                *ngIf="captainDetail.documents.aadharfront.url"
+              >
+                <img
+                  src="../../../assets/images/rider_uploaded_doc.jpg"
+                  class="card-img-top document-img"
+                  alt="..."
+                />
+                <div class="card-body">
+                  <p class="card-title fs-5 fw-semibold mt-1">
+                    Aadhar card front side
+                  </p>
+                  <!-- <p class="card-text">
                   Some quick example text to build on the card title and make up
                   the bulk of the card's content.
                 </p> -->
-                <a class="btn btn-dark mt-3" (click)="showDocument()"
-                  >View document</a
-                >
+                  <a
+                    class="btn btn-dark mt-3"
+                    (click)="
+                      showDocument(captainDetail.documents.aadharfront.url)
+                    "
+                    >View document</a
+                  >
+                </div>
               </div>
             </div>
-          </div>
-          <div class="col-lg-6 col-md-6">
-            <div class="card my-2">
-              <img
-                src="../../../assets/images/rider_uploaded_doc.jpg"
-                class="card-img-top document-img"
-                alt="..."
-              />
-              <div class="card-body">
-                <p class="card-title fs-5 fw-semibold mt-1">
-                  Aadhar card front side
-                </p>
-                <!-- <p class="card-text">
+            <div class="col-lg-6 col-md-6">
+              <div
+                class="card my-2"
+                *ngIf="captainDetail.documents.aadharback.url"
+              >
+                <img
+                  src="../../../assets/images/rider_uploaded_doc.jpg"
+                  class="card-img-top document-img"
+                  alt="..."
+                />
+                <div class="card-body">
+                  <p class="card-title fs-5 fw-semibold mt-1">
+                    Aadhar card back side
+                  </p>
+                  <!-- <p class="card-text">
                     Some quick example text to build on the card title and make up
                     the bulk of the card's content.
                   </p> -->
-                <a class="btn btn-dark mt-3">View document</a>
+                  <a
+                    class="btn btn-dark mt-3"
+                    (click)="
+                      showDocument(captainDetail.documents.aadharback.url)
+                    "
+                    >View document</a
+                  >
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="row g-2">
-          <div class="col-lg-6 col-md-6">
-            <div class="card my-2">
-              <img
-                src="../../../assets/images/rider_uploaded_doc.jpg"
-                class="card-img-top document-img"
-                alt="..."
-              />
-              <div class="card-body">
-                <p class="card-title fs-5 fw-semibold mt-1">
-                  Aadhar card front side
-                </p>
-                <!-- <p class="card-text">
+          <div class="row g-2">
+            <div class="col-lg-6 col-md-6">
+              <div
+                class="card my-2"
+                *ngIf="captainDetail.documents.drivinglicense.url"
+              >
+                <img
+                  src="../../../assets/images/rider_uploaded_doc.jpg"
+                  class="card-img-top document-img"
+                  alt="..."
+                />
+                <div class="card-body">
+                  <p class="card-title fs-5 fw-semibold mt-1">
+                    Driving license
+                  </p>
+                  <!-- <p class="card-text">
                     Some quick example text to build on the card title and make up
                     the bulk of the card's content.
                   </p> -->
-                <a class="btn btn-dark mt-3">View document</a>
+                  <a
+                    class="btn btn-dark mt-3"
+                    (click)="
+                      showDocument(captainDetail.documents.drivinglicense.url)
+                    "
+                    >View document</a
+                  >
+                </div>
               </div>
             </div>
-          </div>
-          <div class="col-lg-6 col-md-6">
-            <div class="card my-2">
-              <img
-                src="../../../assets/images/rider_uploaded_doc.jpg"
-                class="card-img-top document-img"
-                alt="..."
-              />
-              <div class="card-body">
-                <p class="card-title fs-5 fw-semibold mt-1">
-                  Aadhar card front side
-                </p>
-                <!-- <p class="card-text">
+            <div class="col-lg-6 col-md-6">
+              <div class="card my-2" *ngIf="captainDetail.documents.rc.url">
+                <img
+                  src="../../../assets/images/rider_uploaded_doc.jpg"
+                  class="card-img-top document-img"
+                  alt="..."
+                />
+                <div class="card-body">
+                  <p class="card-title fs-5 fw-semibold mt-1">
+                    Register certificate (RC)
+                  </p>
+                  <!-- <p class="card-text">
                       Some quick example text to build on the card title and make up
                       the bulk of the card's content.
                     </p> -->
-                <a href="#" class="btn btn-dark mt-3">View document</a>
+                  <a
+                    class="btn btn-dark mt-3"
+                    (click)="showDocument(captainDetail.documents.rc.url)"
+                    >View document</a
+                  >
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- <div class="col-12">
-          <p class="fs-5 fw-semibold">You have not uploaded document</p>
-        </div> -->
+        <div class="col-12" *ngIf="!documentsAvailable">
+          <p class="fs-5 fw-semibold m-0 mb-2">
+            You have not uploaded any document
+          </p>
+          <button
+            class="btn btn-dark mb-3"
+            routerLink="/captain-upload-document"
+          >
+            Uploaded documents here
+          </button>
+        </div>
       </div>
     </div>
   </div>
