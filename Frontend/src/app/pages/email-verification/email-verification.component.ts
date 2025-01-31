@@ -85,5 +85,48 @@ export class EmailVerificationComponent {
           },
         });
     }
+
+    if (this.userType == 'captain') {
+      this.emailVerificationService
+        .verifyCaptainEmail({ token: this.token })
+        .subscribe({
+          next: (result: any) => {
+            if (result.statusCode == 200) {
+              this.spinner.hide();
+              console.log('Verify email data', result);
+              this.toaster.success(result.message);
+              this.isLoading = false;
+              this.isSuccess = true;
+            }
+          },
+          error: (error) => {
+            console.log('Verify email data error', error.error);
+
+            if (error.error.statusCode == 400) {
+              this.spinner.hide();
+              this.toaster.error(error.error.message);
+              this.isError = true;
+              this.isLoading = false;
+            } else if (
+              error.error.statusCode == 404 &&
+              error.error.message == 'Email is already verified'
+            ) {
+              this.spinner.hide();
+              this.isLoading = false;
+              this.isVerified = true;
+            } else if (error.error.statusCode == 404) {
+              this.spinner.hide();
+              this.isLoading = false;
+              this.isError = true;
+            } else {
+              this.toaster.error('Something went wrong');
+              this.isError = true;
+            }
+          },
+          complete: () => {
+            this.spinner.hide();
+          },
+        });
+    }
   }
 }

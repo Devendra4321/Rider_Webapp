@@ -13,6 +13,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class CaptainProfileComponent {
   constructor(
     private profileService: ProfileService,
+    private emailVerificationService: EmailVerificationService,
     private toaster: ToastrService,
     private spinner: NgxSpinnerService
   ) {}
@@ -43,6 +44,33 @@ export class CaptainProfileComponent {
         console.log('Profile data error', error.error);
 
         if (error.error.statusCode == 404) {
+          this.spinner.hide();
+          this.toaster.error(error.error.message);
+        } else {
+          this.toaster.error('Something went wrong');
+        }
+      },
+      complete: () => {
+        this.spinner.hide();
+      },
+    });
+  }
+
+  getEmailVerificationLink() {
+    this.spinner.show();
+
+    this.emailVerificationService.getCaptainEmailVerificationLink().subscribe({
+      next: (result: any) => {
+        if (result.statusCode == 200) {
+          this.spinner.hide();
+          console.log('Email link data', result);
+          this.toaster.success(result.message);
+        }
+      },
+      error: (error) => {
+        console.log('Email link data error', error.error);
+
+        if (error.error.statusCode == 400 || error.error.statusCode == 404) {
           this.spinner.hide();
           this.toaster.error(error.error.message);
         } else {
