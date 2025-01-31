@@ -26,10 +26,14 @@
           <label for="formFile" class="form-label fw-semibold"
             >Aadhar card front side</label
           >
-          <input class="form-control" type="file" id="formFile" />
-          <!-- <div class="">
-            <p class="text-danger">Please upload image</p>
-          </div> -->
+          <input
+            class="form-control"
+            type="file"
+            (change)="onFileSelected($event, 'aadharfront')"
+          />
+          <div class="" *ngIf="isUploaded">
+            <p class="text-danger">Aadhar card front side uploaded!</p>
+          </div>
         </div>
       </div>
       <div class="col-lg-4 col-md-6">
@@ -37,10 +41,14 @@
           <label for="formFile" class="form-label fw-semibold"
             >Aadhar card back side</label
           >
-          <input class="form-control" type="file" id="formFile" />
-          <!-- <div class="">
-            <p class="text-danger">Please upload image</p>
-          </div> -->
+          <input
+            class="form-control"
+            type="file"
+            (change)="onFileSelected($event, 'aadharback')"
+          />
+          <div class="" *ngIf="isUploaded">
+            <p class="text-danger">Aadhar card back side uploaded!</p>
+          </div>
         </div>
       </div>
     </div>
@@ -52,10 +60,14 @@
           <label for="formFile" class="form-label fw-semibold"
             >Driving license</label
           >
-          <input class="form-control" type="file" id="formFile" />
-          <!-- <div class="">
-            <p class="text-danger">Please upload image</p>
-          </div> -->
+          <input
+            class="form-control"
+            type="file"
+            (change)="onFileSelected($event, 'drivinglicense')"
+          />
+          <div class="" *ngIf="isUploaded">
+            <p class="text-danger">Driving license uploaded!</p>
+          </div>
         </div>
       </div>
       <div class="col-lg-4 col-md-6">
@@ -63,10 +75,14 @@
           <label for="formFile" class="form-label fw-semibold"
             >Register certificate (RC)</label
           >
-          <input class="form-control" type="file" id="formFile" />
-          <!-- <div class="">
-            <p class="text-danger">Please upload image</p>
-          </div> -->
+          <input
+            class="form-control"
+            type="file"
+            (change)="onFileSelected($event, 'rc')"
+          />
+          <div class="" *ngIf="isUploaded">
+            <p class="text-danger">Register certificate (RC) uploaded!</p>
+          </div>
         </div>
       </div>
     </div>
