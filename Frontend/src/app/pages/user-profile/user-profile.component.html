@@ -72,7 +72,12 @@
               'col-lg-2 col-md-2 col-sm-3': !userDetail.isEmailVerified
             }"
           >
-            <button class="btn btn-dark w-100 p-3">Verify</button>
+            <button
+              class="btn btn-dark w-100 p-3"
+              (click)="getEmailVerificationLink()"
+            >
+              Verify
+            </button>
           </div>
         </div>
         <!-- <div class="row">

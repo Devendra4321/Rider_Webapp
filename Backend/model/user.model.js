@@ -42,7 +42,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: () => {
       const chars =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
       let token = "";
       for (let i = 0; i <= 12; i++) {
         token += chars.charAt(Math.floor(Math.random() * chars.length));

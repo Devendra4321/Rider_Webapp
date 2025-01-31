@@ -24,6 +24,7 @@ import { CaptainRideOngoingComponent } from './pages/captain-ride-ongoing/captai
 import { CaptainProfileComponent } from './pages/captain-profile/captain-profile.component';
 import { CaptainUploadDocumentComponent } from './pages/captain-upload-document/captain-upload-document.component';
 import { WalletCaptainComponent } from './pages/wallet-captain/wallet-captain.component';
+import { EmailVerificationComponent } from './pages/email-verification/email-verification.component';
 
 const routes: Routes = [
   {
@@ -70,6 +71,11 @@ const routes: Routes = [
         component: SignupCaptainComponent,
       },
     ],
+  },
+
+  {
+    path: 'verify-email',
+    component: EmailVerificationComponent,
   },
 
   //User routes

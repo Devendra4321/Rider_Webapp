@@ -37,6 +37,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { EmailVerificationComponent } from './pages/email-verification/email-verification.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     CaptainProfileComponent,
     CaptainUploadDocumentComponent,
     WalletCaptainComponent,
+    EmailVerificationComponent,
   ],
   imports: [
     BrowserModule,

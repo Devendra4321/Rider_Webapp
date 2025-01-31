@@ -10,7 +10,11 @@ router.post("/sendOtp", userController.sendOtp);
 
 router.post("/verifyOtp", userController.verifyOtp);
 
-router.post("/emailVerificationLink", userController.emailVerificationLink);
+router.get(
+  "/emailVerificationLink",
+  authMiddleware.authUser,
+  userController.emailVerificationLink
+);
 
 router.post("/verifyEmail", userController.verifyEmail);
 
