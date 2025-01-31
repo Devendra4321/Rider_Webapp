@@ -17,4 +17,16 @@ export class ForgotPasswordService {
       headers,
     });
   }
+
+  captainForgotPassword(data: any) {
+    const token = localStorage.getItem('captain-token');
+    const headers = { Authorization: `Bearer ${token}` };
+    return this.http.patch(
+      environment.API_URL_CAPTAIN + 'forgotPassword',
+      data,
+      {
+        headers,
+      }
+    );
+  }
 }

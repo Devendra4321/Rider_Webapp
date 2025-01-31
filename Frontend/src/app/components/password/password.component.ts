@@ -58,6 +58,35 @@ export class PasswordComponent {
     }
     if (form.valid && this.userType == 'captain') {
       console.log(this.passwordDetails);
+
+      this.spinner.show();
+
+      this.forgotPasswordService
+        .captainForgotPassword({
+          newPassword: this.passwordDetails.newPassword,
+        })
+        .subscribe({
+          next: (result: any) => {
+            if (result.statusCode == 200) {
+              this.spinner.hide();
+              console.log('Forgot password data', result);
+              this.toaster.success(result.message);
+            }
+          },
+          error: (error) => {
+            console.log('Forgot password data error', error.error);
+
+            if (error.error.statusCode == 400) {
+              this.spinner.hide();
+              this.toaster.error(error.error.message);
+            } else {
+              this.toaster.error('Something went wrong');
+            }
+          },
+          complete: () => {
+            this.spinner.hide();
+          },
+        });
     }
   }
 

@@ -25,6 +25,7 @@ import { CaptainProfileComponent } from './pages/captain-profile/captain-profile
 import { CaptainUploadDocumentComponent } from './pages/captain-upload-document/captain-upload-document.component';
 import { WalletCaptainComponent } from './pages/wallet-captain/wallet-captain.component';
 import { EmailVerificationComponent } from './pages/email-verification/email-verification.component';
+import { CaptainForgotPasswordComponent } from './pages/captain-forgot-password/captain-forgot-password.component';
 
 const routes: Routes = [
   {
@@ -142,6 +143,10 @@ const routes: Routes = [
   {
     path: 'wallet-captain',
     component: WalletCaptainComponent,
+  },
+  {
+    path: 'forgot-password/captain',
+    component: CaptainForgotPasswordComponent,
   },
 ];
 

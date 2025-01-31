@@ -38,6 +38,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { EmailVerificationComponent } from './pages/email-verification/email-verification.component';
+import { CaptainForgotPasswordComponent } from './pages/captain-forgot-password/captain-forgot-password.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { EmailVerificationComponent } from './pages/email-verification/email-ver
     CaptainUploadDocumentComponent,
     WalletCaptainComponent,
     EmailVerificationComponent,
+    CaptainForgotPasswordComponent,
   ],
   imports: [
     BrowserModule,
