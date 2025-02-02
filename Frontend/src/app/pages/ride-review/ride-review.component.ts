@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import mapboxgl from 'mapbox-gl';
 import Swal from 'sweetalert2';
-import { environment } from '../../../environment/environment';
+import { Router } from '@angular/router';
+import { MapComponent } from '../../components/map/map.component';
+import { RideService } from '../../services/ride/ride.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-ride-review',
@@ -9,20 +12,45 @@ import { environment } from '../../../environment/environment';
   styleUrl: './ride-review.component.css',
 })
 export class RideReviewComponent {
-  map!: mapboxgl.Map;
+  constructor(
+    private rideService: RideService,
+    private spinner: NgxSpinnerService,
+    private route: Router
+  ) {}
 
-  ngAfterViewInit(): void {
-    (mapboxgl as any).accessToken = environment.MAP_BOX_ACCESS_TOKEN;
+  @ViewChild(MapComponent) childComponent!: MapComponent;
 
-    this.map = new mapboxgl.Map({
-      container: 'map', // ID of the div where map will be rendered
-      style: 'mapbox://styles/mapbox/streets-v11', // Map style
-      center: [77.209, 28.6139], // Longitude, Latitude (Example: New Delhi, India)
-      zoom: 12,
-    });
+  locationDetails: any = {};
+  ngAfterViewInit() {
+    this.getLocationDetails();
+  }
 
-    // Add zoom and rotation controls
-    this.map.addControl(new mapboxgl.NavigationControl());
+  rideDetails = {
+    pickup: '',
+    drop: '',
+    vehicleType: '',
+    paymentMethod: 'cash',
+  };
+
+  getLocationDetails() {
+    if (history.state) {
+      this.locationDetails = history.state.location;
+      this.rideDetails.pickup = this.locationDetails.pickupLoc;
+      this.rideDetails.drop = this.locationDetails.dropLoc;
+      console.log('Location details:', this.locationDetails);
+    }
+
+    this.getRoute();
+    this.getVehiclePrices();
+  }
+
+  getRoute() {
+    setTimeout(() => {
+      if (this.locationDetails) {
+        this.childComponent.getPickupCordinates(this.locationDetails.pickupLoc);
+        this.childComponent.getDropCordinates(this.locationDetails.dropLoc);
+      }
+    }, 800);
   }
 
   rideGeneratePopup() {
@@ -49,5 +77,79 @@ export class RideReviewComponent {
         confirmButton: 'swal-confirm-btn',
       },
     });
+  }
+
+  vehiclePrices: any = {};
+
+  getVehiclePrices() {
+    this.spinner.show();
+
+    this.rideService
+      .getVehiclePrices({
+        pickup: this.locationDetails.pickupLoc,
+        destination: this.locationDetails.dropLoc,
+      })
+      .subscribe({
+        next: (result: any) => {
+          if (result.statusCode == 200) {
+            this.spinner.hide();
+            this.vehiclePrices = result.data;
+            console.log('Vehicle data', result);
+          }
+        },
+        error: (error) => {
+          console.log('Vehicle data error', error.error);
+
+          if (error.error.statusCode == 400 || error.error.statusCode == 500) {
+            this.spinner.hide();
+            console.log(error.error.message);
+          } else {
+            console.log('Something went wrong');
+          }
+        },
+        complete: () => {
+          this.spinner.hide();
+        },
+      });
+  }
+
+  isMotercyclevehicleTypeClicked = false;
+  isAutovehicleTypeClicked = false;
+  isCarvehicleTypeClicked = false;
+  isTaxivehicleTypeClicked = false;
+
+  getVehicleDetails(vehicleType: any, isclicked: boolean) {
+    this.rideDetails.vehicleType = vehicleType;
+
+    if (vehicleType == 'motorcycle') {
+      this.isMotercyclevehicleTypeClicked = isclicked;
+    } else {
+      this.isMotercyclevehicleTypeClicked = false;
+    }
+
+    if (vehicleType == 'auto') {
+      this.isAutovehicleTypeClicked = isclicked;
+    } else {
+      this.isAutovehicleTypeClicked = false;
+    }
+
+    if (vehicleType == 'car') {
+      this.isCarvehicleTypeClicked = isclicked;
+    } else {
+      this.isCarvehicleTypeClicked = false;
+    }
+
+    if (vehicleType == 'taxi') {
+      this.isTaxivehicleTypeClicked = isclicked;
+    } else {
+      this.isTaxivehicleTypeClicked = false;
+    }
+
+    // console.log(this.rideDetails);
+  }
+
+  generateTrip() {
+    console.log('Ride Details', this.rideDetails);
+    this.rideGeneratePopup();
   }
 }

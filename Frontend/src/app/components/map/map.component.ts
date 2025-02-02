@@ -114,6 +114,7 @@ export class MapComponent {
   }
 
   endMarker: mapboxgl.Marker | null = null;
+  startMarker: mapboxgl.Marker | null = null;
 
   addRoute(start: [number, number], end: [number, number]) {
     const directionsUrl = `https://api.mapbox.com/directions/v5/mapbox/driving/${start[0]},${start[1]};${end[0]},${end[1]}?geometries=geojson&access_token=${environment.MAP_BOX_ACCESS_TOKEN}`;
@@ -172,7 +173,11 @@ export class MapComponent {
           this.endMarker.remove();
         }
 
-        const popup = new mapboxgl.Popup().setHTML(`<div style="
+        if (this.startMarker) {
+          this.startMarker.remove();
+        }
+
+        const popupEnd = new mapboxgl.Popup().setHTML(`<div style="
           font-family: Arial, sans-serif; 
           padding: 10px; 
           text-align: center; 
@@ -183,9 +188,25 @@ export class MapComponent {
           
         </div>`);
 
+        const popupStart = new mapboxgl.Popup().setHTML(`<div style="
+          font-family: Arial, sans-serif; 
+          padding: 10px; 
+          text-align: center; 
+          color: #333;
+        ">
+          <h3 style="margin: 0; font-size: 16px; color: #007bff;">Pickup Location</h3>
+          <p style="margin: 5px 0; font-size: 14px;">Your pickup is set here.</p>
+          
+        </div>`);
+
         this.endMarker = new mapboxgl.Marker({ color: 'red' })
           .setLngLat(end)
-          .setPopup(popup)
+          .setPopup(popupEnd)
+          .addTo(this.map!);
+
+        this.startMarker = new mapboxgl.Marker({ color: 'orange' })
+          .setLngLat(start)
+          .setPopup(popupStart)
           .addTo(this.map!);
       })
       .catch((error) => {
@@ -217,14 +238,19 @@ export class MapComponent {
   }
 
   getRoute() {
-    this.addRoute(
-      [this.pickupCoordinateData.longitude, this.pickupCoordinateData.latitude],
-      [this.dropCoordinateData.longitude, this.dropCoordinateData.latitude]
-    );
+    if (this.pickupCoordinateData && this.dropCoordinateData) {
+      this.addRoute(
+        [
+          this.pickupCoordinateData.longitude,
+          this.pickupCoordinateData.latitude,
+        ],
+        [this.dropCoordinateData.longitude, this.dropCoordinateData.latitude]
+      );
+    }
   }
 
-  pickupCoordinateData: any = {};
-  dropCoordinateData: any = {};
+  pickupCoordinateData: any;
+  dropCoordinateData: any;
 
   getPickupCordinates(location: any) {
     this.mapService.getCordinates(location).subscribe({

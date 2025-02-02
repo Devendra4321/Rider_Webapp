@@ -15,18 +15,21 @@ module.exports.getFare = async (pickup, destination) => {
     auto: 30,
     car: 50,
     motorcycle: 20,
+    taxi: 55,
   };
 
   const perKmRate = {
     auto: 10,
     car: 15,
     motorcycle: 8,
+    taxi: 18,
   };
 
   const perMinuteRate = {
     auto: 2,
     car: 3,
     motorcycle: 1.5,
+    taxi: 5,
   };
 
   const fare = {
@@ -44,6 +47,11 @@ module.exports.getFare = async (pickup, destination) => {
       baseFare.motorcycle +
       perKmRate.motorcycle * distanceTime.distanceInKilometers +
       perMinuteRate.motorcycle * distanceTime.durationInMinutes
+    ).toFixed(2),
+    taxi: (
+      baseFare.taxi +
+      perKmRate.taxi * distanceTime.distanceInKilometers +
+      perMinuteRate.taxi * distanceTime.durationInMinutes
     ).toFixed(2),
   };
 

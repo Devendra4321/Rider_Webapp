@@ -17,6 +17,8 @@
                 class="form-control main-btn"
                 id="floatingInput"
                 placeholder="Enter pickup location"
+                [(ngModel)]="locationDetails.pickupLoc"
+                disabled
               />
               <label for="floatingInput">Pickup location</label>
             </div>
@@ -26,10 +28,12 @@
                 class="form-control main-btn"
                 id="floatingInput"
                 placeholder="Enter drop location"
+                [(ngModel)]="locationDetails.dropLoc"
+                disabled
               />
               <label for="floatingInput">Drop location</label>
             </div>
-            <button class="btn btn-dark form-control p-2 mb-2">Search</button>
+            <!-- <button class="btn btn-dark form-control p-2 mb-2">Search</button> -->
           </div>
         </div>
       </div>
@@ -41,7 +45,14 @@
           </div>
           <div class="choose-vehicle">
             <!-- first vehicle -->
-            <div class="card mb-3 vehicle-card" tabindex="0">
+            <div
+              class="card mb-3 vehicle-card"
+              tabindex="0"
+              [ngClass]="{
+                'vehicle-card-border': isMotercyclevehicleTypeClicked
+              }"
+              (click)="getVehicleDetails('motorcycle', true)"
+            >
               <div class="d-flex align-items-center">
                 <div>
                   <img
@@ -56,19 +67,26 @@
                   <div class="card-body p-0 me-lg-5 me-sm-5">
                     <h5 class="card-title fw-bold mb-0">2-Wheeler</h5>
                     <p class="card-text">
-                      Affordable compact rides <br />
+                      Fast convenient efficient <br />
                       <small class="text-body-secondary">7 mins away</small>
                     </p>
                   </div>
                   <div>
-                    <h5 class="card-title fw-bold ms-5 me-2">330.02</h5>
+                    <h5 class="card-title fw-bold ms-5 me-2">
+                      {{ vehiclePrices.motorcycle }}
+                    </h5>
                   </div>
                 </div>
               </div>
             </div>
 
             <!-- second vehicle -->
-            <div class="card mb-3 vehicle-card" tabindex="0">
+            <div
+              class="card mb-3 vehicle-card"
+              tabindex="0"
+              [ngClass]="{ 'vehicle-card-border': isAutovehicleTypeClicked }"
+              (click)="getVehicleDetails('auto', true)"
+            >
               <div class="d-flex align-items-center">
                 <div>
                   <img
@@ -83,19 +101,26 @@
                   <div class="card-body p-0 me-lg-5 me-sm-5">
                     <h5 class="card-title fw-bold mb-0">Auto</h5>
                     <p class="card-text">
-                      Affordable compact rides <br />
+                      Affordable reliable rides <br />
                       <small class="text-body-secondary">7 mins away</small>
                     </p>
                   </div>
                   <div>
-                    <h5 class="card-title fw-bold ms-5 me-2">330.02</h5>
+                    <h5 class="card-title fw-bold ms-5 me-2">
+                      {{ vehiclePrices.auto }}
+                    </h5>
                   </div>
                 </div>
               </div>
             </div>
 
             <!-- third vehicle -->
-            <div class="card mb-3 vehicle-card" tabindex="0">
+            <div
+              class="card mb-3 vehicle-card"
+              tabindex="0"
+              [ngClass]="{ 'vehicle-card-border': isCarvehicleTypeClicked }"
+              (click)="getVehicleDetails('car', true)"
+            >
               <div class="d-flex align-items-center">
                 <div>
                   <img
@@ -115,14 +140,21 @@
                     </p>
                   </div>
                   <div>
-                    <h5 class="card-title fw-bold ms-5 me-2">330.02</h5>
+                    <h5 class="card-title fw-bold ms-5 me-2">
+                      {{ vehiclePrices.car }}
+                    </h5>
                   </div>
                 </div>
               </div>
             </div>
 
             <!-- fourth vehicle -->
-            <div class="card mb-3 vehicle-card" tabindex="0">
+            <div
+              class="card mb-3 vehicle-card"
+              tabindex="0"
+              [ngClass]="{ 'vehicle-card-border': isTaxivehicleTypeClicked }"
+              (click)="getVehicleDetails('taxi', true)"
+            >
               <div class="d-flex align-items-center">
                 <div>
                   <img
@@ -135,14 +167,16 @@
                   class="d-flex justify-content-between align-items-center w-100"
                 >
                   <div class="card-body p-0 me-lg-5 me-sm-5">
-                    <h5 class="card-title fw-bold mb-0">4-Wheeler</h5>
+                    <h5 class="card-title fw-bold mb-0">Taxi</h5>
                     <p class="card-text">
-                      Affordable compact rides <br />
+                      Spacious comfortable rides <br />
                       <small class="text-body-secondary">7 mins away</small>
                     </p>
                   </div>
                   <div>
-                    <h5 class="card-title fw-bold ms-5 me-2">330.02</h5>
+                    <h5 class="card-title fw-bold ms-5 me-2">
+                      {{ vehiclePrices.taxi }}
+                    </h5>
                   </div>
                 </div>
               </div>
@@ -159,13 +193,17 @@
                 role="button"
                 tabindex="0"
               >
-                Cash
+                {{ rideDetails.paymentMethod }}
                 <i class="bi bi-chevron-down mx-2 mt-2"></i>
               </p>
             </div>
             <div>
-              <button class="btn" (click)="rideGeneratePopup()">
-                Request Car
+              <button
+                class="btn"
+                [disabled]="!rideDetails.vehicleType"
+                (click)="generateTrip()"
+              >
+                Request {{ rideDetails.vehicleType }}
               </button>
             </div>
           </div>
@@ -230,7 +268,9 @@
                 class="form-check-input custom-radio-btn"
                 name="payment-method"
                 id="cash"
+                value="cash"
                 checked
+                [(ngModel)]="rideDetails.paymentMethod"
               />
             </div>
           </div>
@@ -247,6 +287,8 @@
                 class="form-check-input custom-radio-btn"
                 name="payment-method"
                 id="online"
+                value="online"
+                [(ngModel)]="rideDetails.paymentMethod"
               />
             </div>
           </div>
