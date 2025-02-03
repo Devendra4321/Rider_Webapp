@@ -5,6 +5,9 @@ import { MapService } from '../../services/map/map.service';
 import { NgForm } from '@angular/forms';
 import { MapComponent } from '../../components/map/map.component';
 import { Router } from '@angular/router';
+import { RideSocketService } from '../../services/ride-socket/ride-socket.service';
+import { ProfileService } from '../../services/profile/profile.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-user-home',
@@ -12,7 +15,13 @@ import { Router } from '@angular/router';
   styleUrl: './user-home.component.css',
 })
 export class UserHomeComponent {
-  constructor(private mapService: MapService, private route: Router) {}
+  constructor(
+    private mapService: MapService,
+    private rideSocketService: RideSocketService,
+    private profileService: ProfileService,
+    private spinner: NgxSpinnerService,
+    private route: Router
+  ) {}
 
   @ViewChild(MapComponent) childComponent!: MapComponent;
 
@@ -20,6 +29,44 @@ export class UserHomeComponent {
     pickupLoc: '',
     dropLoc: '',
   };
+
+  userId = {};
+  ngOnInit() {
+    this.getUserDetails();
+  }
+
+  getUserDetails() {
+    this.spinner.show();
+
+    this.profileService.userProfile().subscribe({
+      next: (result: any) => {
+        if (result.statusCode == 200) {
+          this.spinner.hide();
+          console.log('Profile data', result);
+          this.userId = result.user._id;
+          this.userSocketJoin(this.userId, 'user');
+          // this.toaster.success(result.message);
+        }
+      },
+      error: (error) => {
+        console.log('Profile data error', error.error);
+
+        if (error.error.statusCode == 404) {
+          this.spinner.hide();
+          console.log(error.error.message);
+        } else {
+          console.log('Something went wrong');
+        }
+      },
+      complete: () => {
+        this.spinner.hide();
+      },
+    });
+  }
+
+  userSocketJoin(userId: any, userType: any) {
+    this.rideSocketService.joinRoom(userId, userType);
+  }
 
   suggestions = [];
   isSuggestionsPresent = true;

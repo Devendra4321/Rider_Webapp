@@ -39,6 +39,13 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { EmailVerificationComponent } from './pages/email-verification/email-verification.component';
 import { CaptainForgotPasswordComponent } from './pages/captain-forgot-password/captain-forgot-password.component';
+import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
+import { environment } from '../environment/environment';
+
+const config: SocketIoConfig = {
+  url: environment.SOCKET_URL,
+  options: {},
+};
 
 @NgModule({
   declarations: [
@@ -76,6 +83,7 @@ import { CaptainForgotPasswordComponent } from './pages/captain-forgot-password/
     CaptainForgotPasswordComponent,
   ],
   imports: [
+    SocketIoModule.forRoot(config),
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,

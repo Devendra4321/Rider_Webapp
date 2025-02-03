@@ -1,0 +1,13 @@
+import { Injectable } from '@angular/core';
+import { Socket } from 'ngx-socket-io';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class RideSocketService {
+  constructor(private socket: Socket) {}
+
+  joinRoom(userId: string, userType: string) {
+    this.socket.emit('join', { userId, userType });
+  }
+}

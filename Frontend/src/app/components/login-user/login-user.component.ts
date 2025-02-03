@@ -4,6 +4,7 @@ import { LoginService } from '../../services/login/login.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
+import { RideSocketService } from '../../services/ride-socket/ride-socket.service';
 
 @Component({
   selector: 'app-login-user',
@@ -13,6 +14,7 @@ import { Router } from '@angular/router';
 export class LoginUserComponent {
   constructor(
     private loginService: LoginService,
+    private rideSocketService: RideSocketService,
     private toaster: ToastrService,
     private spinner: NgxSpinnerService,
     private route: Router
@@ -117,7 +119,7 @@ export class LoginUserComponent {
               console.log('login data', result);
               localStorage.setItem('user-token', result.token);
               this.toaster.success(result.message);
-              this.route.navigate(['/user-home']);
+              this.userSocketJoin(result.user._id, 'user');
             }
           },
           error: (error: any) => {
@@ -133,6 +135,10 @@ export class LoginUserComponent {
           },
         });
     }
+  }
+
+  userSocketJoin(userId: any, userType: any) {
+    this.rideSocketService.joinRoom(userId, userType);
   }
 
   backToEmail() {
