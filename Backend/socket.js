@@ -27,6 +27,10 @@ function initializeSocket(server) {
       }
     });
 
+    socket.on("disconnect-captain", () => {
+      console.log(`Captain disconnected: ${socket.id}`);
+    });
+
     socket.on("update-location-captain", async (data) => {
       const { userId, location } = data;
 

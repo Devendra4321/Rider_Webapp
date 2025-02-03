@@ -4,6 +4,7 @@ import { CaptainLoginService } from '../../services/captain-login/captain-login.
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
+import { RideSocketService } from '../../services/ride-socket/ride-socket.service';
 
 @Component({
   selector: 'app-login-captain',
@@ -13,6 +14,7 @@ import { Router } from '@angular/router';
 export class LoginCaptainComponent {
   constructor(
     private captainLoginService: CaptainLoginService,
+    private rideSocketService: RideSocketService,
     private toaster: ToastrService,
     private spinner: NgxSpinnerService,
     private route: Router
@@ -115,6 +117,7 @@ export class LoginCaptainComponent {
               console.log('login data', result);
               localStorage.setItem('captain-token', result.token);
               this.toaster.success(result.message);
+              this.captainSocketJoin(result.captain._id, 'captain');
               this.route.navigate(['/captain-home']);
             }
           },
@@ -131,6 +134,10 @@ export class LoginCaptainComponent {
           },
         });
     }
+  }
+
+  captainSocketJoin(captainId: any, userType: any) {
+    this.rideSocketService.joinRoom(captainId, userType);
   }
 
   backToEmail() {

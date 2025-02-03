@@ -10,4 +10,12 @@ export class RideSocketService {
   joinRoom(userId: string, userType: string) {
     this.socket.emit('join', { userId, userType });
   }
+
+  offlineCaptain() {
+    this.socket.emit('disconnect-captain');
+  }
+
+  setCaptainCurrentLocation(userId: any, location: any) {
+    this.socket.emit('update-location-captain', { userId, location });
+  }
 }

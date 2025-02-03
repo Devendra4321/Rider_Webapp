@@ -35,28 +35,37 @@
           <div class="card-body">
             <div class="row">
               <div class="col-md-8">
-                <p class="card-title fs-3 fw-bold">Devendra Bhole</p>
+                <p class="card-title fs-3 fw-bold">
+                  {{ captainDetail.fullname?.firstname }}
+                  {{ captainDetail.fullname?.lastname }}
+                </p>
                 <p class="card-title fs-5 fw-semibold">
-                  Total earnings: 16546.26
+                  Total earnings: {{ captainDetail.totalEarning }}
                 </p>
                 <p class="card-text mb-0">
                   <small class="text-body-secondary fw-bold"
                     >Document verification:</small
                   ><i class="bi bi-dot"></i
-                  ><small class="text-body-secondary">Verified</small>
+                  ><small class="text-body-secondary">{{
+                    captainDetail.status == 3 ? "Verified" : "Not Verified"
+                  }}</small>
                 </p>
                 <p class="card-text mb-0">
                   <small class="text-body-secondary fw-bold"
                     >Email verification:</small
                   ><i class="bi bi-dot"></i
-                  ><small class="text-body-secondary">Verified</small>
+                  ><small class="text-body-secondary">{{
+                    captainDetail.isEmailVerified == true
+                      ? "Verified"
+                      : "Not Verified"
+                  }}</small>
                 </p>
                 <p class="card-text">
                   <small class="text-body-secondary fw-bold">Created on:</small
                   ><i class="bi bi-dot"></i
-                  ><small class="text-body-secondary"
-                    >1/6/2025, 5:27:14 PM</small
-                  >
+                  ><small class="text-body-secondary">{{
+                    captainDetail.createOn
+                  }}</small>
                 </p>
               </div>
               <div class="col-md-4">
@@ -85,25 +94,33 @@
                   <small class="text-body-secondary fw-bold"
                     >Vehicle type:</small
                   ><i class="bi bi-dot"></i
-                  ><small class="text-body-secondary">Car</small>
+                  ><small class="text-body-secondary">{{
+                    captainDetail.vehicle?.vehicleType
+                  }}</small>
                 </p>
                 <p class="card-text mb-0">
                   <small class="text-body-secondary fw-bold"
                     >Vehicle Number:</small
                   ><i class="bi bi-dot"></i
-                  ><small class="text-body-secondary">MH19AU2122</small>
+                  ><small class="text-body-secondary">{{
+                    captainDetail.vehicle?.plate
+                  }}</small>
                 </p>
                 <p class="card-text mb-0">
                   <small class="text-body-secondary fw-bold"
                     >Vehicle Capacity:</small
                   ><i class="bi bi-dot"></i
-                  ><small class="text-body-secondary">100 kg</small>
+                  ><small class="text-body-secondary">{{
+                    captainDetail.vehicle?.capacity
+                  }}</small>
                 </p>
                 <p class="card-text mb-0">
                   <small class="text-body-secondary fw-bold"
                     >Vehicle color:</small
                   ><i class="bi bi-dot"></i
-                  ><small class="text-body-secondary">Red</small>
+                  ><small class="text-body-secondary">{{
+                    captainDetail.vehicle?.color
+                  }}</small>
                 </p>
               </div>
             </div>
@@ -119,33 +136,41 @@
                   <small class="text-body-secondary fw-bold"
                     >Aadhar card front side:</small
                   ><i class="bi bi-dot"></i
-                  ><small class="text-body-secondary"
-                    ><i class="bi bi-check-circle-fill"></i
-                  ></small>
+                  ><small class="text-body-secondary">
+                    {{
+                      documentsAvailable?.aadharfront
+                        ? "Uploaded"
+                        : "Not Uploaded"
+                    }}
+                  </small>
                 </p>
                 <p class="card-text mb-0">
                   <small class="text-body-secondary fw-bold"
                     >Aadhar card back side:</small
                   ><i class="bi bi-dot"></i
-                  ><small class="text-body-secondary"
-                    ><i class="bi bi-check-circle-fill"></i
-                  ></small>
+                  ><small class="text-body-secondary">{{
+                    documentsAvailable?.aadharback ? "Uploaded" : "Not Uploaded"
+                  }}</small>
                 </p>
                 <p class="card-text mb-0">
                   <small class="text-body-secondary fw-bold"
                     >Driving license</small
                   ><i class="bi bi-dot"></i
-                  ><small class="text-body-secondary"
-                    ><i class="bi bi-check-circle-fill"></i
-                  ></small>
+                  ><small class="text-body-secondary">{{
+                    documentsAvailable?.drivinglicense
+                      ? "Uploaded"
+                      : "Not Uploaded"
+                  }}</small>
                 </p>
                 <p class="card-text mb-0">
                   <small class="text-body-secondary fw-bold"
                     >Register certificate</small
                   ><i class="bi bi-dot"></i
-                  ><small class="text-body-secondary"
-                    ><i class="bi bi-check-circle-fill"></i
-                  ></small>
+                  ><small class="text-body-secondary">
+                    {{
+                      documentsAvailable?.rc ? "Uploaded" : "Not Uploaded"
+                    }}</small
+                  >
                 </p>
               </div>
             </div>
