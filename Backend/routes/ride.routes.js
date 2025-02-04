@@ -20,7 +20,7 @@ router.post("/upadatePaymentStatus", rideController.upadatePaymentStatus);
 
 router.post("/paymentInit", rideController.paymentInit);
 
-router.get("/paymentVerify", rideController.paymentVerify);
+router.post("/paymentVerify", rideController.paymentVerify);
 
 router.post("/sendNotification", rideController.sendNotification);
 

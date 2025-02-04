@@ -39,6 +39,7 @@ module.exports.createRide = async (req, res, next) => {
       paymentDetails: {
         paymentMethod: paymentMethod,
       },
+      vehicleRequired: vehicleType,
       fare: fare[vehicleType], // minus 10% of fare
       captainFare: (fare[vehicleType] * 0.9).toFixed(2), // minus 10% of fare
     });
@@ -363,12 +364,18 @@ module.exports.sendNotification = async (req, res, next) => {
       3
     );
 
-    console.log(captainInRadius);
+    const captainInRadiusStatus = captainInRadius.filter(
+      (captain) =>
+        captain.status == 3 &&
+        ride.vehicleRequired == captain.vehicle.vehicleType
+    );
+
+    console.log(captainInRadiusStatus);
 
     ride.otp = "";
 
     //send ride to captain in radius
-    captainInRadius.map((captain) => {
+    captainInRadiusStatus.map((captain) => {
       sendMessageToSocketId(captain.socketId, {
         event: "new-ride",
         data: ride,
@@ -380,7 +387,7 @@ module.exports.sendNotification = async (req, res, next) => {
 };
 
 module.exports.upadatePaymentStatus = async (req, res, next) => {
-  const { rideId } = req.body;
+  const { rideId, paymentId } = req.body;
 
   if (!rideId) {
     return res.status(400).json({
@@ -404,6 +411,7 @@ module.exports.upadatePaymentStatus = async (req, res, next) => {
       {
         paymentDetails: {
           paymentMethod: ride.paymentDetails.paymentMethod,
+          paymentId: paymentId,
           status: 1,
         },
       },
@@ -455,7 +463,11 @@ module.exports.paymentInit = async (req, res, next) => {
       order,
     });
   } catch (error) {
-    res.status(500).json({ statusCode: 500, message: "Internal server error" });
+    res.status(500).json({
+      statusCode: 500,
+      message: "Internal server error",
+      error: error.error,
+    });
   }
 };
 

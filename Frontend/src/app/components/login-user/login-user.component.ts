@@ -120,6 +120,7 @@ export class LoginUserComponent {
               localStorage.setItem('user-token', result.token);
               this.toaster.success(result.message);
               this.userSocketJoin(result.user._id, 'user');
+              this.route.navigate(['/user-home']);
             }
           },
           error: (error: any) => {
