@@ -26,6 +26,14 @@ export class RideService {
     });
   }
 
+  acceptRide(data: any) {
+    const token = localStorage.getItem('captain-token');
+    const headers = { authorization: `Bearer ${token}` };
+    return this.http.post(environment.API_URL_Ride + 'confirm', data, {
+      headers,
+    });
+  }
+
   sendNotificationToCaptain(data: any) {
     return this.http.post(environment.API_URL_Ride + 'sendNotification', data);
   }

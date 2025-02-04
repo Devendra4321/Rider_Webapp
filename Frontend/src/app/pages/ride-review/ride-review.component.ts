@@ -8,6 +8,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { PaymentService } from '../../services/payment/payment.service';
 import { environment } from '../../../environment/environment';
+import { RideSocketService } from '../../services/ride-socket/ride-socket.service';
 declare var Razorpay: any;
 @Component({
   selector: 'app-ride-review',
@@ -18,6 +19,7 @@ export class RideReviewComponent {
   constructor(
     private rideService: RideService,
     private paymentService: PaymentService,
+    private rideSocketService: RideSocketService,
     private spinner: NgxSpinnerService,
     private toaster: ToastrService,
     private route: Router
@@ -116,14 +118,26 @@ export class RideReviewComponent {
   }
 
   rideAccepetedPopup() {
+    let timerInterval: any;
     Swal.fire({
       title: 'Ride Accepted by Captain!',
-      text: 'Your ride has been accepted by the captain. You will be notified when the captain arrives at your location.',
+      html: 'Your ride has been accepted by the captain. You will be notified when the captain arrives at your location.',
       icon: 'success',
-      confirmButtonText: 'View Details',
+      timer: 6000,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
       showCloseButton: true,
-      customClass: {
-        confirmButton: 'swal-confirm-btn',
+      didOpen: () => {
+        Swal.showLoading();
+        const timer = Swal.getPopup()?.querySelector('b');
+        timerInterval = setInterval(() => {
+          if (timer) {
+            timer.textContent = `${Swal.getTimerLeft()}`;
+          }
+        }, 100);
+      },
+      willClose: () => {
+        clearInterval(timerInterval);
       },
     });
   }
@@ -279,12 +293,19 @@ export class RideReviewComponent {
     }
   }
 
+  rideConfirmInterval: any;
+
   sendNotification(rideId: any) {
     this.rideService.sendNotificationToCaptain({ rideId: rideId }).subscribe({
       next: (result: any) => {
         if (result.statusCode == 200) {
           this.rideGeneratePopup();
           console.log('Send notification data', result);
+
+          this.rideConfirmInterval = setInterval(() => {
+            this.confirmRide();
+            console.log('confirm ride');
+          }, 2000);
         }
       },
       error: (error) => {
@@ -391,5 +412,15 @@ export class RideReviewComponent {
           this.spinner.hide();
         },
       });
+  }
+
+  confirmRide() {
+    this.rideSocketService.confirmedRide().subscribe((ride) => {
+      console.log('Ride Confirm Socket data', ride);
+      Swal.close();
+      this.rideAccepetedPopup();
+      clearInterval(this.rideConfirmInterval);
+      this.route.navigate([`/ride-ongoing/${ride._id}`]);
+    });
   }
 }

@@ -41,6 +41,7 @@ import { EmailVerificationComponent } from './pages/email-verification/email-ver
 import { CaptainForgotPasswordComponent } from './pages/captain-forgot-password/captain-forgot-password.component';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { environment } from '../environment/environment';
+import { RidePopupComponent } from './components/ride-popup/ride-popup.component';
 
 const config: SocketIoConfig = {
   url: environment.SOCKET_URL,
@@ -81,6 +82,7 @@ const config: SocketIoConfig = {
     WalletCaptainComponent,
     EmailVerificationComponent,
     CaptainForgotPasswordComponent,
+    RidePopupComponent,
   ],
   imports: [
     SocketIoModule.forRoot(config),

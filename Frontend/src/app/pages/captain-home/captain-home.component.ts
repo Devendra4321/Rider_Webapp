@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, viewChild } from '@angular/core';
 import Swal from 'sweetalert2';
 import { ProfileService } from '../../services/profile/profile.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { RideSocketService } from '../../services/ride-socket/ride-socket.service';
 import { ToastrService } from 'ngx-toastr';
+import { RidePopupComponent } from '../../components/ride-popup/ride-popup.component';
 
 @Component({
   selector: 'app-captain-home',
@@ -19,6 +20,8 @@ export class CaptainHomeComponent {
   ) {}
 
   isOnline: boolean = false;
+
+  @ViewChild(RidePopupComponent) ridePopupComponent!: RidePopupComponent;
 
   ngOnInit() {
     const savedState = localStorage.getItem('isOnline');
@@ -41,6 +44,7 @@ export class CaptainHomeComponent {
     if (this.isOnline) {
       this.captainSocketJoin(this.captainDetail._id, 'captain');
       this.getCurrentLocation();
+
       Swal.fire({
         title: 'Good job!',
         text: 'You are now Online',
@@ -54,6 +58,8 @@ export class CaptainHomeComponent {
     } else {
       this.offlineCaptain();
       clearInterval(this.intervalId);
+      // clearInterval(this.newRideInterval);
+
       Swal.fire({
         title: 'Ooops!',
         text: 'You are now Offline',
@@ -136,6 +142,7 @@ export class CaptainHomeComponent {
           console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
           this.intervalId = setInterval(() => {
             this.setCaptainCurrentLocation(latitude, longitude);
+            this.ridePopupComponent.getNewRideNotification();
           }, 2000);
         },
         (error) => {
@@ -165,6 +172,6 @@ export class CaptainHomeComponent {
     const userId = this.captainDetail._id;
     const location = { ltd: latitude, lng: longitude };
     this.rideSocketService.setCaptainCurrentLocation(userId, location);
-    console.log('Captain current location set');
+    console.log('Captain current location set', location);
   }
 }
