@@ -29,4 +29,8 @@ export class RideSocketService {
       .fromEvent<any>('ride-confirmed')
       .pipe(map((ride) => ride));
   }
+
+  startRide() {
+    return this.socket.fromEvent<any>('ride-started').pipe(map((ride) => ride));
+  }
 }

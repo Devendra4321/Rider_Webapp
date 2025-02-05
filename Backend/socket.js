@@ -62,4 +62,24 @@ const sendMessageToSocketId = (socketId, messageObject) => {
   }
 };
 
-module.exports = { initializeSocket, sendMessageToSocketId };
+const sendMessageToBothSocketId = (
+  userSocketId,
+  captainSocketId,
+  messageObject
+) => {
+  console.log("sendMessageBoth", messageObject);
+
+  if (io) {
+    io.to(userSocketId)
+      .to(captainSocketId)
+      .emit(messageObject.event, messageObject.data);
+  } else {
+    console.log("Socket.io not initialized.");
+  }
+};
+
+module.exports = {
+  initializeSocket,
+  sendMessageToSocketId,
+  sendMessageToBothSocketId,
+};

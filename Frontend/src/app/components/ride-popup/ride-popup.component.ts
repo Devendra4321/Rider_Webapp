@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import { RideService } from '../../services/ride/ride.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ride-popup',
@@ -15,7 +16,8 @@ export class RidePopupComponent {
     private rideSocketService: RideSocketService,
     private rideService: RideService,
     private spinner: NgxSpinnerService,
-    private toaster: ToastrService
+    private toaster: ToastrService,
+    private route: Router
   ) {}
 
   ngOnInit() {}
@@ -87,6 +89,7 @@ export class RidePopupComponent {
         if (result.statusCode == 200) {
           this.spinner.hide();
           console.log('Accept ride data', result);
+          this.route.navigate([`/captain-ride-ongoing/${rideId}`]);
         }
       },
       error: (error) => {

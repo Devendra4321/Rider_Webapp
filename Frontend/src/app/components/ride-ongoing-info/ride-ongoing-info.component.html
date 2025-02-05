@@ -5,40 +5,79 @@
       <div
         class="col-lg-5 col-md-10 offset-md-1 offset-lg-0 order-md-2 order-sm-2 order-2 mt-md-4 mt-lg-0 mt-3"
       >
-        <p class="fs-3 fw-bold">Ride is accepted by captain</p>
+        <p
+          class="fs-3 fw-bold text-center"
+          *ngIf="rideDetail.status == 'accepted'"
+        >
+          Ride Accepted By Captain
+        </p>
+        <p
+          class="fs-3 fw-bold text-center"
+          *ngIf="rideDetail.status == 'ongoing'"
+        >
+          Ride Started By Captain
+        </p>
+        <p
+          class="fs-3 fw-bold text-center"
+          *ngIf="rideDetail.status == 'completed'"
+        >
+          Ride Completed
+        </p>
+        <p
+          class="fs-3 fw-bold text-center"
+          *ngIf="rideDetail.status == 'cancelled'"
+        >
+          Ride Cancelled
+        </p>
 
         <div class="card my-3 order-md-1">
           <div class="card-body">
             <p class="fs-5 fw-bold">Ride details:</p>
             <p class="fs-6 fw-semibold">
-              Pickup location:
+              Ride owner:
               <span class="float-lg-end float-md-end float-sm-end fw-normal"
-                >Akurdi Railway Station, Akurdi, Pune</span
+                >{{ rideDetail.user?.fullname?.firstname }}
+                {{ rideDetail.user?.fullname?.lastname }}</span
               >
+            </p>
+            <p class="fs-6 fw-semibold">
+              Pickup location:
+              <span class="float-lg-end float-md-end float-sm-end fw-normal">{{
+                rideDetail.pickup
+              }}</span>
             </p>
             <p class="fs-6 fw-semibold">
               Drop location:
-              <span class="float-lg-end float-md-end float-sm-end fw-normal"
-                >Shivaji nagar, Pune</span
-              >
+              <span class="float-lg-end float-md-end float-sm-end fw-normal">{{
+                rideDetail.destination
+              }}</span>
             </p>
             <p class="fs-6 fw-semibold">
-              Distance:
-              <span class="float-lg-end float-md-end float-sm-end fw-normal"
-                >350 km</span
-              >
+              Vehicle:
+              <span class="float-lg-end float-md-end float-sm-end fw-normal">{{
+                rideDetail.vehicleRequired
+              }}</span>
             </p>
             <p class="fs-6 fw-semibold">
-              Estimated time:
-              <span class="float-lg-end float-md-end float-sm-end fw-normal"
-                >4 hours</span
-              >
+              Ride fare:
+              <span class="float-lg-end float-md-end float-sm-end fw-normal">{{
+                rideDetail.fare
+              }}</span>
             </p>
             <p class="fs-6 fw-semibold">
-              Estimated fare:
-              <span class="float-lg-end float-md-end float-sm-end fw-normal"
-                >Rs. 5000</span
-              >
+              Payment type:
+              <span class="float-lg-end float-md-end float-sm-end fw-normal">{{
+                rideDetail.paymentDetails?.paymentMethod
+              }}</span>
+            </p>
+            <p
+              class="fs-6 fw-semibold"
+              *ngIf="userType == 'captain' && rideDetail.status == 'accepted'"
+            >
+              Ride OTP:
+              <span class="float-lg-end float-md-end float-sm-end fw-normal">{{
+                rideDetail.otp
+              }}</span>
             </p>
           </div>
         </div>
@@ -49,29 +88,50 @@
             <p class="fs-6 fw-semibold">
               Name:
               <span class="float-lg-end float-md-end float-sm-end fw-normal"
-                >John Doe</span
+                >{{ rideDetail.captain?.fullname?.firstname }}
+                {{ rideDetail.captain?.fullname?.lastname }}</span
               >
             </p>
             <p class="fs-6 fw-semibold">
-              Phone:
-              <span class="float-lg-end float-md-end float-sm-end fw-normal"
-                >+923001234567</span
-              >
+              Email:
+              <span class="float-lg-end float-md-end float-sm-end fw-normal">{{
+                rideDetail.captain?.email
+              }}</span>
             </p>
             <p class="fs-6 fw-semibold">
               Vehicle:
-              <span class="float-lg-end float-md-end float-sm-end fw-normal"
-                >Toyota Corolla</span
-              >
+              <span class="float-lg-end float-md-end float-sm-end fw-normal">{{
+                rideDetail.captain?.vehicle?.vehicleType
+              }}</span>
+            </p>
+            <p class="fs-6 fw-semibold">
+              Vehicle number:
+              <span class="float-lg-end float-md-end float-sm-end fw-normal">{{
+                rideDetail.captain?.vehicle?.plate
+              }}</span>
             </p>
           </div>
         </div>
         <div>
           <button
+            *ngIf="userType == 'user' && rideDetail.status == 'accepted'"
             class="btn btn-dark w-100 mb-md-0 mb-lg-0"
             (click)="rideCancelledPopup()"
           >
             Cancel ride
+          </button>
+          <button
+            *ngIf="userType == 'captain' && rideDetail.status == 'accepted'"
+            class="btn btn-dark w-100 mb-md-0 mb-lg-0"
+            (click)="verifyOtp()"
+          >
+            Start ride
+          </button>
+          <button
+            *ngIf="userType == 'captain' && rideDetail.status == 'ongoing'"
+            class="btn btn-dark w-100 mb-md-0 mb-lg-0"
+          >
+            Complete ride
           </button>
         </div>
       </div>
@@ -79,7 +139,7 @@
         class="col-lg-7 col-md-10 offset-md-1 offset-lg-0 order-md-1 order-md-1 order-1"
       >
         <!-- <div id="map"></div> -->
-        <app-map [height]="'78vh'"></app-map>
+        <app-map [height]="'96vh'"></app-map>
       </div>
     </div>
   </div>

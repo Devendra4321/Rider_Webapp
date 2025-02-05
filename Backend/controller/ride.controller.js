@@ -1,7 +1,10 @@
 const rideService = require("../services/ride.service");
 const rideModel = require("../model/ride.model");
 const mapService = require("../services/map.service");
-const { sendMessageToSocketId } = require("../socket");
+const {
+  sendMessageToSocketId,
+  sendMessageToBothSocketId,
+} = require("../socket");
 const captainModel = require("../model/captain.model");
 const razorpay = require("../razorpay.config");
 const crypto = require("crypto");
@@ -114,7 +117,7 @@ module.exports.startRide = async (req, res, next) => {
   }
 
   try {
-    const ride = await rideModel
+    const exRide = await rideModel
       .findOne({
         _id: rideId,
       })
@@ -122,21 +125,21 @@ module.exports.startRide = async (req, res, next) => {
       .populate("captain")
       .select("+otp");
 
-    if (!ride) {
+    if (!exRide) {
       return res.status(400).json({
         statusCode: 400,
         message: "Ride not found",
       });
     }
 
-    if (ride.status !== "accepted") {
+    if (exRide.status !== "accepted") {
       return res.status(400).json({
         statusCode: 400,
         message: "Ride not accepted by any captain",
       });
     }
 
-    if (ride.otp !== otp) {
+    if (exRide.otp !== otp) {
       return res.status(400).json({
         statusCode: 400,
         message: "Invalid OTP",
@@ -152,8 +155,16 @@ module.exports.startRide = async (req, res, next) => {
       }
     );
 
-    // Send notification to user ride started
-    sendMessageToSocketId(ride.user.socketId, {
+    const ride = await rideModel
+      .findOne({
+        _id: rideId,
+      })
+      .populate("user")
+      .populate("captain")
+      .select("+otp");
+
+    // Send notification to user and captain ride started
+    sendMessageToBothSocketId(ride.user.socketId, ride.captain.socketId, {
       event: "ride-started",
       data: ride,
     });
@@ -521,6 +532,7 @@ module.exports.getRideById = async (req, res, next) => {
   try {
     const ride = await rideModel
       .findById(id)
+      .select("+otp")
       .populate("user")
       .populate("captain");
 
