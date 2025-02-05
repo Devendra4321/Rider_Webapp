@@ -116,7 +116,7 @@
           <button
             *ngIf="userType == 'user' && rideDetail.status == 'accepted'"
             class="btn btn-dark w-100 mb-md-0 mb-lg-0"
-            (click)="rideCancelledPopup()"
+            (click)="rideCancelledConfirmPopup()"
           >
             Cancel ride
           </button>
@@ -130,6 +130,7 @@
           <button
             *ngIf="userType == 'captain' && rideDetail.status == 'ongoing'"
             class="btn btn-dark w-100 mb-md-0 mb-lg-0"
+            (click)="completeRide(rideDetail._id)"
           >
             Complete ride
           </button>

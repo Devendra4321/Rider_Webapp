@@ -239,8 +239,8 @@ module.exports.endRide = async (req, res, next) => {
       .populate("user")
       .populate("captain");
 
-    // Send notification to user ride completed
-    sendMessageToSocketId(ride.user.socketId, {
+    // Send notification to user and captain ride completed
+    sendMessageToBothSocketId(ride.user.socketId, ride.captain.socketId, {
       event: "ride-ended",
       data: ride,
     });
@@ -316,8 +316,8 @@ module.exports.cancelUserRide = async (req, res, next) => {
       }
     );
 
-    // Send notification to captain to ride cancelled
-    sendMessageToSocketId(ride.user.socketId, {
+    // Send notification to user and captain to ride cancelled
+    sendMessageToBothSocketId(ride.user.socketId, ride.captain.socketId, {
       event: "ride-user-cancelled",
       data: ride,
     });

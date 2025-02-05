@@ -42,6 +42,22 @@ export class RideService {
     });
   }
 
+  endRide(data: any) {
+    const token = localStorage.getItem('captain-token');
+    const headers = { authorization: `Bearer ${token}` };
+    return this.http.post(environment.API_URL_Ride + 'endRide', data, {
+      headers,
+    });
+  }
+
+  cancelUserRide(data: any) {
+    const token = localStorage.getItem('captain-token');
+    const headers = { authorization: `Bearer ${token}` };
+    return this.http.post(environment.API_URL_Ride + 'cancelUserRide', data, {
+      headers,
+    });
+  }
+
   sendNotificationToCaptain(data: any) {
     return this.http.post(environment.API_URL_Ride + 'sendNotification', data);
   }

@@ -33,4 +33,14 @@ export class RideSocketService {
   startRide() {
     return this.socket.fromEvent<any>('ride-started').pipe(map((ride) => ride));
   }
+
+  endRide() {
+    return this.socket.fromEvent<any>('ride-ended').pipe(map((ride) => ride));
+  }
+
+  cancelUserRide() {
+    return this.socket
+      .fromEvent<any>('ride-user-cancelled')
+      .pipe(map((ride) => ride));
+  }
 }

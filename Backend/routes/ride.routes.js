@@ -12,7 +12,7 @@ router.post("/endRide", authMiddelware.authCaptain, rideController.endRide);
 
 router.post(
   "/cancelUserRide",
-  authMiddelware.authCaptain,
+  authMiddelware.authUser,
   rideController.cancelUserRide
 );
 
