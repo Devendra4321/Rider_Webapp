@@ -182,6 +182,10 @@ export class RideOngoingInfoComponent {
         if (result.statusCode == 200) {
           this.spinner.hide();
           console.log('Ride complete data', result);
+
+          if (this.rideDetail.paymentDetails.paymentMethod == 'cash') {
+            this.upadatePaymentStatus();
+          }
         }
       },
       error: (error) => {
@@ -260,6 +264,37 @@ export class RideOngoingInfoComponent {
     ) {
       clearInterval(this.rideCancelledInterval);
     }
+  }
+
+  upadatePaymentStatus() {
+    this.spinner.show();
+
+    this.rideService
+      .upadatePaymentStatusAndId({
+        rideId: this.rideId,
+        paymentId: '',
+      })
+      .subscribe({
+        next: (result: any) => {
+          if (result.statusCode == 200) {
+            this.spinner.hide();
+            console.log('Updatepaymentstatus data', result);
+          }
+        },
+        error: (error) => {
+          console.log('Updatepaymentstatus data', error.error);
+
+          if (error.error.statusCode == 400 || error.error.statusCode == 500) {
+            this.spinner.hide();
+            this.toaster.error(error.error.message);
+          } else {
+            this.toaster.error('Something went wrong');
+          }
+        },
+        complete: () => {
+          this.spinner.hide();
+        },
+      });
   }
 
   //poup messages

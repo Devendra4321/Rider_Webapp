@@ -347,12 +347,12 @@ export class RideReviewComponent {
             this.paymentVerification(response);
           },
           prefill: {
-            name: 'User Name',
-            email: 'user@example.com',
-            contact: '9876543210',
+            name: `${this.userdetails.fullname.firstname} ${this.userdetails.fullname.lastname}`,
+            email: this.userdetails.email,
+            contact: '8568547585',
           },
           theme: {
-            color: '#F37254',
+            color: 'black',
           },
         };
 
@@ -427,6 +427,7 @@ export class RideReviewComponent {
     });
   }
 
+  userdetails: any = {};
   getUserDetails() {
     this.spinner.show();
 
@@ -436,6 +437,7 @@ export class RideReviewComponent {
           this.spinner.hide();
           console.log('Profile data', result);
           this.userSocketJoin(result.user._id, 'user');
+          this.userdetails = result.user;
           // this.toaster.success(result.message);
         }
       },
