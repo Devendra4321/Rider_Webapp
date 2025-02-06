@@ -19,27 +19,32 @@ export class CaptainHomeComponent {
     private toaster: ToastrService
   ) {}
 
-  isOnline: boolean = false;
+  isOnline: boolean | undefined;
 
   @ViewChild(RidePopupComponent) ridePopupComponent!: RidePopupComponent;
 
   ngOnInit() {
-    const savedState = localStorage.getItem('isOnline');
-    if (savedState !== null) {
-      this.isOnline = JSON.parse(savedState);
-    }
+    // const savedState = localStorage.getItem('isOnline');
+    // if (savedState !== null) {
+    //   this.isOnline = JSON.parse(savedState);
+    // }
 
     this.captainProfile();
 
-    if (this.isOnline) {
-      this.captainSocketJoin(this.captainDetail._id, 'captain');
-      this.getCurrentLocation();
-    }
+    // if (this.isOnline) {
+    //   this.captainSocketJoin(this.captainDetail._id, 'captain');
+    //   this.getCurrentLocation();
+    // }
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.intervalId);
   }
 
   toggleCaptainStatus() {
     this.isOnline = !this.isOnline;
-    localStorage.setItem('isOnline', JSON.stringify(this.isOnline));
+    // localStorage.setItem('isOnline', JSON.stringify(this.isOnline));
+    this.setOnlineStatus(this.isOnline);
 
     if (this.isOnline) {
       this.captainSocketJoin(this.captainDetail._id, 'captain');
@@ -87,14 +92,22 @@ export class CaptainHomeComponent {
           this.captainDetail = result.captain;
           this.documentsAvailable = {
             aadharfront:
-              typeof this.captainDetail.documents.aadharfront !== 'undefined',
+              typeof this.captainDetail.documents?.aadharfront !== 'undefined',
             aadharback:
-              typeof this.captainDetail.documents.aadharback !== 'undefined',
+              typeof this.captainDetail.documents?.aadharback !== 'undefined',
             drivinglicense:
-              typeof this.captainDetail.documents.drivinglicense !==
+              typeof this.captainDetail.documents?.drivinglicense !==
               'undefined',
-            rc: typeof this.captainDetail.documents.rc !== 'undefined',
+            rc: typeof this.captainDetail.documents?.rc !== 'undefined',
           };
+          this.isOnline = result.captain.isOnline;
+
+          // console.log(this.isOnline);
+
+          if (this.isOnline) {
+            this.captainSocketJoin(this.captainDetail._id, 'captain');
+            this.getCurrentLocation();
+          }
 
           // this.toaster.success(result.message);
         }
@@ -143,7 +156,7 @@ export class CaptainHomeComponent {
           this.intervalId = setInterval(() => {
             this.setCaptainCurrentLocation(latitude, longitude);
             this.ridePopupComponent.getNewRideNotification();
-          }, 2000);
+          }, 1000);
         },
         (error) => {
           switch (error.code) {
@@ -173,5 +186,31 @@ export class CaptainHomeComponent {
     const location = { ltd: latitude, lng: longitude };
     this.rideSocketService.setCaptainCurrentLocation(userId, location);
     console.log('Captain current location set', location);
+  }
+
+  setOnlineStatus(status: any) {
+    this.spinner.show();
+
+    this.profileService.setCaptainOnlineStatus({ isOnline: status }).subscribe({
+      next: (result: any) => {
+        if (result.statusCode == 200) {
+          this.spinner.hide();
+          console.log('Set online status data', result);
+        }
+      },
+      error: (error) => {
+        console.log('Set online status data error', error.error);
+
+        if (error.error.statusCode == 400 || error.error.statusCode == 500) {
+          this.spinner.hide();
+          this.toaster.error(error.error.message);
+        } else {
+          this.toaster.error('Something went wrong');
+        }
+      },
+      complete: () => {
+        this.spinner.hide();
+      },
+    });
   }
 }

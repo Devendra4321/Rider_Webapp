@@ -61,48 +61,59 @@ module.exports.createRide = async (req, res, next) => {
 
 module.exports.confirm = async (req, res, next) => {
   const { rideId } = req.body;
+  const id = req.captain._id;
 
   if (!rideId) {
-    res.status(400).json({
+    return res.status(400).json({
       statusCode: 400,
       message: "Ride id required",
     });
   }
 
   try {
+    const oldRide = await rideModel.findOne({ _id: rideId });
+
+    if (oldRide && oldRide.status == "accepted") {
+      return res.status(400).json({
+        statusCode: 400,
+        message: "Ride is already accepted by another captain",
+      });
+    }
+
     const rideAcceptStatus = await rideModel.findOneAndUpdate(
       { _id: rideId },
-      { status: "accepted", captain: req.captain._id }
+      { status: "accepted", captain: id }
     );
 
     const ride = await rideModel
-      .findOne({
-        _id: rideId,
-      })
+      .findOne({ _id: rideId })
       .populate("user")
       .populate("captain")
       .select("+otp");
 
     if (!ride) {
-      res.status(400).json({
+      return res.status(400).json({
         statusCode: 400,
         message: "Ride not found",
       });
     }
 
-    //send notification to user ride accepted
+    // Send notification to user about ride acceptance
     sendMessageToSocketId(ride.user.socketId, {
       event: "ride-confirmed",
       data: ride,
     });
 
-    res.status(200).json({
+    return res.status(200).json({
       statusCode: 200,
       message: "Ride accepted by captain",
       ride: ride,
     });
   } catch (error) {
-    res.status(500).json({ statusCode: 500, message: "Internal server error" });
+    return res.status(500).json({
+      statusCode: 500,
+      message: "Internal server error",
+    });
   }
 };
 
@@ -378,6 +389,7 @@ module.exports.sendNotification = async (req, res, next) => {
     const captainInRadiusStatus = captainInRadius.filter(
       (captain) =>
         captain.status == 3 &&
+        captain.isOnline == true &&
         ride.vehicleRequired == captain.vehicle.vehicleType
     );
 

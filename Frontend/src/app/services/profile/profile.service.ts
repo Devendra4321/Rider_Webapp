@@ -25,4 +25,16 @@ export class ProfileService {
       headers,
     });
   }
+
+  setCaptainOnlineStatus(data: any) {
+    const token = localStorage.getItem('captain-token');
+    const headers = { Authorization: `Bearer ${token}` };
+    return this.http.post(
+      environment.API_URL_CAPTAIN + 'updateOnlineStatus',
+      data,
+      {
+        headers,
+      }
+    );
+  }
 }

@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { PaymentService } from '../../services/payment/payment.service';
 import { environment } from '../../../environment/environment';
 import { RideSocketService } from '../../services/ride-socket/ride-socket.service';
+import { ProfileService } from '../../services/profile/profile.service';
 declare var Razorpay: any;
 @Component({
   selector: 'app-ride-review',
@@ -20,6 +21,7 @@ export class RideReviewComponent {
     private rideService: RideService,
     private paymentService: PaymentService,
     private rideSocketService: RideSocketService,
+    private profileService: ProfileService,
     private spinner: NgxSpinnerService,
     private toaster: ToastrService,
     private route: Router
@@ -33,6 +35,8 @@ export class RideReviewComponent {
   }
 
   ngOnInit() {
+    this.getUserDetails();
+
     const script = document.createElement('script');
     script.src = 'https://checkout.razorpay.com/v1/checkout.js';
     script.defer = true;
@@ -93,17 +97,17 @@ export class RideReviewComponent {
     }).then((result) => {
       if (result.dismiss === Swal.DismissReason.timer) {
         console.log('Ride request timed out.');
-        this.showRegeneratePopup();
+        this.showRideNotAcceptPopup();
       }
     });
   }
 
-  showRegeneratePopup() {
+  showRideNotAcceptPopup() {
     Swal.fire({
-      title: 'Ride Generated!',
-      text: 'Do you want to regenerate the ride request?',
+      title: 'Ride Not Accepted!',
+      text: 'Ride is not accepted by any captain',
       icon: 'warning',
-      confirmButtonText: 'Regenerate',
+      confirmButtonText: 'Ok',
       allowOutsideClick: false,
       allowEscapeKey: false,
       showCloseButton: true,
@@ -112,7 +116,6 @@ export class RideReviewComponent {
       },
     }).then((result) => {
       if (result.isConfirmed) {
-        this.rideGeneratePopup();
       }
     });
   }
@@ -422,5 +425,37 @@ export class RideReviewComponent {
       clearInterval(this.rideConfirmInterval);
       this.route.navigate([`/ride-ongoing/${ride._id}`]);
     });
+  }
+
+  getUserDetails() {
+    this.spinner.show();
+
+    this.profileService.userProfile().subscribe({
+      next: (result: any) => {
+        if (result.statusCode == 200) {
+          this.spinner.hide();
+          console.log('Profile data', result);
+          this.userSocketJoin(result.user._id, 'user');
+          // this.toaster.success(result.message);
+        }
+      },
+      error: (error) => {
+        console.log('Profile data error', error.error);
+
+        if (error.error.statusCode == 404) {
+          this.spinner.hide();
+          console.log(error.error.message);
+        } else {
+          console.log('Something went wrong');
+        }
+      },
+      complete: () => {
+        this.spinner.hide();
+      },
+    });
+  }
+
+  userSocketJoin(userId: any, userType: any) {
+    this.rideSocketService.joinRoom(userId, userType);
   }
 }

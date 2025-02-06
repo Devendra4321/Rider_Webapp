@@ -42,6 +42,10 @@ const captainSchema = new mongoose.Schema({
     enum: [0, 1, 2, 3], // 0: pending, 1: inprogress, 2: approved, 3: reject
     default: 0,
   },
+  isOnline: {
+    type: Boolean,
+    default: false,
+  },
   vehicle: {
     color: {
       type: String,

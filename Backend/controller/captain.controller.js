@@ -419,3 +419,34 @@ module.exports.updateCaptainEarning = async (req, res, next) => {
   );
   res.json({ ride });
 };
+
+module.exports.updateOnlineStatus = async (req, res, next) => {
+  const { isOnline } = req.body;
+
+  try {
+    const captain = await captainModel.findById(req.captain.id);
+
+    if (!captain) {
+      return res.status(400).json({
+        statusCode: 400,
+        message: "Captain not found",
+      });
+    }
+
+    captain.isOnline = isOnline;
+    await captain.save();
+
+    res.status(200).json({
+      statusCode: 200,
+      message: "Captain status updated",
+      isOnline: captain.isOnline,
+    });
+  } catch (error) {
+    console.log(error.message);
+
+    return res.status(500).json({
+      statusCode: 500,
+      message: "Internal server error",
+    });
+  }
+};

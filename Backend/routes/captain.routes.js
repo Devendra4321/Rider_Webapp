@@ -46,4 +46,10 @@ router.get(
   captainController.updateCaptainEarning
 );
 
+router.post(
+  "/updateOnlineStatus",
+  authMiddleware.authCaptain,
+  captainController.updateOnlineStatus
+);
+
 module.exports = router;
