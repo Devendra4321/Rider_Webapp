@@ -8,6 +8,7 @@ const {
 const captainModel = require("../model/captain.model");
 const razorpay = require("../razorpay.config");
 const crypto = require("crypto");
+const transporter = require("../mail.config");
 
 module.exports.createRide = async (req, res, next) => {
   const { pickup, destination, vehicleType, paymentMethod } = req.body;
@@ -48,6 +49,46 @@ module.exports.createRide = async (req, res, next) => {
     });
 
     await ride.save();
+
+    await transporter.sendMail({
+      from: process.env.FROM_EMAIL,
+      to: req.user.email,
+      subject: "Rider app Ride Created Successfully",
+      html: `
+<div style="font-family: 'Arial', sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #ffffff; border: 1px solid #ddd; border-radius: 8px;">
+  <h1 style="text-align: center; color: #333;">Welcome to <span style="color: #4CAF50;">Rider App</span></h1>
+  <p style="font-size: 16px; color: #555;">Hello <strong>${
+    req.user.fullname.firstname
+  }</strong>,</p>
+  <p style="font-size: 16px; color: #555;">You have successfully generated a ride. Below are your ride details:</p>
+  <div style="background-color: #f1f1f1; padding: 15px; border-radius: 5px; margin: 20px 0;">
+    <p style="font-size: 16px; color: #555;"><strong>Ride ID:</strong> ${
+      ride.id
+    }</p>
+    <p style="font-size: 16px; color: #555;"><strong>Pickup Location:</strong> ${
+      ride.pickup
+    }</p>
+    <p style="font-size: 16px; color: #555;"><strong>Drop Location:</strong> ${
+      ride.destination
+    }</p>
+    <p style="font-size: 16px; color: #555;"><strong>Estimated Fare:</strong> ${
+      ride.fare
+    }</p>
+  </div>
+  <p style="font-size: 14px; color: #666;">If you need any modifications or assistance, please reach out to our support team.</p>
+  <p style="font-size: 14px; color: #666; text-align: center;">
+    Need help? Contact us at <a href="mailto:support@riderapp.com" style="color: #007BFF; text-decoration: none;">support@riderapp.com</a>
+  </p>
+  <footer style="font-size: 12px; color: #999; text-align: center; margin-top: 30px;">
+    <p style="margin: 0;">&copy; ${new Date().getFullYear()} Rider App. All rights reserved.</p>
+    <p style="margin: 0;">
+      <a href="#" style="color: #007BFF; text-decoration: none;">Terms of Service</a> |
+      <a href="#" style="color: #007BFF; text-decoration: none;">Privacy Policy</a>
+    </p>
+  </footer>
+</div>
+      `,
+    });
 
     res.status(201).json({
       statusCode: 201,
@@ -97,6 +138,55 @@ module.exports.confirm = async (req, res, next) => {
         message: "Ride not found",
       });
     }
+
+    await transporter.sendMail({
+      from: process.env.FROM_EMAIL,
+      to: ride.user.email,
+      subject: "Rider app Ride Accepted By Captain Successfully",
+      html: `
+<div style="font-family: 'Arial', sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #ffffff; border: 1px solid #ddd; border-radius: 8px;">
+  <h1 style="text-align: center; color: #333;">Welcome to <span style="color: #4CAF50;">Rider App</span></h1>
+  <p style="font-size: 16px; color: #555;">Hello <strong>${
+    ride.user.fullname.firstname
+  }</strong>,</p>
+  <p style="font-size: 16px; color: #555;">Your ride has been confirmed! Below are your ride details:</p>
+  <div style="background-color: #f1f1f1; padding: 15px; border-radius: 5px; margin: 20px 0;">
+    <p style="font-size: 16px; color: #555;"><strong>Ride ID:</strong> ${
+      ride.id
+    }</p>
+    <p style="font-size: 16px; color: #555;"><strong>Pickup Location:</strong> ${
+      ride.pickup
+    }</p>
+    <p style="font-size: 16px; color: #555;"><strong>Drop-off Location:</strong> ${
+      ride.destination
+    }</p>
+    <p style="font-size: 16px; color: #555;"><strong>Estimated Fare:</strong> ${
+      ride.fare
+    }</p>
+  </div>
+  <p style="font-size: 16px; color: #555;">Your assigned captain details:</p>
+  <div style="background-color: #f1f1f1; padding: 15px; border-radius: 5px; margin: 20px 0;">
+    <p style="font-size: 16px; color: #555;"><strong>Captain Name:</strong> ${
+      req.captain.fullname.firstname
+    } ${req.captain.fullname.lastname}</p>
+    <p style="font-size: 16px; color: #555;"><strong>Vehicle Number:</strong> ${
+      req.captain.vehicle.plate
+    }</p>
+  </div>
+  <p style="font-size: 14px; color: #666;">If you need any modifications or assistance, please reach out to our support team.</p>
+  <p style="font-size: 14px; color: #666; text-align: center;">
+    Need help? Contact us at <a href="mailto:support@riderapp.com" style="color: #007BFF; text-decoration: none;">support@riderapp.com</a>
+  </p>
+  <footer style="font-size: 12px; color: #999; text-align: center; margin-top: 30px;">
+    <p style="margin: 0;">&copy; ${new Date().getFullYear()} Rider App. All rights reserved.</p>
+    <p style="margin: 0;">
+      <a href="#" style="color: #007BFF; text-decoration: none;">Terms of Service</a> |
+      <a href="#" style="color: #007BFF; text-decoration: none;">Privacy Policy</a>
+    </p>
+  </footer>
+</div>
+      `,
+    });
 
     // Send notification to user about ride acceptance
     sendMessageToSocketId(ride.user.socketId, {
@@ -174,6 +264,55 @@ module.exports.startRide = async (req, res, next) => {
       .populate("captain")
       .select("+otp");
 
+    await transporter.sendMail({
+      from: process.env.FROM_EMAIL,
+      to: ride.user.email,
+      subject: "Rider app Ride Started Successfully",
+      html: `
+  <div style="font-family: 'Arial', sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #ffffff; border: 1px solid #ddd; border-radius: 8px;">
+    <h1 style="text-align: center; color: #333;">Welcome to <span style="color: #4CAF50;">Rider App</span></h1>
+    <p style="font-size: 16px; color: #555;">Hello <strong>${
+      ride.user.fullname.firstname
+    }</strong>,</p>
+    <p style="font-size: 16px; color: #555;">Your ride has been started! Below are your ride details:</p>
+    <div style="background-color: #f1f1f1; padding: 15px; border-radius: 5px; margin: 20px 0;">
+      <p style="font-size: 16px; color: #555;"><strong>Ride ID:</strong> ${
+        ride.id
+      }</p>
+      <p style="font-size: 16px; color: #555;"><strong>Pickup Location:</strong> ${
+        ride.pickup
+      }</p>
+      <p style="font-size: 16px; color: #555;"><strong>Drop-off Location:</strong> ${
+        ride.destination
+      }</p>
+      <p style="font-size: 16px; color: #555;"><strong>Estimated Fare:</strong> ${
+        ride.fare
+      }</p>
+    </div>
+    <p style="font-size: 16px; color: #555;">Your assigned captain details:</p>
+    <div style="background-color: #f1f1f1; padding: 15px; border-radius: 5px; margin: 20px 0;">
+      <p style="font-size: 16px; color: #555;"><strong>Captain Name:</strong> ${
+        ride.captain.fullname.firstname
+      } ${ride.captain.fullname.lastname}</p>
+      <p style="font-size: 16px; color: #555;"><strong>Vehicle Number:</strong> ${
+        ride.captain.vehicle.plate
+      }</p>
+    </div>
+    <p style="font-size: 14px; color: #666;">If you need any modifications or assistance, please reach out to our support team.</p>
+    <p style="font-size: 14px; color: #666; text-align: center;">
+      Need help? Contact us at <a href="mailto:support@riderapp.com" style="color: #007BFF; text-decoration: none;">support@riderapp.com</a>
+    </p>
+    <footer style="font-size: 12px; color: #999; text-align: center; margin-top: 30px;">
+      <p style="margin: 0;">&copy; ${new Date().getFullYear()} Rider App. All rights reserved.</p>
+      <p style="margin: 0;">
+        <a href="#" style="color: #007BFF; text-decoration: none;">Terms of Service</a> |
+        <a href="#" style="color: #007BFF; text-decoration: none;">Privacy Policy</a>
+      </p>
+    </footer>
+  </div>
+        `,
+    });
+
     // Send notification to user and captain ride started
     sendMessageToBothSocketId(ride.user.socketId, ride.captain.socketId, {
       event: "ride-started",
@@ -249,6 +388,55 @@ module.exports.endRide = async (req, res, next) => {
       })
       .populate("user")
       .populate("captain");
+
+    await transporter.sendMail({
+      from: process.env.FROM_EMAIL,
+      to: ride.user.email,
+      subject: "Rider app Ride Completed Successfully",
+      html: `
+    <div style="font-family: 'Arial', sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #ffffff; border: 1px solid #ddd; border-radius: 8px;">
+      <h1 style="text-align: center; color: #333;">Welcome to <span style="color: #4CAF50;">Rider App</span></h1>
+      <p style="font-size: 16px; color: #555;">Hello <strong>${
+        ride.user.fullname.firstname
+      }</strong>,</p>
+      <p style="font-size: 16px; color: #555;">Your ride has been completed! Below are your ride details:</p>
+      <div style="background-color: #f1f1f1; padding: 15px; border-radius: 5px; margin: 20px 0;">
+        <p style="font-size: 16px; color: #555;"><strong>Ride ID:</strong> ${
+          ride.id
+        }</p>
+        <p style="font-size: 16px; color: #555;"><strong>Pickup Location:</strong> ${
+          ride.pickup
+        }</p>
+        <p style="font-size: 16px; color: #555;"><strong>Drop-off Location:</strong> ${
+          ride.destination
+        }</p>
+        <p style="font-size: 16px; color: #555;"><strong>Estimated Fare:</strong> ${
+          ride.fare
+        }</p>
+      </div>
+      <p style="font-size: 16px; color: #555;">Your assigned captain details:</p>
+      <div style="background-color: #f1f1f1; padding: 15px; border-radius: 5px; margin: 20px 0;">
+        <p style="font-size: 16px; color: #555;"><strong>Captain Name:</strong> ${
+          ride.captain.fullname.firstname
+        } ${ride.captain.fullname.lastname}</p>
+        <p style="font-size: 16px; color: #555;"><strong>Vehicle Number:</strong> ${
+          ride.captain.vehicle.plate
+        }</p>
+      </div>
+      <p style="font-size: 14px; color: #666;">If you need any modifications or assistance, please reach out to our support team.</p>
+      <p style="font-size: 14px; color: #666; text-align: center;">
+        Need help? Contact us at <a href="mailto:support@riderapp.com" style="color: #007BFF; text-decoration: none;">support@riderapp.com</a>
+      </p>
+      <footer style="font-size: 12px; color: #999; text-align: center; margin-top: 30px;">
+        <p style="margin: 0;">&copy; ${new Date().getFullYear()} Rider App. All rights reserved.</p>
+        <p style="margin: 0;">
+          <a href="#" style="color: #007BFF; text-decoration: none;">Terms of Service</a> |
+          <a href="#" style="color: #007BFF; text-decoration: none;">Privacy Policy</a>
+        </p>
+      </footer>
+    </div>
+          `,
+    });
 
     // Send notification to user and captain ride completed
     sendMessageToBothSocketId(ride.user.socketId, ride.captain.socketId, {
@@ -326,6 +514,55 @@ module.exports.cancelUserRide = async (req, res, next) => {
         status: "cancelled",
       }
     );
+
+    await transporter.sendMail({
+      from: process.env.FROM_EMAIL,
+      to: ride.user.email,
+      subject: "Rider app Ride Cancelled By User Successfully",
+      html: `
+    <div style="font-family: 'Arial', sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #ffffff; border: 1px solid #ddd; border-radius: 8px;">
+      <h1 style="text-align: center; color: #333;">Welcome to <span style="color: #4CAF50;">Rider App</span></h1>
+      <p style="font-size: 16px; color: #555;">Hello <strong>${
+        ride.user.fullname.firstname
+      }</strong>,</p>
+      <p style="font-size: 16px; color: #555;">Your ride has been cancelled! Below are your ride details:</p>
+      <div style="background-color: #f1f1f1; padding: 15px; border-radius: 5px; margin: 20px 0;">
+        <p style="font-size: 16px; color: #555;"><strong>Ride ID:</strong> ${
+          ride.id
+        }</p>
+        <p style="font-size: 16px; color: #555;"><strong>Pickup Location:</strong> ${
+          ride.pickup
+        }</p>
+        <p style="font-size: 16px; color: #555;"><strong>Drop-off Location:</strong> ${
+          ride.destination
+        }</p>
+        <p style="font-size: 16px; color: #555;"><strong>Estimated Fare:</strong> ${
+          ride.fare
+        }</p>
+      </div>
+      <p style="font-size: 16px; color: #555;">Your assigned captain details:</p>
+      <div style="background-color: #f1f1f1; padding: 15px; border-radius: 5px; margin: 20px 0;">
+        <p style="font-size: 16px; color: #555;"><strong>Captain Name:</strong> ${
+          ride.captain.fullname.firstname
+        } ${ride.captain.fullname.lastname}</p>
+        <p style="font-size: 16px; color: #555;"><strong>Vehicle Number:</strong> ${
+          ride.captain.vehicle.plate
+        }</p>
+      </div>
+      <p style="font-size: 14px; color: #666;">If you need any modifications or assistance, please reach out to our support team.</p>
+      <p style="font-size: 14px; color: #666; text-align: center;">
+        Need help? Contact us at <a href="mailto:support@riderapp.com" style="color: #007BFF; text-decoration: none;">support@riderapp.com</a>
+      </p>
+      <footer style="font-size: 12px; color: #999; text-align: center; margin-top: 30px;">
+        <p style="margin: 0;">&copy; ${new Date().getFullYear()} Rider App. All rights reserved.</p>
+        <p style="margin: 0;">
+          <a href="#" style="color: #007BFF; text-decoration: none;">Terms of Service</a> |
+          <a href="#" style="color: #007BFF; text-decoration: none;">Privacy Policy</a>
+        </p>
+      </footer>
+    </div>
+          `,
+    });
 
     // Send notification to user and captain to ride cancelled
     sendMessageToBothSocketId(ride.user.socketId, ride.captain.socketId, {
@@ -515,6 +752,37 @@ module.exports.paymentVerify = async (req, res, next) => {
   const isAuthentic = generatedSignature === razorpay_signature;
 
   if (isAuthentic) {
+    await transporter.sendMail({
+      from: process.env.FROM_EMAIL,
+      to: req.user.email,
+      subject: "Rider app Payment Successfully Verified",
+      html: `
+    <div style="font-family: 'Arial', sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #ffffff; border: 1px solid #ddd; border-radius: 8px;">
+  <h1 style="text-align: center; color: #333;">Welcome to <span style="color: #4CAF50;">Rider App</span></h1>
+  <p style="font-size: 16px; color: #555;">Hello <strong>${
+    req.user.fullname.firstname
+  }</strong>,</p>
+  <p style="font-size: 16px; color: #555;">Your payment has been successfully <span style="color: #4CAF50;">verified</span>. Below are your transaction details:</p>
+  <div style="background-color: #f1f1f1; padding: 15px; border-radius: 5px; margin: 20px 0;">
+    <p style="font-size: 16px; color: #555;"><strong>Order ID:</strong> ${razorpay_order_id}</p>
+    <p style="font-size: 16px; color: #555;"><strong>Payment Id:</strong> ${razorpay_payment_id}</p>
+    <p style="font-size: 16px; color: #555;"><strong>Payment Status:</strong> <span style="color: #4CAF50;">Confirmed</span></p>
+  </div>
+  <p style="font-size: 14px; color: #666;">If you have any questions or concerns regarding your payment, please reach out to our support team.</p>
+  <p style="font-size: 14px; color: #666; text-align: center;">
+    Need help? Contact us at <a href="mailto:support@riderapp.com" style="color: #007BFF; text-decoration: none;">support@riderapp.com</a>
+  </p>
+  <footer style="font-size: 12px; color: #999; text-align: center; margin-top: 30px;">
+    <p style="margin: 0;">&copy; ${new Date().getFullYear()} Rider App. All rights reserved.</p>
+    <p style="margin: 0;">
+      <a href="#" style="color: #007BFF; text-decoration: none;">Terms of Service</a> |
+      <a href="#" style="color: #007BFF; text-decoration: none;">Privacy Policy</a>
+    </p>
+  </footer>
+</div>
+          `,
+    });
+
     res.status(200).json({
       statusCode: 200,
       message: "Payment successful",

@@ -11,10 +11,18 @@ export class PaymentService {
   http = inject(HttpClient);
 
   paymentInit(data: any) {
-    return this.http.post(environment.API_URL_Ride + 'paymentInit', data);
+    const token = localStorage.getItem('user-token');
+    const headers = { Authorization: `bearer ${token}` };
+    return this.http.post(environment.API_URL_Ride + 'paymentInit', data, {
+      headers,
+    });
   }
 
   paymentVerify(data: any) {
-    return this.http.post(environment.API_URL_Ride + 'paymentVerify', data);
+    const token = localStorage.getItem('user-token');
+    const headers = { Authorization: `bearer ${token}` };
+    return this.http.post(environment.API_URL_Ride + 'paymentVerify', data, {
+      headers,
+    });
   }
 }

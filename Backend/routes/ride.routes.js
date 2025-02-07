@@ -18,9 +18,17 @@ router.post(
 
 router.post("/upadatePaymentStatus", rideController.upadatePaymentStatus);
 
-router.post("/paymentInit", rideController.paymentInit);
+router.post(
+  "/paymentInit",
+  authMiddelware.authUser,
+  rideController.paymentInit
+);
 
-router.post("/paymentVerify", rideController.paymentVerify);
+router.post(
+  "/paymentVerify",
+  authMiddelware.authUser,
+  rideController.paymentVerify
+);
 
 router.post("/sendNotification", rideController.sendNotification);
 
