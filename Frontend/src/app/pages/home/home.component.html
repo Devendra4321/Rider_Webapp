@@ -1,33 +1,31 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-dark">
   <div class="container">
-    <a class="navbar-brand text-white fs-5 fw-bold" href="#">Rider</a>
+    <a class="navbar-brand text-white fs-2 fw-bold">Rider</a>
     <button
       class="navbar-toggler"
       type="button"
       data-bs-toggle="collapse"
       data-bs-target="#navbarNav"
     >
-      <span class="navbar-toggler-icon"></span>
+      <i class="bi bi-list text-white"></i>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link text-white" href="#">Ride</a>
+          <a class="nav-link text-white" routerLink="/user-home">Ride</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="#">Captain</a>
+          <a class="nav-link text-white" routerLink="/captain-home">Captain</a>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="nav-link text-white" href="#">Help</a>
-        </li>
+        </li> -->
         <li class="nav-item">
           <a class="nav-link text-white" routerLink="/login">Login</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link btn btn-light text-white" routerLink="/signup"
-            >Sign up</a
-          >
+          <a class="nav-link text-white" routerLink="/signup">Sign up</a>
         </li>
       </ul>
     </div>
@@ -35,7 +33,7 @@
 </nav>
 
 <!-- Hero Section -->
-<section class="hero">
+<section class="hero mt-md-3 mt-lg-3">
   <div class="container">
     <div class="row">
       <div class="col-md-6 mt-md-4 mb-4">
@@ -46,39 +44,18 @@
           <p class="my-3 fs-4">
             Rides, food delivery, and more—get the app that opens the door to a
             world of possibilities. Download the Rider app now and start your
-            journey.
+            journey. Plan your trip with ease. Get started on your journey with
+            Rider.
           </p>
-        </div>
-        <!-- <div>
-          <i class="bi bi-car-front-fill fs-3 hero-icon"></i>
-          <p class="fw-bold">Ride</p>
-        </div> -->
-        <div class="col-md-10 mt-4">
-          <div class="form-floating mb-3">
-            <input
-              type="text"
-              class="form-control"
-              id="floatingInputGrid"
-              placeholder="Pickup location"
-            />
-            <label for="floatingInputGrid">Pickup location</label>
-          </div>
-
-          <div class="form-floating mb-3">
-            <input
-              type="text"
-              class="form-control"
-              id="floatingInputGrid"
-              placeholder="Drop location"
-            />
-            <label for="floatingInputGrid">Drop location</label>
-          </div>
-
-          <button class="btn btn-dark">See Prices</button>
+          <button class="btn btn-dark" routerLink="/login">Get Started</button>
         </div>
       </div>
-      <div class="col-md-6" id="map">
-        <!-- <img src="map-placeholder.png" class="img-fluid" alt="Map" /> -->
+      <div class="col-md-6 col-12">
+        <img
+          src="../../../assets/images/raider_home_img.avif"
+          alt="home_img"
+          class="img-fluid home-image"
+        />
       </div>
     </div>
   </div>
@@ -88,12 +65,14 @@
 <section class="container section">
   <div class="row ms-auto">
     <p class="fs-1 fw-bold">Suggestions</p>
-    <div class="col-md-4 col-11 mb-3 mx-md-0 mx-2">
+    <div class="col-lg-4 col-md-6 col-sm-12 col-11 mb-3 mx-md-0 mx-2">
       <div class="d-flex justify-content-between flex-no-wrap suggestions">
         <div>
           <p class="fw-bold">Ride</p>
           <p>Go anywhere with Rider. Request a ride and go.</p>
-          <button class="btn btn-outline-dark">Details</button>
+          <button class="btn btn-outline-dark" routerLink="/user-home">
+            Details
+          </button>
         </div>
         <div>
           <img
@@ -105,11 +84,11 @@
       </div>
     </div>
 
-    <div class="col-md-4 col-11 mb-3 mx-md-0 mx-2">
+    <div class="col-lg-4 col-md-6 col-sm-12 col-11 mb-3 mx-md-0 mx-2">
       <div class="d-flex justify-content-between suggestions">
         <div>
-          <p class="fw-bold">Courier</p>
-          <p>Rider makes same-day item delivery easy.</p>
+          <p class="fw-bold">Reserve</p>
+          <p>Rider make reserve your ride in advance.</p>
           <button class="btn btn-outline-dark">Details</button>
         </div>
         <div>
@@ -122,11 +101,11 @@
       </div>
     </div>
 
-    <div class="col-md-4 col-11 mb-3 mx-md-0 mx-2">
+    <div class="col-lg-4 col-md-12 col-sm-12 col-11 mb-3 mx-md-0 mx-2">
       <div class="d-flex justify-content-between suggestions">
         <div>
-          <p class="fw-bold">Reserve</p>
-          <p>Rider make reserve your ride in advance.</p>
+          <p class="fw-bold">Courier</p>
+          <p>Rider makes same-day item delivery easy.</p>
           <button class="btn btn-outline-dark">Details</button>
         </div>
         <div>
@@ -138,37 +117,22 @@
         </div>
       </div>
     </div>
-
-    <!-- <div class="col-md-4 mb-3">
-      <div class="d-flex justify-content-between suggestions">
-        <div>
-          <p>Reserve</p>
-          <p>Reserve your ride in advance.</p>
-          <button class="btn btn-outline-dark">Details</button>
-        </div>
-        <div>
-          <img
-            class="suggestions-img"
-            src="assets/images/ride_car.png"
-            alt="car"
-          />
-        </div>
-      </div>
-    </div> -->
   </div>
 </section>
 
 <!-- Intermediate fir Section -->
 <section class="container section mt-md-4">
   <div class="row m-auto">
-    <div class="col-md-6 col-12 my-5">
+    <div class="col-md-6 col-12 mb-sm-4 mb-4 my-lg-5">
       <p class="fs-1 fw-bold">Log in to see your recent activity</p>
       <p class="fs-5">
         View past trips, tailored suggestions, support resources, and more.
       </p>
       <div class="mt-4 d-flex">
-        <button class="btn btn-dark">Log in to your account</button>
-        <p class="mx-4 mt-2 intermediate-p">
+        <button class="btn btn-dark" routerLink="/login/user">
+          Log in to your account
+        </button>
+        <p class="mx-4 mt-2 intermediate-p" routerLink="/signup/user">
           Don’t have an Rider account? Sign up
         </p>
       </div>
@@ -193,15 +157,21 @@
         alt="Driver"
       />
     </div>
-    <div class="col-md-6 col-12 my-5">
-      <p class="fs-1 fw-bold">Drive when you want, make what you need</p>
+    <div class="col-md-6 col-12 mb-sm-4 mb-4 my-lg-5">
+      <p class="fs-1 fw-bold my-lg-4">
+        Drive when you want, make what you need
+      </p>
       <p class="fs-5">
         Make money on your schedule with deliveries or rides—or both. You can
         use your own car or choose a rental through Rider.
       </p>
       <div class="mt-4 d-flex">
-        <button class="btn btn-dark">Get Started</button>
-        <p class="mx-4 mt-2 intermediate-p">Already have an account? Sign in</p>
+        <button class="btn btn-dark" routerLink="/signup/captain">
+          Get Started
+        </button>
+        <p class="mx-4 mt-2 intermediate-p" routerLink="/login/captain">
+          Already have an account? Sign in
+        </p>
       </div>
     </div>
   </div>

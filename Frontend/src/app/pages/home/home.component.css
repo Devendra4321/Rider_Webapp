@@ -67,6 +67,12 @@
   width: 10rem;
   height: 10rem;
 }
-#map {
-  height: 75vh; /* Adjust height as needed */
+.home-image {
+  object-fit: cover;
+  height: 60vh;
+  width: 80vw;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 1rem;
 }
