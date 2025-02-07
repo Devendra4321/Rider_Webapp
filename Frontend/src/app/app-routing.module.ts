@@ -26,6 +26,8 @@ import { CaptainUploadDocumentComponent } from './pages/captain-upload-document/
 import { WalletCaptainComponent } from './pages/wallet-captain/wallet-captain.component';
 import { EmailVerificationComponent } from './pages/email-verification/email-verification.component';
 import { CaptainForgotPasswordComponent } from './pages/captain-forgot-password/captain-forgot-password.component';
+import { AuthGuardUser } from './services/auth-guard-user/auth-user.guard';
+import { AuthGuardCaptain } from './services/auth-guard-captain/auth-captain.guard';
 
 const routes: Routes = [
   {
@@ -84,30 +86,37 @@ const routes: Routes = [
   {
     path: 'user-home',
     component: UserHomeComponent,
+    canActivate: [AuthGuardUser],
   },
   {
     path: 'ride-review',
     component: RideReviewComponent,
+    canActivate: [AuthGuardUser],
   },
   {
     path: 'ride-ongoing/:rideId',
     component: RideOngoingComponent,
+    canActivate: [AuthGuardUser],
   },
   {
     path: 'trips',
     component: TripsComponent,
+    canActivate: [AuthGuardUser],
   },
   {
     path: 'trips/:rideId',
     component: TripsByIdComponent,
+    canActivate: [AuthGuardUser],
   },
   {
     path: 'wallet-user',
     component: WalletUserComponent,
+    canActivate: [AuthGuardUser],
   },
   {
     path: 'user-profile',
     component: UserProfileComponent,
+    canActivate: [AuthGuardUser],
   },
   {
     path: 'forgot-password/user',
@@ -119,30 +128,37 @@ const routes: Routes = [
   {
     path: 'captain-home',
     component: CaptainHomeComponent,
+    canActivate: [AuthGuardCaptain],
   },
   {
     path: 'captain-trips',
     component: CaptainTripsComponent,
+    canActivate: [AuthGuardCaptain],
   },
   {
     path: 'captain-trips/:rideId',
     component: CaptainTripsByIdComponent,
+    canActivate: [AuthGuardCaptain],
   },
   {
     path: 'captain-ride-ongoing/:rideId',
     component: CaptainRideOngoingComponent,
+    canActivate: [AuthGuardCaptain],
   },
   {
     path: 'captain-profile',
     component: CaptainProfileComponent,
+    canActivate: [AuthGuardCaptain],
   },
   {
     path: 'captain-upload-document',
     component: CaptainUploadDocumentComponent,
+    canActivate: [AuthGuardCaptain],
   },
   {
     path: 'wallet-captain',
     component: WalletCaptainComponent,
+    canActivate: [AuthGuardCaptain],
   },
   {
     path: 'forgot-password/captain',

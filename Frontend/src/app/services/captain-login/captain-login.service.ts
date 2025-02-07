@@ -10,6 +10,10 @@ export class CaptainLoginService {
 
   http = inject(HttpClient);
 
+  iscaptainLoggedIn(): boolean {
+    return !!localStorage.getItem('captain-token');
+  }
+
   captainLogin(data: any) {
     return this.http.post(environment.API_URL_CAPTAIN + 'login', data);
   }

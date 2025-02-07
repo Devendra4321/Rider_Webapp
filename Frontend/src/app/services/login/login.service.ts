@@ -10,6 +10,10 @@ export class LoginService {
 
   http = inject(HttpClient);
 
+  isUserLoggedIn(): boolean {
+    return !!localStorage.getItem('user-token');
+  }
+
   userLogin(data: any) {
     return this.http.post(environment.API_URL_USER + 'login', data);
   }
