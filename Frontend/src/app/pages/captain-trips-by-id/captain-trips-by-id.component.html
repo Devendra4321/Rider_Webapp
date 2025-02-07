@@ -1,11 +1,11 @@
 <!-- Navbar -->
-<app-navbar-captain></app-navbar-captain>
+<app-navbar></app-navbar>
 
 <!-- Main section -->
 <section>
   <div class="container">
     <div class="row mt-4">
-      <p class="fw-medium back-btn">
+      <p class="fw-medium back-btn" routerLink="/captain-trips">
         <i class="bi bi-arrow-left me-2"></i>Back to trips
       </p>
     </div>
@@ -15,22 +15,42 @@
         <p class="fs-2 fw-bold">Your ride</p>
 
         <p class="fs-5 fw-semibold">
-          Akurdi Railway Station, Akurdi, Pune - Shivaji Nagar, J M Corner, Pune
+          {{ rideDetail.pickup }} - {{ rideDetail.destination }}
         </p>
 
         <p>
-          <i class="bi bi-currency-rupee"></i>0.00<i class="bi bi-dot"
-            >User name </i
-          ><i class="bi bi-dot">Vehicle type</i>
+          <i class="bi bi-currency-rupee"></i>{{ rideDetail.captainFare
+          }}<i class="bi bi-dot">{{
+            rideDetail.status == "pending"
+              ? "ride not accepted by captain"
+              : rideDetail.captain?.fullname?.firstname +
+                " " +
+                rideDetail.captain?.fullname?.lastname
+          }}</i
+          ><i class="bi bi-dot">{{ rideDetail.vehicleRequired }}</i>
         </p>
 
         <div class="d-flex justify-content-between">
-          <p>12:12:16 PM, June 4 2024</p>
-          <p class="trip-status-btn">Completed</p>
+          <p>{{ rideDetail.createOn | date : "h:mm:ss a, MMMM d y" }}</p>
+          <p class="btn btn-primary" *ngIf="rideDetail.status == 'pending'">
+            Pending
+          </p>
+          <p class="btn btn-success" *ngIf="rideDetail.status == 'accepted'">
+            Accepted
+          </p>
+          <p class="btn btn-secondary" *ngIf="rideDetail.status == 'ongoing'">
+            Ongoing
+          </p>
+          <p class="btn btn-dark" *ngIf="rideDetail.status == 'completed'">
+            Completed
+          </p>
+          <p class="btn btn-danger" *ngIf="rideDetail.status == 'cancelled'">
+            Cancelled
+          </p>
         </div>
       </div>
     </div>
-    <div class="row my-4">
+    <div class="row my-2">
       <div class="col-2"></div>
       <app-map
         class="col-lg-8 mx-2 mx-md-0 mx-lg-0"

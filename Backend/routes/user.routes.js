@@ -32,4 +32,10 @@ router.patch(
 
 router.get("/logout", authMiddleware.authUser, userController.logoutUser);
 
+router.post(
+  "/getUserAllRides",
+  authMiddleware.authUser,
+  userController.getUserAllRides
+);
+
 module.exports = router;

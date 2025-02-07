@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -42,6 +42,7 @@ import { CaptainForgotPasswordComponent } from './pages/captain-forgot-password/
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { environment } from '../environment/environment';
 import { RidePopupComponent } from './components/ride-popup/ride-popup.component';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 const config: SocketIoConfig = {
   url: environment.SOCKET_URL,
@@ -98,8 +99,10 @@ const config: SocketIoConfig = {
       closeButton: true,
     }),
     NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
+    NgbPaginationModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule {}

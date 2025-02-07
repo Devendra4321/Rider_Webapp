@@ -1,5 +1,6 @@
 const userModel = require("../model/user.model");
 const blackListTokenModel = require("../model/blackListingToken.model");
+const rideModel = require("../model/ride.model");
 const transporter = require("../mail.config");
 
 module.exports.registerUser = async (req, res, next) => {
@@ -372,4 +373,32 @@ module.exports.logoutUser = async (req, res, next) => {
     statusCode: 200,
     message: "Logged out",
   });
+};
+
+module.exports.getUserAllRides = async (req, res, next) => {
+  try {
+    const userId = req.user._id;
+    const { page = 1, perPage = 10 } = req.body;
+
+    const rides = await rideModel
+      .find({ user: userId })
+      .sort({ _id: -1 })
+      .skip((page - 1) * perPage)
+      .limit(parseInt(perPage));
+
+    const totalRides = await rideModel.countDocuments({ user: userId });
+
+    res.status(200).json({
+      statusCode: 200,
+      totalPages: Math.ceil(totalRides / perPage),
+      totalRides: totalRides,
+      currentPage: page,
+      rides,
+    });
+  } catch (error) {
+    res.status(500).json({
+      statusCode: 500,
+      message: "Error fetching rides",
+    });
+  }
 };

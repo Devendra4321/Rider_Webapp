@@ -450,3 +450,31 @@ module.exports.updateOnlineStatus = async (req, res, next) => {
     });
   }
 };
+
+module.exports.getCaptainAllRides = async (req, res, next) => {
+  try {
+    const captainId = req.captain._id;
+    const { page = 1, perPage = 10 } = req.body;
+
+    const rides = await rideModel
+      .find({ captain: captainId })
+      .sort({ _id: -1 })
+      .skip((page - 1) * perPage)
+      .limit(parseInt(perPage));
+
+    const totalRides = await rideModel.countDocuments({ captain: captainId });
+
+    res.status(200).json({
+      statusCode: 200,
+      totalPages: Math.ceil(totalRides / perPage),
+      totalRides: totalRides,
+      currentPage: page,
+      rides,
+    });
+  } catch (error) {
+    res.status(500).json({
+      statusCode: 500,
+      message: "Error fetching rides",
+    });
+  }
+};

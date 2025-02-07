@@ -52,4 +52,10 @@ router.post(
   captainController.updateOnlineStatus
 );
 
+router.post(
+  "/getCaptainAllRides",
+  authMiddleware.authCaptain,
+  captainController.getCaptainAllRides
+);
+
 module.exports = router;
