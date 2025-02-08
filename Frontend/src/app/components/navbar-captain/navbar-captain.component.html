@@ -10,7 +10,7 @@
       aria-expanded="false"
       aria-label="Toggle navigation"
     >
-      <i class="bi bi-three-dots-vertical text-white"></i>
+      <i class="bi bi-list text-white"></i>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -34,30 +34,41 @@
         <li class="nav-item dropdown">
           <a
             class="nav-link dropdown-toggle text-white"
-            href="#"
             role="button"
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
             Details
           </a>
-          <ul class="dropdown-menu">
-            <li>
-              <a class="dropdown-item" routerLink="/wallet-captain">Wallet</a>
+          <ul class="dropdown-menu bg-dark details-ul my-lg-3">
+            <li class="">
+              <a
+                class="dropdown-item text-white dropdown-bg"
+                routerLink="/wallet-captain"
+                >Wallet</a
+              >
             </li>
             <li>
-              <a class="dropdown-item" href="/captain-profile"
+              <a
+                class="dropdown-item text-white dropdown-bg"
+                routerLink="/captain-profile"
                 >Manage profile</a
               >
             </li>
             <li>
-              <a class="dropdown-item" routerLink="/forgot-password/captain"
+              <a
+                class="dropdown-item text-white dropdown-bg"
+                routerLink="/forgot-password/captain"
                 >Forgot password</a
               >
             </li>
-            <li><hr class="dropdown-divider" /></li>
+            <li><hr class="dropdown-divider divider" /></li>
             <li>
-              <a class="dropdown-item" (click)="logOutCaptain()">Log out</a>
+              <a
+                class="dropdown-item text-white dropdown-bg"
+                (click)="logOutCaptain()"
+                >Log out</a
+              >
             </li>
           </ul>
         </li>

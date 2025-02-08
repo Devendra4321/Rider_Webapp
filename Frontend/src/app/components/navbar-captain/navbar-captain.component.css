@@ -1,0 +1,12 @@
+.divider {
+  background-color: white;
+}
+
+.details-ul {
+  border: 1px solid white;
+}
+
+.dropdown-bg:hover {
+  background-color: white !important;
+  color: black !important;
+}

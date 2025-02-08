@@ -32,7 +32,7 @@ export class LoginUserComponent {
 
   getOtp(form: NgForm) {
     if (form.valid) {
-      console.log(this.loginData);
+      // console.log(this.loginData);
 
       this.loginService.userOtp({ email: this.loginData.emailMob }).subscribe({
         next: (result: any) => {
