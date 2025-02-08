@@ -54,7 +54,13 @@
               "sourceMap": false,
               "namedChunks": false,
               "extractLicenses": true,
-              "outputHashing": "all"
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "4mb"
+                }
+              ]
             },
             "development": {
               "optimization": false,
