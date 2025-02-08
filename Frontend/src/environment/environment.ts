@@ -6,6 +6,7 @@ export const environment = {
   API_URL_CAPTAIN: 'https://riderbackend-5rue.onrender.com/captains/',
   API_URL_MAP: 'https://riderbackend-5rue.onrender.com/map/',
   API_URL_Ride: 'https://riderbackend-5rue.onrender.com/ride/',
+  API_URL_ADMIN: 'https://riderbackend-5rue.onrender.com/admin/'
 
   // SOCKET_URL: 'http://localhost:4000',
   // API_URL_USER: 'http://localhost:4000/users/',
