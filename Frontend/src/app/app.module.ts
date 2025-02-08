@@ -43,6 +43,9 @@ import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { environment } from '../environment/environment';
 import { RidePopupComponent } from './components/ride-popup/ride-popup.component';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { AdminLoginComponent } from './pages/admin-login/admin-login.component';
+import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard.component';
+import { AdminDashboardHomeComponent } from './components/admin-dashboard-home/admin-dashboard-home.component';
 
 const config: SocketIoConfig = {
   url: environment.SOCKET_URL,
@@ -84,6 +87,9 @@ const config: SocketIoConfig = {
     EmailVerificationComponent,
     CaptainForgotPasswordComponent,
     RidePopupComponent,
+    AdminLoginComponent,
+    AdminDashboardComponent,
+    AdminDashboardHomeComponent,
   ],
   imports: [
     SocketIoModule.forRoot(config),

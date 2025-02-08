@@ -1,0 +1,9 @@
+.sidebar {
+  height: 95vh;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    height: 0vh;
+  }
+}

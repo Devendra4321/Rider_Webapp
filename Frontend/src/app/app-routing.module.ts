@@ -28,6 +28,9 @@ import { EmailVerificationComponent } from './pages/email-verification/email-ver
 import { CaptainForgotPasswordComponent } from './pages/captain-forgot-password/captain-forgot-password.component';
 import { AuthGuardUser } from './services/auth-guard-user/auth-user.guard';
 import { AuthGuardCaptain } from './services/auth-guard-captain/auth-captain.guard';
+import { AdminLoginComponent } from './pages/admin-login/admin-login.component';
+import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard.component';
+import { AdminDashboardHomeComponent } from './components/admin-dashboard-home/admin-dashboard-home.component';
 
 const routes: Routes = [
   {
@@ -163,6 +166,22 @@ const routes: Routes = [
   {
     path: 'forgot-password/captain',
     component: CaptainForgotPasswordComponent,
+  },
+
+  //admin routes
+  {
+    path: 'admin-login',
+    component: AdminLoginComponent,
+  },
+  {
+    path: 'dashboard',
+    component: AdminDashboardComponent,
+    children: [
+      {
+        path: '',
+        component: AdminDashboardHomeComponent,
+      },
+    ],
   },
 ];
 
