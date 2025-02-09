@@ -1,5 +1,4 @@
 import { Component, ViewChild } from '@angular/core';
-import mapboxgl from 'mapbox-gl';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { MapComponent } from '../../components/map/map.component';

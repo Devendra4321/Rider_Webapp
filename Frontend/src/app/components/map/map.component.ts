@@ -1,11 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import mapboxgl, { LngLatBoundsLike, LngLatLike } from 'mapbox-gl';
 import { environment } from '../../../environment/environment';
 import { MapService } from '../../services/map/map.service';
