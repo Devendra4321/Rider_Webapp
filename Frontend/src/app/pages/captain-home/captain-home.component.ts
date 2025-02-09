@@ -7,9 +7,10 @@ import { ToastrService } from 'ngx-toastr';
 import { RidePopupComponent } from '../../components/ride-popup/ride-popup.component';
 
 @Component({
-  selector: 'app-captain-home',
-  templateUrl: './captain-home.component.html',
-  styleUrl: './captain-home.component.css',
+    selector: 'app-captain-home',
+    templateUrl: './captain-home.component.html',
+    styleUrl: './captain-home.component.css',
+    standalone: false
 })
 export class CaptainHomeComponent {
   constructor(

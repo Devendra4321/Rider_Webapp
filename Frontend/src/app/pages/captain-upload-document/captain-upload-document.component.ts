@@ -5,9 +5,10 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
-  selector: 'app-captain-upload-document',
-  templateUrl: './captain-upload-document.component.html',
-  styleUrl: './captain-upload-document.component.css',
+    selector: 'app-captain-upload-document',
+    templateUrl: './captain-upload-document.component.html',
+    styleUrl: './captain-upload-document.component.css',
+    standalone: false
 })
 export class CaptainUploadDocumentComponent {
   constructor(

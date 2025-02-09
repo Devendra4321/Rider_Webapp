@@ -8,9 +8,10 @@ import { ActivatedRoute } from '@angular/router';
 import { MapComponent } from '../../components/map/map.component';
 
 @Component({
-  selector: 'app-trips-by-id',
-  templateUrl: './trips-by-id.component.html',
-  styleUrl: './trips-by-id.component.css',
+    selector: 'app-trips-by-id',
+    templateUrl: './trips-by-id.component.html',
+    styleUrl: './trips-by-id.component.css',
+    standalone: false
 })
 export class TripsByIdComponent {
   constructor(

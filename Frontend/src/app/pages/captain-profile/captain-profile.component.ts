@@ -6,9 +6,10 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
-  selector: 'app-captain-profile',
-  templateUrl: './captain-profile.component.html',
-  styleUrl: './captain-profile.component.css',
+    selector: 'app-captain-profile',
+    templateUrl: './captain-profile.component.html',
+    styleUrl: './captain-profile.component.css',
+    standalone: false
 })
 export class CaptainProfileComponent {
   constructor(

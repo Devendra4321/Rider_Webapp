@@ -5,9 +5,10 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-navbar-captain',
-  templateUrl: './navbar-captain.component.html',
-  styleUrl: './navbar-captain.component.css',
+    selector: 'app-navbar-captain',
+    templateUrl: './navbar-captain.component.html',
+    styleUrl: './navbar-captain.component.css',
+    standalone: false
 })
 export class NavbarCaptainComponent {
   constructor(

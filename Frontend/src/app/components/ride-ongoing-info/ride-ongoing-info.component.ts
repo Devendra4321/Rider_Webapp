@@ -8,9 +8,10 @@ import { MapComponent } from '../map/map.component';
 import { RideSocketService } from '../../services/ride-socket/ride-socket.service';
 
 @Component({
-  selector: 'app-ride-ongoing-info',
-  templateUrl: './ride-ongoing-info.component.html',
-  styleUrl: './ride-ongoing-info.component.css',
+    selector: 'app-ride-ongoing-info',
+    templateUrl: './ride-ongoing-info.component.html',
+    styleUrl: './ride-ongoing-info.component.css',
+    standalone: false
 })
 export class RideOngoingInfoComponent {
   constructor(

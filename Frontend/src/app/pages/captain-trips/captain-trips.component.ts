@@ -4,9 +4,10 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-captain-trips',
-  templateUrl: './captain-trips.component.html',
-  styleUrl: './captain-trips.component.css',
+    selector: 'app-captain-trips',
+    templateUrl: './captain-trips.component.html',
+    styleUrl: './captain-trips.component.css',
+    standalone: false
 })
 export class CaptainTripsComponent {
   constructor(

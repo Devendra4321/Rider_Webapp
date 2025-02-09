@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-wallet-captain',
-  templateUrl: './wallet-captain.component.html',
-  styleUrl: './wallet-captain.component.css',
+    selector: 'app-wallet-captain',
+    templateUrl: './wallet-captain.component.html',
+    styleUrl: './wallet-captain.component.css',
+    standalone: false
 })
 export class WalletCaptainComponent {
   // ngOnInit() {

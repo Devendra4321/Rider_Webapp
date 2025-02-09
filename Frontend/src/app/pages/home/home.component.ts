@@ -4,8 +4,9 @@ import { environment } from '../../../environment/environment';
 import { RideSocketService } from '../../services/ride-socket/ride-socket.service';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.css',
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrl: './home.component.css',
+    standalone: false
 })
 export class HomeComponent {}

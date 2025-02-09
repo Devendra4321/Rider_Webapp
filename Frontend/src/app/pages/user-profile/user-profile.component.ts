@@ -5,9 +5,10 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { EmailVerificationService } from '../../services/email-verification/email-verification.service';
 
 @Component({
-  selector: 'app-user-profile',
-  templateUrl: './user-profile.component.html',
-  styleUrl: './user-profile.component.css',
+    selector: 'app-user-profile',
+    templateUrl: './user-profile.component.html',
+    styleUrl: './user-profile.component.css',
+    standalone: false
 })
 export class UserProfileComponent {
   constructor(

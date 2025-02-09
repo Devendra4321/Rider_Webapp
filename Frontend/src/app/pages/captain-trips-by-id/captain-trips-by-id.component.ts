@@ -6,9 +6,10 @@ import { ActivatedRoute } from '@angular/router';
 import { MapComponent } from '../../components/map/map.component';
 
 @Component({
-  selector: 'app-captain-trips-by-id',
-  templateUrl: './captain-trips-by-id.component.html',
-  styleUrl: './captain-trips-by-id.component.css',
+    selector: 'app-captain-trips-by-id',
+    templateUrl: './captain-trips-by-id.component.html',
+    styleUrl: './captain-trips-by-id.component.css',
+    standalone: false
 })
 export class CaptainTripsByIdComponent {
   constructor(

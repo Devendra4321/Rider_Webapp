@@ -11,9 +11,10 @@ import { RideSocketService } from '../../services/ride-socket/ride-socket.servic
 import { ProfileService } from '../../services/profile/profile.service';
 declare var Razorpay: any;
 @Component({
-  selector: 'app-ride-review',
-  templateUrl: './ride-review.component.html',
-  styleUrl: './ride-review.component.css',
+    selector: 'app-ride-review',
+    templateUrl: './ride-review.component.html',
+    styleUrl: './ride-review.component.css',
+    standalone: false
 })
 export class RideReviewComponent {
   constructor(

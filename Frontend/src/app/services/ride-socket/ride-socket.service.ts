@@ -21,26 +21,32 @@ export class RideSocketService {
   }
 
   newRide() {
-    return this.socket.fromEvent<any>('new-ride').pipe(map((ride) => ride));
+    return this.socket
+      .fromEvent<any, any>('new-ride')
+      .pipe(map((ride) => ride));
   }
 
   confirmedRide() {
     return this.socket
-      .fromEvent<any>('ride-confirmed')
+      .fromEvent<any, any>('ride-confirmed')
       .pipe(map((ride) => ride));
   }
 
   startRide() {
-    return this.socket.fromEvent<any>('ride-started').pipe(map((ride) => ride));
+    return this.socket
+      .fromEvent<any, any>('ride-started')
+      .pipe(map((ride) => ride));
   }
 
   endRide() {
-    return this.socket.fromEvent<any>('ride-ended').pipe(map((ride) => ride));
+    return this.socket
+      .fromEvent<any, any>('ride-ended')
+      .pipe(map((ride) => ride));
   }
 
   cancelUserRide() {
     return this.socket
-      .fromEvent<any>('ride-user-cancelled')
+      .fromEvent<any, any>('ride-user-cancelled')
       .pipe(map((ride) => ride));
   }
 }

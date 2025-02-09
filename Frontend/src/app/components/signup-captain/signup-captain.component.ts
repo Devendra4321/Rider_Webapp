@@ -6,9 +6,10 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-signup-captain',
-  templateUrl: './signup-captain.component.html',
-  styleUrl: './signup-captain.component.css',
+    selector: 'app-signup-captain',
+    templateUrl: './signup-captain.component.html',
+    styleUrl: './signup-captain.component.css',
+    standalone: false
 })
 export class SignupCaptainComponent {
   constructor(

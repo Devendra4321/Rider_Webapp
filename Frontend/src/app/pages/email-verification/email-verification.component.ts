@@ -5,9 +5,10 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-email-verification',
-  templateUrl: './email-verification.component.html',
-  styleUrl: './email-verification.component.css',
+    selector: 'app-email-verification',
+    templateUrl: './email-verification.component.html',
+    styleUrl: './email-verification.component.css',
+    standalone: false
 })
 export class EmailVerificationComponent {
   constructor(

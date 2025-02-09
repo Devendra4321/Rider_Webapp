@@ -7,9 +7,10 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-ride-popup',
-  templateUrl: './ride-popup.component.html',
-  styleUrl: './ride-popup.component.css',
+    selector: 'app-ride-popup',
+    templateUrl: './ride-popup.component.html',
+    styleUrl: './ride-popup.component.css',
+    standalone: false
 })
 export class RidePopupComponent {
   constructor(

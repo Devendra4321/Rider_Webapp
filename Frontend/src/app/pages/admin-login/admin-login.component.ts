@@ -6,9 +6,10 @@ import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 
 @Component({
-  selector: 'app-admin-login',
-  templateUrl: './admin-login.component.html',
-  styleUrl: './admin-login.component.css',
+    selector: 'app-admin-login',
+    templateUrl: './admin-login.component.html',
+    styleUrl: './admin-login.component.css',
+    standalone: false
 })
 export class AdminLoginComponent {
   constructor(

@@ -10,9 +10,10 @@ import { ProfileService } from '../../services/profile/profile.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
-  selector: 'app-user-home',
-  templateUrl: './user-home.component.html',
-  styleUrl: './user-home.component.css',
+    selector: 'app-user-home',
+    templateUrl: './user-home.component.html',
+    styleUrl: './user-home.component.css',
+    standalone: false
 })
 export class UserHomeComponent {
   constructor(

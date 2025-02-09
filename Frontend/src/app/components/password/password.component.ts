@@ -5,9 +5,10 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
-  selector: 'app-password',
-  templateUrl: './password.component.html',
-  styleUrl: './password.component.css',
+    selector: 'app-password',
+    templateUrl: './password.component.html',
+    styleUrl: './password.component.css',
+    standalone: false
 })
 export class PasswordComponent {
   constructor(

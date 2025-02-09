@@ -7,9 +7,10 @@ import { Router } from '@angular/router';
 import { RideSocketService } from '../../services/ride-socket/ride-socket.service';
 
 @Component({
-  selector: 'app-login-captain',
-  templateUrl: './login-captain.component.html',
-  styleUrl: './login-captain.component.css',
+    selector: 'app-login-captain',
+    templateUrl: './login-captain.component.html',
+    styleUrl: './login-captain.component.css',
+    standalone: false
 })
 export class LoginCaptainComponent {
   constructor(

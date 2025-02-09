@@ -5,9 +5,10 @@ import { MapService } from '../../services/map/map.service';
 import mapboxSdk from '@mapbox/mapbox-sdk/services/geocoding';
 
 @Component({
-  selector: 'app-map',
-  templateUrl: './map.component.html',
-  styleUrl: './map.component.css',
+    selector: 'app-map',
+    templateUrl: './map.component.html',
+    styleUrl: './map.component.css',
+    standalone: false
 })
 export class MapComponent {
   constructor(private mapService: MapService) {}
