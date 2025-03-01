@@ -3,45 +3,6 @@ const transactionModel = require("../model/transaction.model");
 const rideModel = require("../model/ride.model");
 const captainModel = require("../model/captain.model");
 
-module.exports.createCaptainWallet = async (req, res, next) => {
-  try {
-    const captain = await captainModel.findById(req.captain._id);
-
-    if (captain.isDeleted == 1) {
-      return res.status(400).json({
-        statusCode: 400,
-        message: "Captain is deleted",
-      });
-    }
-
-    const walletDb = await walletModel.findOne({ captainId: req.captain._id });
-
-    if (walletDb) {
-      return res.status(400).json({
-        statusCode: 400,
-        message: "Captain wallet already exists",
-      });
-    }
-
-    const wallet = new walletModel({
-      captainId: req.captain._id,
-    });
-
-    await wallet.save();
-
-    res.status(201).json({
-      statusCode: 201,
-      message: "Captain wallet created successfully",
-      data: wallet,
-    });
-  } catch (error) {
-    res.status(500).json({
-      statusCode: 500,
-      message: error.message,
-    });
-  }
-};
-
 module.exports.getCaptainWallet = async (req, res, next) => {
   try {
     const wallet = await walletModel.findOne({ captainId: req.captain._id });

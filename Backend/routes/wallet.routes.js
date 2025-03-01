@@ -3,12 +3,6 @@ const walletController = require("../controller/wallet.controller");
 const authMiddleware = require("../middlewarers/auth.middelware");
 
 router.get(
-  "/createCaptainWallet",
-  authMiddleware.authCaptain,
-  walletController.createCaptainWallet
-);
-
-router.get(
   "/getCaptainWallet",
   authMiddleware.authCaptain,
   walletController.getCaptainWallet

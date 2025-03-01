@@ -3,6 +3,7 @@ const captainModel = require("../model/captain.model");
 const blackListTokenModel = require("../model/blackListingToken.model");
 const transporter = require("../mail.config");
 const rideModel = require("../model/ride.model");
+const walletModel = require("../model/wallet.model");
 
 module.exports.registerCaptain = async (req, res, next) => {
   const { fullname, email, password, vehicle } = req.body;
@@ -34,6 +35,12 @@ module.exports.registerCaptain = async (req, res, next) => {
   });
 
   await captain.save();
+
+  const wallet = new walletModel({
+    captainId: captain._id,
+  });
+
+  await wallet.save();
 
   res.status(201).json({
     statusCode: 201,
