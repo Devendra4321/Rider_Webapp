@@ -31,6 +31,10 @@ import { AuthGuardCaptain } from './services/auth-guard-captain/auth-captain.gua
 import { AdminLoginComponent } from './pages/admin-login/admin-login.component';
 import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard.component';
 import { AdminDashboardHomeComponent } from './components/admin-dashboard-home/admin-dashboard-home.component';
+import { AdminRidesComponent } from './components/admin-rides/admin-rides.component';
+import { AdminUsersComponent } from './components/admin-users/admin-users.component';
+import { AdminCaptainsComponent } from './components/admin-captains/admin-captains.component';
+import { AdminCaptainsRequestComponent } from './components/admin-captains-request/admin-captains-request.component';
 
 const routes: Routes = [
   {
@@ -180,6 +184,22 @@ const routes: Routes = [
       {
         path: '',
         component: AdminDashboardHomeComponent,
+      },
+      {
+        path: 'rides',
+        component: AdminRidesComponent,
+      },
+      {
+        path: 'users',
+        component: AdminUsersComponent,
+      },
+      {
+        path: 'captains',
+        component: AdminCaptainsComponent,
+      },
+      {
+        path: 'captains-request',
+        component: AdminCaptainsRequestComponent,
       },
     ],
   },

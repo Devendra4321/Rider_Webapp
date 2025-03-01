@@ -1,0 +1,780 @@
+<div class="card mt-lg-5 mt-md-5 mt-4">
+  <!-- <div class="card-header">Featured</div> -->
+  <div class="card-body">
+    <div class="row p-1">
+      <div class="d-flex justify-content-between">
+        <div><h2>All captain requests</h2></div>
+        <div>
+          <!-- <button class="btn btn-success text-white mx-3">
+            Export to excel
+          </button> -->
+        </div>
+      </div>
+
+      <div class="my-2">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link active"
+              id="home-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#home-tab-pane"
+              type="button"
+              role="tab"
+              aria-controls="home-tab-pane"
+              aria-selected="true"
+            >
+              Pending
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="profile-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#profile-tab-pane"
+              type="button"
+              role="tab"
+              aria-controls="profile-tab-pane"
+              aria-selected="false"
+              (click)="getInProgressCaptains()"
+            >
+              Inprogress
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="contact-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#contact-tab-pane"
+              type="button"
+              role="tab"
+              aria-controls="contact-tab-pane"
+              aria-selected="false"
+              (click)="getApprovedCaptains()"
+            >
+              Approved
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="disabled-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#disabled-tab-pane"
+              type="button"
+              role="tab"
+              aria-controls="disabled-tab-pane"
+              aria-selected="false"
+              (click)="getRejectedCaptains()"
+            >
+              Rejected
+            </button>
+          </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div
+            class="tab-pane fade show active"
+            id="home-tab-pane"
+            role="tabpanel"
+            aria-labelledby="home-tab"
+            tabindex="0"
+          >
+            <div class="table-responsive small">
+              <table class="table table-sm">
+                <thead>
+                  <tr>
+                    <th scope="col">_id</th>
+                    <th scope="col">First name</th>
+                    <th scope="col">Last name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Vehicle type</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Created on</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let captain of pendingCaptains">
+                    <td>{{ captain._id }}</td>
+                    <td>{{ captain.fullname.firstname }}</td>
+                    <td>{{ captain.fullname.lastname }}</td>
+                    <td>{{ captain.email }}</td>
+                    <td>{{ captain.vehicle.vehicleType }}</td>
+                    <td>
+                      {{
+                        captain.status === 0
+                          ? "Pending"
+                          : captain.status === 1
+                          ? "InProgress"
+                          : captain.status === 2
+                          ? "Approved"
+                          : captain.status === 3
+                          ? "reject"
+                          : null
+                      }}
+                    </td>
+                    <td>{{ captain.createOn }}</td>
+                    <td>
+                      <div class="dropdown">
+                        <button
+                          class="btn btn-sm btn-secondary dropdown-toggle"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          Action
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li>
+                            <a
+                              class="dropdown-item"
+                              data-bs-toggle="modal"
+                              data-bs-target="#exampleModalPendingEdit"
+                              (click)="getCaptainById(captain._id)"
+                              >view captain</a
+                            >
+                          </li>
+                          <!-- <li>
+                            <a class="dropdown-item">Delete captain</a>
+                          </li> -->
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div *ngIf="totalPendingCaptains == 0" class="text-danger my-4">
+                <p class="fw-bold fs-5">Data Not Found..!</p>
+              </div>
+              <ngb-pagination
+                [collectionSize]="totalPendingCaptains"
+                [(page)]="activePendingCaptaincurrentPage"
+                [maxSize]="5"
+                [pageSize]="activePendingCaptainTableSize"
+                (pageChange)="onTablePendingCaptainDataChange($event)"
+                ><ng-template ngbPaginationPrevious>Prev</ng-template>
+                <ng-template ngbPaginationNext>Next</ng-template>
+              </ngb-pagination>
+            </div>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="profile-tab-pane"
+            role="tabpanel"
+            aria-labelledby="profile-tab"
+            tabindex="0"
+          >
+            <div class="table-responsive small">
+              <table class="table table-sm">
+                <thead>
+                  <tr>
+                    <th scope="col">_id</th>
+                    <th scope="col">First name</th>
+                    <th scope="col">Last name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Vehicle type</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Created on</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let captain of inProgressCaptain">
+                    <td>{{ captain._id }}</td>
+                    <td>{{ captain.fullname.firstname }}</td>
+                    <td>{{ captain.fullname.lastname }}</td>
+                    <td>{{ captain.email }}</td>
+                    <td>{{ captain.vehicle.vehicleType }}</td>
+                    <td>
+                      {{
+                        captain.status === 0
+                          ? "Pending"
+                          : captain.status === 1
+                          ? "InProgress"
+                          : captain.status === 2
+                          ? "Approved"
+                          : captain.status === 3
+                          ? "reject"
+                          : null
+                      }}
+                    </td>
+                    <td>{{ captain.createOn }}</td>
+                    <td>
+                      <div class="dropdown">
+                        <button
+                          class="btn btn-sm btn-secondary dropdown-toggle"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          Action
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li>
+                            <a
+                              class="dropdown-item"
+                              data-bs-toggle="modal"
+                              data-bs-target="#exampleModalPendingEdit"
+                              (click)="getCaptainById(captain._id)"
+                              >Edit user</a
+                            >
+                          </li>
+                          <!-- <li>
+                            <a class="dropdown-item">Delete user</a>
+                          </li> -->
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div
+                *ngIf="totalInProgressCaptains == 0"
+                class="text-danger my-4"
+              >
+                <p class="fw-bold fs-5">Data Not Found..!</p>
+              </div>
+              <ngb-pagination
+                [collectionSize]="totalInProgressCaptains"
+                [(page)]="activeInProgressCaptaincurrentPage"
+                [maxSize]="5"
+                [pageSize]="activeInProgressCaptainTableSize"
+                (pageChange)="onTableInProgressCaptainDataChange($event)"
+                ><ng-template ngbPaginationPrevious>Prev</ng-template>
+                <ng-template ngbPaginationNext>Next</ng-template>
+              </ngb-pagination>
+            </div>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="contact-tab-pane"
+            role="tabpanel"
+            aria-labelledby="contact-tab"
+            tabindex="0"
+          >
+            <div class="table-responsive small">
+              <table class="table table-sm">
+                <thead>
+                  <tr>
+                    <th scope="col">_id</th>
+                    <th scope="col">First name</th>
+                    <th scope="col">Last name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Vehicle type</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Created on</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let captain of approvedCaptain">
+                    <td>{{ captain._id }}</td>
+                    <td>{{ captain.fullname.firstname }}</td>
+                    <td>{{ captain.fullname.lastname }}</td>
+                    <td>{{ captain.email }}</td>
+                    <td>{{ captain.vehicle.vehicleType }}</td>
+                    <td>
+                      {{
+                        captain.status === 0
+                          ? "Pending"
+                          : captain.status === 1
+                          ? "InProgress"
+                          : captain.status === 2
+                          ? "Approved"
+                          : captain.status === 3
+                          ? "reject"
+                          : null
+                      }}
+                    </td>
+                    <td>{{ captain.createOn }}</td>
+                    <td>
+                      <div class="dropdown">
+                        <button
+                          class="btn btn-sm btn-secondary dropdown-toggle"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          Action
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li>
+                            <a
+                              class="dropdown-item"
+                              data-bs-toggle="modal"
+                              data-bs-target="#exampleModalPendingEdit"
+                              (click)="getCaptainById(captain._id)"
+                              >Edit user</a
+                            >
+                          </li>
+                          <!-- <li>
+                            <a class="dropdown-item">Delete user</a>
+                          </li> -->
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div *ngIf="totalApprovedCaptains == 0" class="text-danger my-4">
+                <p class="fw-bold fs-5">Data Not Found..!</p>
+              </div>
+              <ngb-pagination
+                [collectionSize]="totalApprovedCaptains"
+                [(page)]="activeApprovedCaptaincurrentPage"
+                [maxSize]="5"
+                [pageSize]="activeApprovedCaptainTableSize"
+                (pageChange)="onTableApprovedCaptainDataChange($event)"
+                ><ng-template ngbPaginationPrevious>Prev</ng-template>
+                <ng-template ngbPaginationNext>Next</ng-template>
+              </ngb-pagination>
+            </div>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="disabled-tab-pane"
+            role="tabpanel"
+            aria-labelledby="disabled-tab"
+            tabindex="0"
+          >
+            <div class="table-responsive small">
+              <table class="table table-sm">
+                <thead>
+                  <tr>
+                    <th scope="col">_id</th>
+                    <th scope="col">First name</th>
+                    <th scope="col">Last name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Vehicle type</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Created on</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let captain of rejectedCaptain">
+                    <td>{{ captain._id }}</td>
+                    <td>{{ captain.fullname.firstname }}</td>
+                    <td>{{ captain.fullname.lastname }}</td>
+                    <td>{{ captain.email }}</td>
+                    <td>{{ captain.vehicle.vehicleType }}</td>
+                    <td>
+                      {{
+                        captain.status === 0
+                          ? "Pending"
+                          : captain.status === 1
+                          ? "InProgress"
+                          : captain.status === 2
+                          ? "Approved"
+                          : captain.status === 3
+                          ? "reject"
+                          : null
+                      }}
+                    </td>
+                    <td>{{ captain.createOn }}</td>
+                    <td>
+                      <div class="dropdown">
+                        <button
+                          class="btn btn-sm btn-secondary dropdown-toggle"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          Action
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li>
+                            <a
+                              class="dropdown-item"
+                              data-bs-toggle="modal"
+                              data-bs-target="#exampleModalPendingEdit"
+                              (click)="getCaptainById(captain._id)"
+                              >Edit user</a
+                            >
+                          </li>
+                          <!-- <li>
+                            <a class="dropdown-item">Delete user</a>
+                          </li> -->
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div *ngIf="totalRejectedCaptains == 0" class="text-danger my-4">
+                <p class="fw-bold fs-5">Data Not Found..!</p>
+              </div>
+              <ngb-pagination
+                [collectionSize]="totalRejectedCaptains"
+                [(page)]="activeRejectedCaptaincurrentPage"
+                [maxSize]="5"
+                [pageSize]="activeRejectedCaptainTableSize"
+                (pageChange)="onTableRejectedCaptainDataChange($event)"
+                ><ng-template ngbPaginationPrevious>Prev</ng-template>
+                <ng-template ngbPaginationNext>Next</ng-template>
+              </ngb-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- pending captain modal -->
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModalPendingEdit"
+  tabindex="-1"
+  aria-labelledby="exampleModalPendingEditLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalPendingEditLabel">
+          Edit captain
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-3 m-auto my-3">
+            <label class="input-group my-2 fw-bold">Change status:</label>
+            <select class="form-select" [(ngModel)]="captainStatus">
+              <option selected disabled>Choose...</option>
+              <option value="0">Pending</option>
+              <option value="1">Inprogress</option>
+              <option value="2">Approved</option>
+              <option value="3">Reject</option>
+            </select>
+
+            <button
+              class="btn btn-secondary offset-3 my-3"
+              (click)="updateCaptainStatus(captainStatus, captain._id)"
+              [disabled]="captainStatus == 'Choose...'"
+            >
+              Change status
+            </button>
+          </div>
+        </div>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link active"
+              id="view-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#view-tab-pane"
+              type="button"
+              role="tab"
+              aria-controls="view-tab-pane"
+              aria-selected="true"
+            >
+              View Details
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="view-doc-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#view-doc-tab-pane"
+              type="button"
+              role="tab"
+              aria-controls="view-doc-tab-pane"
+              aria-selected="false"
+              (click)="getCaptainById(captain._id)"
+            >
+              View Documents
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="upload-doc-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#upload-doc-tab-pane"
+              type="button"
+              role="tab"
+              aria-controls="upload-doc-tab-pane"
+              aria-selected="false"
+            >
+              Upload documents
+            </button>
+          </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div
+            class="tab-pane fade show active"
+            id="view-tab-pane"
+            role="tabpanel"
+            aria-labelledby="home-tab"
+            tabindex="0"
+          >
+            <div class="row offset-1 my-3">
+              <div class="col-md-5 col-10">
+                <label class="form-label">First name:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="fullName.firstname"
+                  disabled
+                />
+              </div>
+              <div class="col-md-5 col-10">
+                <label class="form-label">Last name:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="fullName.lastname"
+                  disabled
+                />
+              </div>
+            </div>
+
+            <div class="row offset-1 mb-3">
+              <div class="col-md-5 col-10">
+                <label class="form-label">Id:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="captain._id"
+                  disabled
+                />
+              </div>
+              <div class="col-md-5 col-10">
+                <label class="form-label">Email:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="captain.email"
+                  disabled
+                />
+              </div>
+            </div>
+
+            <div class="row offset-1 mb-3">
+              <div class="col-md-5 col-10">
+                <label class="form-label">Todays earn:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="captain.todaysEarn"
+                  disabled
+                />
+              </div>
+              <div class="col-md-5 col-10">
+                <label class="form-label">Total earning:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="captain.totalEarning"
+                  disabled
+                />
+              </div>
+            </div>
+
+            <div class="row offset-1 mb-3">
+              <div class="col-md-5 col-10">
+                <label class="form-label">Vehicle type:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="vehicleData.vehicleType"
+                  disabled
+                />
+              </div>
+              <div class="col-md-5 col-10">
+                <label class="form-label">Vehicle number:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="vehicleData.plate"
+                  disabled
+                />
+              </div>
+            </div>
+
+            <div class="row offset-1 mb-3">
+              <div class="col-md-5 col-10">
+                <label class="form-label">Vehicle capacity:</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  [(ngModel)]="vehicleData.capacity"
+                  disabled
+                />
+              </div>
+              <div class="col-md-5 col-10">
+                <label class="form-label">Vehicle color:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="vehicleData.color"
+                  disabled
+                />
+              </div>
+            </div>
+
+            <div class="row offset-1 mb-5">
+              <div class="col-md-5 col-10">
+                <label class="form-label">Email verification:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="captain.isEmailVerified"
+                  disabled
+                />
+              </div>
+              <div class="col-md-5 col-10">
+                <label class="form-label">Activation status:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="captain.isDeleted"
+                  disabled
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="view-doc-tab-pane"
+            role="tabpanel"
+            aria-labelledby="view-doc-tab"
+            tabindex="0"
+          >
+            <div class="row offset-1">
+              <div
+                class="col-md-5 my-3"
+                *ngIf="
+                  captain?.documents?.drivinglicense?.fileName ==
+                  'drivinglicense'
+                "
+              >
+                <h5 class="mb-3">Driving License</h5>
+                <img
+                  [src]="captain?.documents?.drivinglicense?.url"
+                  alt=""
+                  width="90%"
+                  height="450px"
+                />
+              </div>
+
+              <div
+                class="col-md-5 my-3"
+                *ngIf="captain?.documents?.rc?.fileName == 'rc'"
+              >
+                <h5 class="mb-3">Register Certificate</h5>
+                <img
+                  [src]="captain?.documents?.rc?.url"
+                  alt=""
+                  width="90%"
+                  height="450px"
+                />
+              </div>
+
+              <div
+                class="col-md-5 my-3"
+                *ngIf="
+                  captain?.documents?.aadharfront?.fileName == 'aadharfront'
+                "
+              >
+                <h5 class="mb-3">Aadharfront side</h5>
+                <img
+                  [src]="captain?.documents?.aadharfront?.url"
+                  alt=""
+                  width="90%"
+                  height="450px"
+                />
+              </div>
+
+              <div
+                class="col-md-5 my-3"
+                *ngIf="captain?.documents?.aadharback?.fileName == 'aadharback'"
+              >
+                <h5 class="mb-3">Aadharback side</h5>
+                <img
+                  [src]="captain?.documents?.aadharback?.url"
+                  alt=""
+                  width="90%"
+                  height="450px"
+                />
+              </div>
+            </div>
+
+            <div class="row offset-1" *ngIf="captain?.documents == null">
+              <p class="fs-4 fw-semibold my-3 text-danger">
+                Documents not uploaded by captain...
+              </p>
+            </div>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="upload-doc-tab-pane"
+            role="tabpanel"
+            aria-labelledby="upload-doc-tab"
+            tabindex="0"
+          >
+            <div class="row offset-1 my-4">
+              <div class="col-md-5 mb-3">
+                <label for="formFileSm" class="form-label"
+                  >Driving License</label
+                >
+                <input
+                  class="form-control form-control-sm"
+                  id="formFileSm"
+                  type="file"
+                  (change)="onUpload($event, 'drivinglicense')"
+                />
+              </div>
+              <div class="col-md-5 mb-3">
+                <label for="formFileSm" class="form-label"
+                  >Register Certificate</label
+                >
+                <input
+                  class="form-control form-control-sm"
+                  id="formFileSm"
+                  type="file"
+                  (change)="onUpload($event, 'rc')"
+                />
+              </div>
+
+              <div class="col-md-5 mb-3">
+                <label for="formFileSm" class="form-label"
+                  >Aadharcard Front side</label
+                >
+                <input
+                  class="form-control form-control-sm"
+                  id="formFileSm"
+                  type="file"
+                  (change)="onUpload($event, 'aadharfront')"
+                />
+              </div>
+              <div class="col-md-5 mb-3">
+                <label for="formFileSm" class="form-label"
+                  >Aadharcard Back side</label
+                >
+                <input
+                  class="form-control form-control-sm"
+                  id="formFileSm"
+                  type="file"
+                  (change)="onUpload($event, 'aadharback')"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

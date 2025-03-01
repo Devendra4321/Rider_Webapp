@@ -1,0 +1,259 @@
+<div class="card mt-lg-5 mt-md-5 mt-4">
+  <!-- <div class="card-header">Featured</div> -->
+  <div class="card-body">
+    <div class="row p-1">
+      <div class="d-flex justify-content-between">
+        <div>
+          <h2 class="card-title">All Captains</h2>
+        </div>
+        <div>
+          <!-- <button class="btn btn-success text-white mx-2">
+                Export to current
+              </button> -->
+          <button
+            class="btn btn-secondary text-white mx-3 dropdown-toggle"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Export to excel
+          </button>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item" (click)="exportActiveTableToExcel(false)"
+                >Active Captains</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" (click)="exportActiveTableToExcel(true)"
+                >Deleted Captains</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-12">
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link active"
+                id="home-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#home-tab-pane"
+                type="button"
+                role="tab"
+                aria-controls="home-tab-pane"
+                aria-selected="true"
+              >
+                Active users
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link"
+                id="profile-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#profile-tab-pane"
+                type="button"
+                role="tab"
+                aria-controls="profile-tab-pane"
+                aria-selected="false"
+                (click)="getDeletedCaptains()"
+              >
+                Deleted users
+              </button>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <div
+              class="tab-pane fade show active"
+              id="home-tab-pane"
+              role="tabpanel"
+              aria-labelledby="home-tab"
+              tabindex="0"
+            >
+              <div class="table-responsive small">
+                <table class="table table-sm">
+                  <thead>
+                    <tr>
+                      <th scope="col">_id</th>
+                      <th scope="col">First name</th>
+                      <th scope="col">Last name</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Vehicle type</th>
+                      <th scope="col">Status</th>
+                      <!-- <th scope="col">Action</th> -->
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let captain of activeCaptains">
+                      <td>{{ captain._id }}</td>
+                      <td>{{ captain.fullname.firstname }}</td>
+                      <td>{{ captain.fullname.lastname }}</td>
+                      <td>{{ captain.email }}</td>
+                      <td>{{ captain.vehicle.vehicleType }}</td>
+                      <td>
+                        {{
+                          captain.status === 0
+                            ? "Pending"
+                            : captain.status === 1
+                            ? "InProgress"
+                            : captain.status === 2
+                            ? "Approved"
+                            : captain.status === 3
+                            ? "reject"
+                            : null
+                        }}
+                      </td>
+                      <td>
+                        <!-- <div class="dropdown">
+                          <button
+                            class="btn btn-sm btn-secondary dropdown-toggle"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                          >
+                            Action
+                          </button>
+                          <ul class="dropdown-menu">
+                            <li>
+                              <a
+                                class="dropdown-item"
+                                data-bs-toggle="modal"
+                                data-bs-target="#exampleModal"
+                                >Edit captain</a
+                              >
+                            </li>
+                            <li>
+                              <a class="dropdown-item">Delete captain</a>
+                            </li>
+                          </ul>
+                        </div> -->
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div *ngIf="totalActiveCaptains == 0" class="text-danger my-4">
+                  <p class="fw-bold fs-5">Data Not Found..!</p>
+                </div>
+                <ngb-pagination
+                  [collectionSize]="totalActiveCaptains"
+                  [(page)]="activeCaptainscurrentPage"
+                  [maxSize]="5"
+                  [pageSize]="activeCaptainsTableSize"
+                  (pageChange)="onTableActiveCaptainDataChange($event)"
+                  ><ng-template ngbPaginationPrevious>Prev</ng-template>
+                  <ng-template ngbPaginationNext>Next</ng-template>
+                </ngb-pagination>
+              </div>
+            </div>
+            <div
+              class="tab-pane fade"
+              id="profile-tab-pane"
+              role="tabpanel"
+              aria-labelledby="profile-tab"
+              tabindex="0"
+            >
+              <div class="table-responsive small">
+                <table class="table table-sm" id="active-users-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">_id</th>
+                      <th scope="col">First name</th>
+                      <th scope="col">Last name</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Email verified</th>
+                      <th scope="col">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let captain of deletedCaptains">
+                      <td>{{ captain._id }}</td>
+                      <td>{{ captain.fullname.firstname }}</td>
+                      <td>{{ captain.fullname.lastname }}</td>
+                      <td>{{ captain.email }}</td>
+                      <td>{{ captain.vehicle.vehicleType }}</td>
+                      <td>
+                        {{
+                          captain.status === 0
+                            ? "Pending"
+                            : captain.status === 1
+                            ? "InProgress"
+                            : captain.status === 2
+                            ? "Approved"
+                            : captain.status === 3
+                            ? "reject"
+                            : null
+                        }}
+                      </td>
+                      <td>
+                        <!-- <div class="dropdown">
+                          <button
+                            class="btn btn-sm btn-secondary dropdown-toggle"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                          >
+                            Action
+                          </button>
+                          <ul class="dropdown-menu">
+                            <li>
+                              <a class="dropdown-item">Delete captain</a>
+                            </li>
+                          </ul>
+                        </div> -->
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div *ngIf="totalDeletedCaptains == 0" class="text-danger my-4">
+                  <p class="fw-bold fs-5">Data Not Found..!</p>
+                </div>
+                <ngb-pagination
+                  [collectionSize]="totalDeletedCaptains"
+                  [(page)]="deletedCaptainscurrentPage"
+                  [maxSize]="5"
+                  [pageSize]="deletedCaptainsTableSize"
+                  (pageChange)="onTableDeletedCaptainDataChange($event)"
+                  ><ng-template ngbPaginationPrevious>Prev</ng-template>
+                  <ng-template ngbPaginationNext>Next</ng-template>
+                </ngb-pagination>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="card-footer text-body-secondary">2 days ago</div> -->
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Edit user</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">...</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -46,6 +46,10 @@ import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { AdminLoginComponent } from './pages/admin-login/admin-login.component';
 import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard.component';
 import { AdminDashboardHomeComponent } from './components/admin-dashboard-home/admin-dashboard-home.component';
+import { AdminRidesComponent } from './components/admin-rides/admin-rides.component';
+import { AdminUsersComponent } from './components/admin-users/admin-users.component';
+import { AdminCaptainsComponent } from './components/admin-captains/admin-captains.component';
+import { AdminCaptainsRequestComponent } from './components/admin-captains-request/admin-captains-request.component';
 
 const config: SocketIoConfig = {
   url: environment.SOCKET_URL,
@@ -90,6 +94,10 @@ const config: SocketIoConfig = {
     AdminLoginComponent,
     AdminDashboardComponent,
     AdminDashboardHomeComponent,
+    AdminRidesComponent,
+    AdminUsersComponent,
+    AdminCaptainsComponent,
+    AdminCaptainsRequestComponent,
   ],
   imports: [
     SocketIoModule.forRoot(config),
