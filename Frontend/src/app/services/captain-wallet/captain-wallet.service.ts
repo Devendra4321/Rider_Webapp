@@ -9,8 +9,59 @@ export class CaptainWalletService {
   constructor() {}
 
   http = inject(HttpClient);
-  token = localStorage.getItem('captain-token');
-  headers = {
-    Authorization: `Bearer ${this.token}`,
-  };
+
+  getCaptainWallet() {
+    const token = localStorage.getItem('captain-token');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    return this.http.get(environment.API_URL_WALLET + 'getCaptainWallet', {
+      headers,
+    });
+  }
+
+  getAllCaptainWalletTranscation(data: any) {
+    const token = localStorage.getItem('captain-token');
+
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    return this.http.post(
+      environment.API_URL_WALLET + 'getAllCaptainWalletTransactions',
+      data,
+      {
+        headers,
+      }
+    );
+  }
+
+  addAmountInCaptainWallet(data: any) {
+    const token = localStorage.getItem('captain-token');
+
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    return this.http.post(
+      environment.API_URL_WALLET + 'AddInCaptainWallet',
+      data,
+      {
+        headers,
+      }
+    );
+  }
+
+  withdrawalAmountInCaptainWallet(data: any) {
+    const token = localStorage.getItem('captain-token');
+
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    return this.http.post(
+      environment.API_URL_WALLET + 'withdrawInCaptainWallet',
+      data,
+      {
+        headers,
+      }
+    );
+  }
 }

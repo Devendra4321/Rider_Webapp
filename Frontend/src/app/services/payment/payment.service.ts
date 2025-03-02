@@ -25,4 +25,20 @@ export class PaymentService {
       headers,
     });
   }
+
+  walletPaymentInit(data: any) {
+    const token = localStorage.getItem('captain-token');
+    const headers = { Authorization: `bearer ${token}` };
+    return this.http.post(environment.API_URL_WALLET + 'paymentInit', data, {
+      headers,
+    });
+  }
+
+  walletPaymentVerify(data: any) {
+    const token = localStorage.getItem('captain-token');
+    const headers = { Authorization: `bearer ${token}` };
+    return this.http.post(environment.API_URL_WALLET + 'paymentVerify', data, {
+      headers,
+    });
+  }
 }

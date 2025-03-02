@@ -38,4 +38,16 @@ router.post(
   walletController.getAllCaptainWalletTransactions
 );
 
+router.post(
+  "/paymentInit",
+  authMiddleware.authCaptain,
+  walletController.paymentInit
+);
+
+router.post(
+  "/paymentVerify",
+  authMiddleware.authCaptain,
+  walletController.paymentVerify
+);
+
 module.exports = router;

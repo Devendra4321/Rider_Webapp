@@ -19,7 +19,7 @@
               Rider Cash
             </p>
             <p class="card-title fs-2 fw-bold mt-3 mb-4">
-              <i class="bi bi-currency-rupee"></i>0.00
+              <i class="bi bi-currency-rupee"></i>{{ wallet?.balance }}
             </p>
             <p class="card-text fw-medium mb-2">
               Current balance or current rider cash present in rider captain
@@ -40,9 +40,16 @@
               type="number"
               class="form-control mt-3 cash-input"
               placeholder="Enter rider cash amount"
+              [(ngModel)]="addCashAmount"
             />
 
-            <button class="add-cash-btn mt-4 mb-md-3 mb-lg-0">Add cash</button>
+            <button
+              class="add-cash-btn mt-4 mb-md-3 mb-lg-0"
+              (click)="paymentInit()"
+              [disabled]="addCashAmount <= 0"
+            >
+              Add cash
+            </button>
           </div>
         </div>
       </div>
@@ -64,6 +71,7 @@
               type="number"
               class="withdraw-cash-input mt-3 cash-input"
               placeholder="Enter rider cash amount"
+              [(ngModel)]="withdrawCashAmount"
             />
 
             <p class="mt-1 m-0">
@@ -75,7 +83,15 @@
               >
             </p>
 
-            <button class="withdraw-cash-btn mt-4 mb-md-3 mb-lg-0">
+            <button
+              class="withdraw-cash-btn mt-4 mb-md-3 mb-lg-0"
+              [disabled]="
+                wallet?.balance <= 500 ||
+                wallet?.balance < withdrawCashAmount ||
+                withdrawCashAmount <= 0
+              "
+              (click)="withdrawCash()"
+            >
               Withdraw cash
             </button>
           </div>
@@ -91,12 +107,15 @@
     </div>
     <div class="row">
       <div class="col-lg-2"></div>
-      <div class="col-lg-8 table-responsive small">
+      <div
+        class="col-lg-8 table-responsive small"
+        *ngIf="totalTransaction !== 0"
+      >
         <table class="table table-sm">
           <thead>
             <tr>
               <th scope="col">_id</th>
-              <th scope="col">Ride Id</th>
+              <th scope="col">Ride Info</th>
               <th scope="col">Transaction</th>
               <th scope="col">Amount</th>
               <th scope="col">Description</th>
@@ -104,48 +123,33 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>6790edc37fc95bf584b5b23a</td>
-              <td>6790edc37fc95bf584b5b23a</td>
-              <td>credit</td>
-              <td>120.00</td>
-              <td>Ride amount debited from captain wallet</td>
-              <td>1/23/2025, 8:45:09 AM</td>
-            </tr>
-            <tr>
-              <td>6790edc37fc95bf584b5b23a</td>
-              <td>6790edc37fc95bf584b5b23a</td>
-              <td>credit</td>
-              <td>120.00</td>
-              <td>Ride amount debited from captain wallet</td>
-              <td>1/23/2025, 8:45:09 AM</td>
-            </tr>
-            <tr>
-              <td>6790edc37fc95bf584b5b23a</td>
-              <td>6790edc37fc95bf584b5b23a</td>
-              <td>credit</td>
-              <td>120.00</td>
-              <td>Ride amount debited from captain wallet</td>
-              <td>1/23/2025, 8:45:09 AM</td>
-            </tr>
-            <tr>
-              <td>6790edc37fc95bf584b5b23a</td>
-              <td>6790edc37fc95bf584b5b23a</td>
-              <td>credit</td>
-              <td>120.00</td>
-              <td>Ride amount debited from captain wallet</td>
-              <td>1/23/2025, 8:45:09 AM</td>
-            </tr>
-            <tr>
-              <td>6790edc37fc95bf584b5b23a</td>
-              <td>6790edc37fc95bf584b5b23a</td>
-              <td>credit</td>
-              <td>120.00</td>
-              <td>Ride amount debited from captain wallet</td>
-              <td>1/23/2025, 8:45:09 AM</td>
+            <tr *ngFor="let walletTranscation of walletTranscations">
+              <td>{{ walletTranscation._id }}</td>
+              <td>
+                {{ walletTranscation.rideId?.pickup }} --
+                {{ walletTranscation.rideId?.destination }}
+              </td>
+              <td>{{ walletTranscation.transactionType }}</td>
+              <td>{{ walletTranscation.amount }}</td>
+              <td>{{ walletTranscation.description }}</td>
+              <td>{{ walletTranscation.date }}</td>
             </tr>
           </tbody>
         </table>
+        <ngb-pagination
+          [collectionSize]="totalTransaction"
+          [(page)]="activeTransactioncurrentPage"
+          [maxSize]="5"
+          [pageSize]="activeTransactionTableSize"
+          (pageChange)="onTableActiveRideDataChange($event)"
+          ><ng-template ngbPaginationPrevious>Prev</ng-template>
+          <ng-template ngbPaginationNext>Next</ng-template>
+        </ngb-pagination>
+      </div>
+      <div class="col-lg-8">
+        <p class="fs-5 fw-semibold text-danger" *ngIf="totalTransaction == 0">
+          No transaction found in your wallet...
+        </p>
       </div>
     </div>
   </div>

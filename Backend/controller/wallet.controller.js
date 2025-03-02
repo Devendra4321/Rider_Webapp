@@ -2,6 +2,9 @@ const walletModel = require("../model/wallet.model");
 const transactionModel = require("../model/transaction.model");
 const rideModel = require("../model/ride.model");
 const captainModel = require("../model/captain.model");
+const razorpay = require("../razorpay.config");
+const crypto = require("crypto");
+const transporter = require("../mail.config");
 
 module.exports.getCaptainWallet = async (req, res, next) => {
   try {
@@ -364,7 +367,7 @@ module.exports.getAllCaptainWalletTransactions = async (req, res, next) => {
     const transactions = await transactionModel
       .find({ _id: { $in: wallet.transactions } })
       .populate("rideId")
-      .sort({ date: -1 })
+      .sort({ _id: -1 })
       .skip((pageNumber - 1) * pageSize)
       .limit(pageSize);
 
@@ -387,6 +390,115 @@ module.exports.getAllCaptainWalletTransactions = async (req, res, next) => {
     res.status(500).json({
       statusCode: 500,
       message: error.message,
+    });
+  }
+};
+
+module.exports.paymentInit = async (req, res, next) => {
+  const { amount } = req.body;
+
+  if (!amount) {
+    return res.status(400).json({
+      statusCode: 400,
+      message: "Amount required",
+    });
+  }
+
+  try {
+    const options = {
+      amount: Number(amount * 10),
+      currency: "INR",
+      receipt: `receipt# ${crypto.randomBytes(10).toString("hex")}`,
+    };
+
+    const order = await razorpay.orders.create(options);
+
+    if (!order) {
+      return res.status(400).json({
+        statusCode: 400,
+        message: "Payment order not created",
+      });
+    }
+
+    res.status(200).json({
+      statusCode: 200,
+      order,
+    });
+  } catch (error) {
+    console.log(error.message);
+
+    res.status(500).json({
+      statusCode: 500,
+      message: "Internal server error",
+      error: error.error,
+    });
+  }
+};
+
+module.exports.paymentVerify = async (req, res, next) => {
+  const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+    req.body;
+
+  if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+    return res.status(400).json({
+      statusCode: 400,
+      message: "All information required",
+    });
+  }
+
+  const body = razorpay_order_id + "|" + razorpay_payment_id;
+
+  const generatedSignature = crypto
+    .createHmac("sha256", process.env.ROZARPAY_SECRET)
+    .update(body.toString())
+    .digest("hex");
+
+  const isAuthentic = generatedSignature === razorpay_signature;
+
+  if (isAuthentic) {
+    await transporter.sendMail({
+      from: process.env.FROM_EMAIL,
+      to: req.captain.email,
+      subject: "Rider app Payment Successfully Verified",
+      html: `
+    <div style="font-family: 'Arial', sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #ffffff; border: 1px solid #ddd; border-radius: 8px;">
+  <h1 style="text-align: center; color: #333;">Welcome to <span style="color: #4CAF50;">Rider App</span></h1>
+  <p style="font-size: 16px; color: #555;">Hello <strong>${
+    req.captain.fullname.firstname
+  }</strong>,</p>
+  <p style="font-size: 16px; color: #555;">Your payment has been successfully <span style="color: #4CAF50;">verified</span>. Below are your transaction details:</p>
+  <div style="background-color: #f1f1f1; padding: 15px; border-radius: 5px; margin: 20px 0;">
+    <p style="font-size: 16px; color: #555;"><strong>Order ID:</strong> ${razorpay_order_id}</p>
+    <p style="font-size: 16px; color: #555;"><strong>Payment Id:</strong> ${razorpay_payment_id}</p>
+    <p style="font-size: 16px; color: #555;"><strong>Payment Status:</strong> <span style="color: #4CAF50;">Confirmed</span></p>
+  </div>
+  <p style="font-size: 14px; color: #666;">If you have any questions or concerns regarding your payment, please reach out to our support team.</p>
+  <p style="font-size: 14px; color: #666; text-align: center;">
+    Need help? Contact us at <a href="mailto:support@riderapp.com" style="color: #007BFF; text-decoration: none;">support@riderapp.com</a>
+  </p>
+  <footer style="font-size: 12px; color: #999; text-align: center; margin-top: 30px;">
+    <p style="margin: 0;">&copy; ${new Date().getFullYear()} Rider App. All rights reserved.</p>
+    <p style="margin: 0;">
+      <a href="#" style="color: #007BFF; text-decoration: none;">Terms of Service</a> |
+      <a href="#" style="color: #007BFF; text-decoration: none;">Privacy Policy</a>
+    </p>
+  </footer>
+</div>
+          `,
+    });
+
+    res.status(200).json({
+      statusCode: 200,
+      message: "Payment successful",
+      razorpay_payment_id,
+    });
+    // res.redirect(
+    //   `http://localhost:5173/paymentsuccess?reference=${razorpay_payment_id}`
+    // );
+  } else {
+    res.status(400).json({
+      statusCode: 400,
+      message: "Payment failed",
     });
   }
 };
