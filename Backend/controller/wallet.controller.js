@@ -59,7 +59,7 @@ module.exports.debitInCaptainWallet = async (req, res, next) => {
 
     if (
       ride.paymentDetails.paymentMethod !== "cash" ||
-      ride.paymentDetails.status !== 0
+      ride.paymentDetails.status !== 1
     ) {
       return res.status(400).json({
         statusCode: 400,

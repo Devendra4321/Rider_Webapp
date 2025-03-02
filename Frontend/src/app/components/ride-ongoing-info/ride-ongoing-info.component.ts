@@ -6,17 +6,19 @@ import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MapComponent } from '../map/map.component';
 import { RideSocketService } from '../../services/ride-socket/ride-socket.service';
+import { CaptainWalletService } from '../../services/captain-wallet/captain-wallet.service';
 
 @Component({
-    selector: 'app-ride-ongoing-info',
-    templateUrl: './ride-ongoing-info.component.html',
-    styleUrl: './ride-ongoing-info.component.css',
-    standalone: false
+  selector: 'app-ride-ongoing-info',
+  templateUrl: './ride-ongoing-info.component.html',
+  styleUrl: './ride-ongoing-info.component.css',
+  standalone: false,
 })
 export class RideOngoingInfoComponent {
   constructor(
     private rideService: RideService,
     private rideSocketService: RideSocketService,
+    private captainWalletService: CaptainWalletService,
     private spinner: NgxSpinnerService,
     private toaster: ToastrService,
     private route: ActivatedRoute,
@@ -186,6 +188,8 @@ export class RideOngoingInfoComponent {
 
           if (this.rideDetail.paymentDetails.paymentMethod == 'cash') {
             this.upadatePaymentStatus();
+          } else {
+            this.creditToCaptainWallet(rideId);
           }
         }
       },
@@ -203,6 +207,72 @@ export class RideOngoingInfoComponent {
         this.spinner.hide();
       },
     });
+  }
+
+  debitFromCaptainWallet(rideId: any) {
+    this.spinner.show();
+
+    this.captainWalletService
+      .debitFromCaptainWallet({ rideId: rideId })
+      .subscribe({
+        next: (result: any) => {
+          if (result.statusCode == 200) {
+            this.spinner.hide();
+            console.log('Debit from captain wallet data', result);
+          }
+        },
+        error: (error) => {
+          console.log('Debit from captain wallet data error', error.error);
+
+          if (
+            error.error.statusCode == 400 ||
+            error.error.statusCode == 500 ||
+            error.error.statusCode == 404 ||
+            error.error.statusCode == 401
+          ) {
+            this.spinner.hide();
+            this.toaster.error(error.error.message);
+          } else {
+            this.toaster.error('Something went wrong');
+          }
+        },
+        complete: () => {
+          this.spinner.hide();
+        },
+      });
+  }
+
+  creditToCaptainWallet(rideId: any) {
+    this.spinner.show();
+
+    this.captainWalletService
+      .creditToCaptainWallet({ rideId: rideId })
+      .subscribe({
+        next: (result: any) => {
+          if (result.statusCode == 200) {
+            this.spinner.hide();
+            console.log('Credit to captain wallet data', result);
+          }
+        },
+        error: (error) => {
+          console.log('Credit to captain wallet data error', error.error);
+
+          if (
+            error.error.statusCode == 400 ||
+            error.error.statusCode == 500 ||
+            error.error.statusCode == 404 ||
+            error.error.statusCode == 401
+          ) {
+            this.spinner.hide();
+            this.toaster.error(error.error.message);
+          } else {
+            this.toaster.error('Something went wrong');
+          }
+        },
+        complete: () => {
+          this.spinner.hide();
+        },
+      });
   }
 
   rideCompleted() {
@@ -280,6 +350,7 @@ export class RideOngoingInfoComponent {
           if (result.statusCode == 200) {
             this.spinner.hide();
             console.log('Updatepaymentstatus data', result);
+            this.debitFromCaptainWallet(this.rideId);
           }
         },
         error: (error) => {

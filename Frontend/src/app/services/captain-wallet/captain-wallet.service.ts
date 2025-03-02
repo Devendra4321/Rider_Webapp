@@ -64,4 +64,34 @@ export class CaptainWalletService {
       }
     );
   }
+
+  debitFromCaptainWallet(data: any) {
+    const token = localStorage.getItem('captain-token');
+
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    return this.http.post(
+      environment.API_URL_WALLET + 'debitInCaptainWallet',
+      data,
+      {
+        headers,
+      }
+    );
+  }
+
+  creditToCaptainWallet(data: any) {
+    const token = localStorage.getItem('captain-token');
+
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    return this.http.post(
+      environment.API_URL_WALLET + 'creditInCaptainWallet',
+      data,
+      {
+        headers,
+      }
+    );
+  }
 }
