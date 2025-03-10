@@ -502,3 +502,316 @@ module.exports.paymentVerify = async (req, res, next) => {
     });
   }
 };
+
+module.exports.getUserWallet = async (req, res, next) => {
+  try {
+    const wallet = await walletModel.findOne({ userId: req.user._id });
+
+    if (!wallet) {
+      return res.status(404).json({
+        statusCode: 404,
+        message: "User wallet not found",
+      });
+    }
+
+    res.status(200).json({
+      statusCode: 200,
+      message: "User wallet found",
+      data: wallet,
+    });
+  } catch (error) {
+    res.status(500).json({
+      statusCode: 500,
+      message: error.message,
+    });
+  }
+};
+
+module.exports.debitInUserWallet = async (req, res, next) => {
+  try {
+    const { rideId } = req.body;
+
+    if (!rideId) {
+      return res.status(400).json({
+        statusCode: 400,
+        message: "Invalid input data",
+      });
+    }
+
+    const ride = await rideModel.findById(rideId);
+
+    if (!ride) {
+      return res.status(404).json({
+        statusCode: 404,
+        message: "Ride not found",
+      });
+    }
+
+    if (ride.status !== "pending") {
+      return res.status(400).json({
+        statusCode: 400,
+        message: "Ride is not in pending state",
+      });
+    }
+
+    if (ride.paymentDetails.paymentMethod == "cash") {
+      return res.status(400).json({
+        statusCode: 400,
+        message: "Ride payment method is cash",
+      });
+    }
+
+    if (ride.paymentDetails.isWalletPayment !== 0) {
+      return res.status(400).json({
+        statusCode: 400,
+        message: "Ride amount is already paid from wallet",
+      });
+    }
+
+    const wallet = await walletModel.findOne({ userId: req.user._id });
+
+    if (!wallet) {
+      return res.status(404).json({
+        statusCode: 404,
+        message: "User wallet not found",
+      });
+    }
+
+    if (wallet.balance < ride.fare) {
+      return res.status(400).json({
+        statusCode: 400,
+        message: "Insufficient balance",
+      });
+    }
+
+    const balance = wallet.balance - ride.fare;
+    wallet.balance = balance.toFixed(2);
+
+    const transaction = new transactionModel({
+      userId: req.user._id,
+      rideId: ride._id,
+      amount: ride.fare.toFixed(2),
+      transactionType: "debit",
+      description: "Ride amount debited from user wallet",
+    });
+
+    await transaction.save();
+
+    ride.paymentDetails.isWalletPayment = 1;
+    await ride.save();
+
+    wallet.transactions.push(transaction._id);
+    await wallet.save();
+
+    res.status(200).json({
+      statusCode: 200,
+      message: "Amount debited successfully",
+      data: wallet,
+    });
+  } catch (error) {
+    res.status(500).json({
+      statusCode: 500,
+      message: error.message,
+    });
+  }
+};
+
+module.exports.creditInUserWallet = async (req, res, next) => {
+  try {
+    const { rideId } = req.body;
+
+    if (!rideId) {
+      return res.status(400).json({
+        statusCode: 400,
+        message: "Invalid input data",
+      });
+    }
+
+    const ride = await rideModel.findById(rideId);
+
+    if (!ride) {
+      return res.status(404).json({
+        statusCode: 404,
+        message: "Ride not found",
+      });
+    }
+
+    if (ride.status !== "accepted") {
+      return res.status(400).json({
+        statusCode: 400,
+        message: "Ride is not in accepted state",
+      });
+    }
+
+    if (
+      ride.paymentDetails.paymentMethod !== "online" ||
+      ride.paymentDetails.status !== 1 ||
+      ride.paymentDetails.isWalletPayment !== 1
+    ) {
+      return res.status(400).json({
+        statusCode: 400,
+        message: "Ride payment method is not online or payment is not done",
+      });
+    }
+
+    if (ride.paymentDetails.isUserReturnRideAmountPaid == 1) {
+      return res.status(400).json({
+        statusCode: 400,
+        message: "Ride amount is already return to user wallet",
+      });
+    }
+
+    const wallet = await walletModel.findOne({ userId: req.user._id });
+
+    if (!wallet) {
+      return res.status(404).json({
+        statusCode: 404,
+        message: "User wallet not found",
+      });
+    }
+
+    const balance = wallet.balance + ride.fare;
+    wallet.balance = balance.toFixed(2);
+
+    const transaction = new transactionModel({
+      userId: req.user._id,
+      rideId: ride._id,
+      amount: ride.fare.toFixed(2),
+      transactionType: "credit",
+      description: "Ride amount credited in user wallet",
+    });
+
+    await transaction.save();
+
+    wallet.transactions.push(transaction._id);
+    ride.paymentDetails.isUserReturnRideAmountPaid = 1;
+
+    await ride.save();
+    await wallet.save();
+
+    res.status(200).json({
+      statusCode: 200,
+      message: "Amount credited successfully",
+      data: wallet,
+    });
+  } catch (error) {
+    res.status(500).json({
+      statusCode: 500,
+      message: error.message,
+    });
+  }
+};
+
+module.exports.AddInUserWallet = async (req, res, next) => {
+  try {
+    const { amount, transactionId } = req.body;
+
+    if (!amount || !transactionId) {
+      return res.status(400).json({
+        statusCode: 400,
+        message: "Enter valid information",
+      });
+    }
+
+    if (amount <= 0) {
+      return res.status(400).json({
+        statusCode: 400,
+        message: "Invalid amount",
+      });
+    }
+
+    const wallet = await walletModel.findOne({ userId: req.user._id });
+
+    if (!wallet) {
+      return res.status(404).json({
+        statusCode: 404,
+        message: "User wallet not found",
+      });
+    }
+
+    const balance = wallet.balance + amount;
+    wallet.balance = balance.toFixed(2);
+
+    const transaction = new transactionModel({
+      userId: req.user._id,
+      amount: amount.toFixed(2),
+      transactionType: "credit",
+      transactionId: transactionId,
+      description: "Amount added in user wallet",
+    });
+
+    await transaction.save();
+
+    wallet.transactions.push(transaction._id);
+    await wallet.save();
+
+    res.status(200).json({
+      statusCode: 200,
+      message: "Amount added successfully",
+      data: wallet,
+    });
+  } catch (error) {
+    res.status(500).json({
+      statusCode: 500,
+      message: error.message,
+    });
+  }
+};
+
+module.exports.getAllUserWalletTransactions = async (req, res, next) => {
+  try {
+    const { page = 1, perPage = 5 } = req.body;
+    const pageNumber = parseInt(page, 10);
+    const pageSize = parseInt(perPage, 10);
+
+    if (
+      isNaN(pageNumber) ||
+      isNaN(pageSize) ||
+      pageNumber <= 0 ||
+      pageSize <= 0
+    ) {
+      return res.status(400).json({
+        statuscode: 400,
+        message:
+          "Invalid pagination parameters. 'page' and 'perPage' must be positive integers.",
+      });
+    }
+
+    const wallet = await walletModel.findOne({ userId: req.user._id });
+
+    if (!wallet) {
+      return res.status(404).json({
+        statusCode: 404,
+        message: "User wallet not found",
+      });
+    }
+
+    const transactions = await transactionModel
+      .find({ _id: { $in: wallet.transactions } })
+      .populate("rideId")
+      .sort({ _id: -1 })
+      .skip((pageNumber - 1) * pageSize)
+      .limit(pageSize);
+
+    const totalTransactions = await transactionModel
+      .find({ _id: { $in: wallet.transactions } })
+      .countDocuments();
+
+    const totalPages = Math.ceil(totalTransactions / pageSize);
+
+    res.status(200).json({
+      statusCode: 200,
+      message: "User wallet transactions",
+      data: {
+        totalTransactions,
+        totalPages,
+        transactions,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      statusCode: 500,
+      message: error.message,
+    });
+  }
+};

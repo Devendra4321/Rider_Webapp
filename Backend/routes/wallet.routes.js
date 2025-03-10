@@ -50,4 +50,34 @@ router.post(
   walletController.paymentVerify
 );
 
+router.get(
+  "/getUserWallet",
+  authMiddleware.authUser,
+  walletController.getUserWallet
+);
+
+router.post(
+  "/debitInUserWallet",
+  authMiddleware.authUser,
+  walletController.debitInUserWallet
+);
+
+router.post(
+  "/creditInUserWallet",
+  authMiddleware.authUser,
+  walletController.creditInUserWallet
+);
+
+router.post(
+  "/AddInUserWallet",
+  authMiddleware.authUser,
+  walletController.AddInUserWallet
+);
+
+router.post(
+  "/getAllUserWalletTransactions",
+  authMiddleware.authUser,
+  walletController.getAllUserWalletTransactions
+);
+
 module.exports = router;
