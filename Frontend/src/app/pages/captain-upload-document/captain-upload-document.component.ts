@@ -5,10 +5,10 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
-    selector: 'app-captain-upload-document',
-    templateUrl: './captain-upload-document.component.html',
-    styleUrl: './captain-upload-document.component.css',
-    standalone: false
+  selector: 'app-captain-upload-document',
+  templateUrl: './captain-upload-document.component.html',
+  styleUrl: './captain-upload-document.component.css',
+  standalone: false,
 })
 export class CaptainUploadDocumentComponent {
   constructor(
@@ -18,7 +18,10 @@ export class CaptainUploadDocumentComponent {
   ) {}
 
   selectedFile: File | null = null;
-  isUploaded = false;
+  aadharCardFrontUploaded = false;
+  aadharCardBackUploaded = false;
+  drivinglicenseUploaded = false;
+  rcUploaded = false;
 
   onFileSelected(event: any, documentType: String) {
     this.selectedFile = event.target.files[0];
@@ -41,7 +44,16 @@ export class CaptainUploadDocumentComponent {
             this.spinner.hide();
             console.log('Upload image data', result);
             this.toaster.success(result.message);
-            this.isUploaded = true;
+
+            if (documentType == 'aadharfront') {
+              this.aadharCardFrontUploaded = true;
+            } else if (documentType == 'aadharback') {
+              this.aadharCardBackUploaded = true;
+            } else if (documentType == 'drivinglicense') {
+              this.drivinglicenseUploaded = true;
+            } else if (documentType == 'rc') {
+              this.rcUploaded = true;
+            }
           }
         },
         error: (error) => {

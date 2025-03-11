@@ -625,7 +625,7 @@ module.exports.sendNotification = async (req, res, next) => {
 
     const captainInRadiusStatus = captainInRadius.filter(
       (captain) =>
-        captain.status == 3 &&
+        captain.status == 2 &&
         captain.isOnline == true &&
         ride.vehicleRequired == captain.vehicle.vehicleType
     );

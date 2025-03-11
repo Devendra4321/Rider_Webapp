@@ -31,7 +31,7 @@
             type="file"
             (change)="onFileSelected($event, 'aadharfront')"
           />
-          <div class="" *ngIf="isUploaded">
+          <div class="" *ngIf="aadharCardFrontUploaded">
             <p class="text-danger">Aadhar card front side uploaded!</p>
           </div>
         </div>
@@ -46,7 +46,7 @@
             type="file"
             (change)="onFileSelected($event, 'aadharback')"
           />
-          <div class="" *ngIf="isUploaded">
+          <div class="" *ngIf="aadharCardBackUploaded">
             <p class="text-danger">Aadhar card back side uploaded!</p>
           </div>
         </div>
@@ -65,7 +65,7 @@
             type="file"
             (change)="onFileSelected($event, 'drivinglicense')"
           />
-          <div class="" *ngIf="isUploaded">
+          <div class="" *ngIf="drivinglicenseUploaded">
             <p class="text-danger">Driving license uploaded!</p>
           </div>
         </div>
@@ -80,7 +80,7 @@
             type="file"
             (change)="onFileSelected($event, 'rc')"
           />
-          <div class="" *ngIf="isUploaded">
+          <div class="" *ngIf="rcUploaded">
             <p class="text-danger">Register certificate (RC) uploaded!</p>
           </div>
         </div>

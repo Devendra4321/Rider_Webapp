@@ -6,10 +6,10 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
-    selector: 'app-captain-profile',
-    templateUrl: './captain-profile.component.html',
-    styleUrl: './captain-profile.component.css',
-    standalone: false
+  selector: 'app-captain-profile',
+  templateUrl: './captain-profile.component.html',
+  styleUrl: './captain-profile.component.css',
+  standalone: false,
 })
 export class CaptainProfileComponent {
   constructor(
@@ -36,7 +36,13 @@ export class CaptainProfileComponent {
           console.log('Profile data', result);
           this.captainDetail = result.captain;
           this.documentsAvailable =
-            typeof this.captainDetail.documents !== 'undefined';
+            typeof this.captainDetail.documents.aadharfront !== 'undefined';
+          this.documentsAvailable =
+            typeof this.captainDetail.documents.aadharback !== 'undefined';
+          this.documentsAvailable =
+            typeof this.captainDetail.documents.rc !== 'undefined';
+          this.documentsAvailable =
+            typeof this.captainDetail.documents.drivinglicense !== 'undefined';
 
           // this.toaster.success(result.message);
         }
