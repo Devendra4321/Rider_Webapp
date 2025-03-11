@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MapComponent } from '../map/map.component';
 import { RideSocketService } from '../../services/ride-socket/ride-socket.service';
 import { CaptainWalletService } from '../../services/captain-wallet/captain-wallet.service';
+import { UserWalletService } from '../../services/user-wallet/user-wallet.service';
 
 @Component({
   selector: 'app-ride-ongoing-info',
@@ -19,6 +20,7 @@ export class RideOngoingInfoComponent {
     private rideService: RideService,
     private rideSocketService: RideSocketService,
     private captainWalletService: CaptainWalletService,
+    private userWalletService: UserWalletService,
     private spinner: NgxSpinnerService,
     private toaster: ToastrService,
     private route: ActivatedRoute,
@@ -301,6 +303,13 @@ export class RideOngoingInfoComponent {
         if (result.statusCode == 200) {
           this.spinner.hide();
           console.log('Ride cancelled data', result);
+
+          if (
+            this.rideDetail.paymentDetails.paymentMethod == 'online' ||
+            this.rideDetail.paymentDetails.paymentMethod == 'wallet'
+          ) {
+            this.creditToUserWallet(rideId);
+          }
         }
       },
       error: (error) => {
@@ -335,6 +344,37 @@ export class RideOngoingInfoComponent {
     ) {
       clearInterval(this.rideCancelledInterval);
     }
+  }
+
+  creditToUserWallet(rideId: any) {
+    this.spinner.show();
+
+    this.userWalletService.creditToUserWallet({ rideId: rideId }).subscribe({
+      next: (result: any) => {
+        if (result.statusCode == 200) {
+          this.spinner.hide();
+          console.log('Credit to user wallet data', result);
+        }
+      },
+      error: (error) => {
+        console.log('Credit to user wallet data error', error.error);
+
+        if (
+          error.error.statusCode == 400 ||
+          error.error.statusCode == 500 ||
+          error.error.statusCode == 404 ||
+          error.error.statusCode == 401
+        ) {
+          this.spinner.hide();
+          this.toaster.error(error.error.message);
+        } else {
+          this.toaster.error('Something went wrong');
+        }
+      },
+      complete: () => {
+        this.spinner.hide();
+      },
+    });
   }
 
   upadatePaymentStatus() {
@@ -437,7 +477,7 @@ export class RideOngoingInfoComponent {
       if (result.isConfirmed) {
         Swal.fire({
           title: 'Ride Cancelled!',
-          text: 'Your ride money will be credited shortly within 2 to 3 working days.',
+          text: 'Your ride money will be credited in wallet shortly.',
           icon: 'warning',
           customClass: {
             confirmButton: 'swal-confirm-btn',

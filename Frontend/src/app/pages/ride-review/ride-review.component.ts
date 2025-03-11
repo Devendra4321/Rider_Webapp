@@ -9,18 +9,20 @@ import { PaymentService } from '../../services/payment/payment.service';
 import { environment } from '../../../environment/environment';
 import { RideSocketService } from '../../services/ride-socket/ride-socket.service';
 import { ProfileService } from '../../services/profile/profile.service';
+import { UserWalletService } from '../../services/user-wallet/user-wallet.service';
 declare var Razorpay: any;
 @Component({
-    selector: 'app-ride-review',
-    templateUrl: './ride-review.component.html',
-    styleUrl: './ride-review.component.css',
-    standalone: false
+  selector: 'app-ride-review',
+  templateUrl: './ride-review.component.html',
+  styleUrl: './ride-review.component.css',
+  standalone: false,
 })
 export class RideReviewComponent {
   constructor(
     private rideService: RideService,
     private paymentService: PaymentService,
     private rideSocketService: RideSocketService,
+    private userWalletService: UserWalletService,
     private profileService: ProfileService,
     private spinner: NgxSpinnerService,
     private toaster: ToastrService,
@@ -36,6 +38,7 @@ export class RideReviewComponent {
 
   ngOnInit() {
     this.getUserDetails();
+    this.getUserWallet();
 
     const script = document.createElement('script');
     script.src = 'https://checkout.razorpay.com/v1/checkout.js';
@@ -183,9 +186,19 @@ export class RideReviewComponent {
   isAutovehicleTypeClicked = false;
   isCarvehicleTypeClicked = false;
   isTaxivehicleTypeClicked = false;
+  isWalletAmountLess = false;
 
   getVehicleDetails(vehicleType: any, isclicked: boolean) {
     this.rideDetails.vehicleType = vehicleType;
+
+    if (
+      this.rideDetails.paymentMethod == 'wallet' &&
+      this.walletBalance < this.vehiclePrices[vehicleType]
+    ) {
+      this.isWalletAmountLess = true;
+    } else {
+      this.isWalletAmountLess = false;
+    }
 
     if (vehicleType == 'motorcycle') {
       this.isMotercyclevehicleTypeClicked = isclicked;
@@ -223,77 +236,79 @@ export class RideReviewComponent {
   createRide() {
     this.spinner.show();
 
-    if (this.rideDetails.paymentMethod == 'cash') {
-      this.rideService
-        .createRide({
-          pickup: this.rideDetails.pickup,
-          destination: this.rideDetails.drop,
-          vehicleType: this.rideDetails.vehicleType,
-          paymentMethod: this.rideDetails.paymentMethod,
-        })
-        .subscribe({
-          next: (result: any) => {
-            if (result.statusCode == 201) {
-              this.spinner.hide();
-              console.log('Ride created', result);
-              this.newCreatedRide = result.ride;
+    this.rideService
+      .createRide({
+        pickup: this.rideDetails.pickup,
+        destination: this.rideDetails.drop,
+        vehicleType: this.rideDetails.vehicleType,
+        paymentMethod: this.rideDetails.paymentMethod,
+      })
+      .subscribe({
+        next: (result: any) => {
+          if (result.statusCode == 201) {
+            this.spinner.hide();
+            console.log('Ride created', result);
+            this.newCreatedRide = result.ride;
+
+            if (this.newCreatedRide.paymentDetails.paymentMethod == 'online') {
+              this.paymentInit(this.newCreatedRide.fare);
+            } else if (
+              this.newCreatedRide.paymentDetails.paymentMethod == 'wallet'
+            ) {
+              this.debitFromCaptainWallet(this.newCreatedRide._id);
+            } else {
               this.sendNotification(this.newCreatedRide._id);
             }
-          },
-          error: (error) => {
-            console.log('Ride created error', error.error);
+          }
+        },
+        error: (error) => {
+          console.log('Ride created error', error.error);
 
-            if (
-              error.error.statusCode == 400 ||
-              error.error.statusCode == 500
-            ) {
-              this.spinner.hide();
-              this.toaster.error(error.error.message);
-            } else {
-              this.toaster.error('Something went wrong');
-            }
-          },
-          complete: () => {
+          if (error.error.statusCode == 400 || error.error.statusCode == 500) {
             this.spinner.hide();
-          },
-        });
-    } else if (this.rideDetails.paymentMethod == 'online') {
-      this.rideService
-        .createRide({
-          pickup: this.rideDetails.pickup,
-          destination: this.rideDetails.drop,
-          vehicleType: this.rideDetails.vehicleType,
-          paymentMethod: this.rideDetails.paymentMethod,
-        })
-        .subscribe({
-          next: (result: any) => {
-            if (result.statusCode == 201) {
-              this.spinner.hide();
-              console.log('Ride created', result);
-              this.newCreatedRide = result.ride;
-              if (this.newCreatedRide) {
-                this.paymentInit(this.newCreatedRide.fare);
-              }
-            }
-          },
-          error: (error) => {
-            console.log('Ride created error', error.error);
+            this.toaster.error(error.error.message);
+          } else {
+            this.toaster.error('Something went wrong');
+          }
+        },
+        complete: () => {
+          this.spinner.hide();
+        },
+      });
+  }
 
-            if (
-              error.error.statusCode == 400 ||
-              error.error.statusCode == 500
-            ) {
-              this.spinner.hide();
-              this.toaster.error(error.error.message);
-            } else {
-              this.toaster.error('Something went wrong');
-            }
-          },
-          complete: () => {
-            this.spinner.hide();
-          },
-        });
-    }
+  debitFromCaptainWallet(rideId: any) {
+    this.spinner.show();
+
+    this.userWalletService.debitFromUserWallet({ rideId: rideId }).subscribe({
+      next: (result: any) => {
+        if (result.statusCode == 200) {
+          this.spinner.hide();
+          console.log('Debit from user wallet data', result);
+
+          this.upadatePaymentStatusAndId('wallet');
+          this.sendNotification(this.newCreatedRide._id);
+        }
+      },
+      error: (error) => {
+        console.log('Debit from user wallet data error', error.error);
+
+        if (
+          error.error.statusCode == 400 ||
+          error.error.statusCode == 500 ||
+          error.error.statusCode == 404 ||
+          error.error.statusCode == 401
+        ) {
+          this.spinner.hide();
+          this.toaster.error(error.error.message);
+        } else {
+          this.toaster.error('Something went wrong');
+        }
+      },
+      complete: () => {
+        this.spinner.hide();
+      },
+    });
   }
 
   rideConfirmInterval: any;
@@ -459,5 +474,38 @@ export class RideReviewComponent {
 
   userSocketJoin(userId: any, userType: any) {
     this.rideSocketService.joinRoom(userId, userType);
+  }
+
+  walletBalance: any;
+  getUserWallet() {
+    this.spinner.show();
+
+    this.userWalletService.getUserWallet().subscribe({
+      next: (result: any) => {
+        if (result.statusCode === 200) {
+          this.spinner.hide();
+          console.log('wallet details', result.data);
+          this.walletBalance = result.data.balance;
+          // this.toaster.success(result.message);
+        }
+      },
+      error: (error) => {
+        console.log('wallet data error', error.error);
+
+        if (
+          error.error.statusCode == 404 ||
+          error.error.statusCode == 500 ||
+          error.error.statusCode == 401
+        ) {
+          this.spinner.hide();
+          this.toaster.error(error.error.message);
+        } else {
+          this.toaster.error('Something went wrong');
+        }
+      },
+      complete: () => {
+        this.spinner.hide();
+      },
+    });
   }
 }

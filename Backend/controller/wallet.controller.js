@@ -152,12 +152,14 @@ module.exports.creditInCaptainWallet = async (req, res, next) => {
     }
 
     if (
-      ride.paymentDetails.paymentMethod !== "online" ||
+      (ride.paymentDetails.paymentMethod !== "online" &&
+        ride.paymentDetails.paymentMethod !== "wallet") ||
       ride.paymentDetails.status !== 1
     ) {
       return res.status(400).json({
         statusCode: 400,
-        message: "Ride payment method is not online or payment is not done",
+        message:
+          "Ride payment method is not online or wallet, or payment is not done",
       });
     }
 
@@ -554,14 +556,17 @@ module.exports.debitInUserWallet = async (req, res, next) => {
       });
     }
 
-    if (ride.paymentDetails.paymentMethod == "cash") {
+    if (
+      ride.paymentDetails.paymentMethod == "cash" ||
+      ride.paymentDetails.paymentMethod == "online"
+    ) {
       return res.status(400).json({
         statusCode: 400,
-        message: "Ride payment method is cash",
+        message: "Ride payment method is either cash or online",
       });
     }
 
-    if (ride.paymentDetails.isWalletPayment !== 0) {
+    if (ride.paymentDetails.status !== 0) {
       return res.status(400).json({
         statusCode: 400,
         message: "Ride amount is already paid from wallet",
@@ -597,8 +602,8 @@ module.exports.debitInUserWallet = async (req, res, next) => {
 
     await transaction.save();
 
-    ride.paymentDetails.isWalletPayment = 1;
-    await ride.save();
+    // ride.paymentDetails.isWalletPayment = 1;
+    // await ride.save();
 
     wallet.transactions.push(transaction._id);
     await wallet.save();
@@ -636,21 +641,22 @@ module.exports.creditInUserWallet = async (req, res, next) => {
       });
     }
 
-    if (ride.status !== "accepted") {
+    if (ride.status !== "cancelled") {
       return res.status(400).json({
         statusCode: 400,
-        message: "Ride is not in accepted state",
+        message: "Ride is not in cancelled state",
       });
     }
 
     if (
-      ride.paymentDetails.paymentMethod !== "online" ||
-      ride.paymentDetails.status !== 1 ||
-      ride.paymentDetails.isWalletPayment !== 1
+      (ride.paymentDetails.paymentMethod !== "online" &&
+        ride.paymentDetails.paymentMethod !== "wallet") ||
+      ride.paymentDetails.status !== 1
     ) {
       return res.status(400).json({
         statusCode: 400,
-        message: "Ride payment method is not online or payment is not done",
+        message:
+          "Ride payment method is not online or wallet, or payment is not done",
       });
     }
 

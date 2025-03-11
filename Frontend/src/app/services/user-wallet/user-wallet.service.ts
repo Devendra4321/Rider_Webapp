@@ -49,4 +49,34 @@ export class UserWalletService {
       }
     );
   }
+
+  debitFromUserWallet(data: any) {
+    const token = localStorage.getItem('user-token');
+
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    return this.http.post(
+      environment.API_URL_WALLET + 'debitInUserWallet',
+      data,
+      {
+        headers,
+      }
+    );
+  }
+
+  creditToUserWallet(data: any) {
+    const token = localStorage.getItem('user-token');
+
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    return this.http.post(
+      environment.API_URL_WALLET + 'creditInUserWallet',
+      data,
+      {
+        headers,
+      }
+    );
+  }
 }

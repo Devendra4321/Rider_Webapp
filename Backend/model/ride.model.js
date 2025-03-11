@@ -71,13 +71,9 @@ const rideSchema = new mongoose.Schema({
     },
     paymentMethod: {
       type: String,
-      enum: ["online", "cash"],
+      enum: ["online", "cash", "wallet"],
     },
     isCaptainPaid: {
-      type: Number,
-      default: 0,
-    },
-    isWalletPayment: {
       type: Number,
       default: 0,
     },
@@ -85,10 +81,6 @@ const rideSchema = new mongoose.Schema({
       type: Number,
       default: 0,
     },
-    isUserReturnRideAmountPaid:{
-      type: Number,
-      default: 0,
-    }
   },
   orderId: {
     type: String,

@@ -39,6 +39,15 @@
       </div>
       <div class="col-lg-5 col-md-7 order-2 mt-lg-0 mt-md-0 mt-sm-4 mt-4">
         <div class="main">
+          <div
+            class="alert alert-warning"
+            role="alert"
+            *ngIf="isWalletAmountLess"
+          >
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>Wallet amount is
+            less than the ride amount please recharge your wallet!
+          </div>
+
           <div>
             <p class="fs-1 fw-bolder mx-1">Choose a ride</p>
             <p class="fs-5 fw-bolder mx-1">Recommended</p>
@@ -182,29 +191,31 @@
               </div>
             </div>
           </div>
-          <div
-            class="payment-method d-flex justify-content-between align-items-center mb-3 mb-md-0"
-          >
-            <div>
-              <p
-                class="m-0 fw-bold"
-                data-bs-toggle="modal"
-                data-bs-target="#staticBackdrop"
-                role="button"
-                tabindex="0"
-              >
-                {{ rideDetails.paymentMethod }}
-                <i class="bi bi-chevron-down mx-2 mt-2"></i>
-              </p>
-            </div>
-            <div>
-              <button
-                class="btn"
-                [disabled]="!rideDetails.vehicleType"
-                (click)="generateTrip()"
-              >
-                Request {{ rideDetails.vehicleType }}
-              </button>
+          <div>
+            <div
+              class="payment-method d-flex justify-content-between align-items-center mb-3 mb-md-0"
+            >
+              <div>
+                <p
+                  class="m-0 fw-bold"
+                  data-bs-toggle="modal"
+                  data-bs-target="#staticBackdrop"
+                  role="button"
+                  tabindex="0"
+                >
+                  {{ rideDetails.paymentMethod }}
+                  <i class="bi bi-chevron-down mx-2 mt-2"></i>
+                </p>
+              </div>
+              <div>
+                <button
+                  class="btn"
+                  [disabled]="!rideDetails.vehicleType || isWalletAmountLess"
+                  (click)="generateTrip()"
+                >
+                  Request {{ rideDetails.vehicleType }}
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -244,13 +255,25 @@
       <div class="modal-body">
         <div class="row mb-3">
           <div class="mb-3 fs-5 fw-semibold">Rider cash:</div>
-          <div>
-            <p class="fs-6 fw-semibold">
-              <i class="bi bi-wallet2 me-2"></i>Rider cash:<i
-                class="bi bi-currency-rupee mx-1"
-              ></i
-              >0.00
-            </p>
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <p class="fs-6 fw-semibold">
+                <i class="bi bi-wallet2 me-2"></i>Rider cash:<i
+                  class="bi bi-currency-rupee mx-1"
+                ></i
+                >{{ walletBalance }}
+              </p>
+            </div>
+            <div>
+              <input
+                type="radio"
+                class="form-check-input custom-radio-btn"
+                name="payment-method"
+                id="wallet"
+                value="wallet"
+                [(ngModel)]="rideDetails.paymentMethod"
+              />
+            </div>
           </div>
         </div>
 
