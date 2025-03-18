@@ -1,0 +1,97 @@
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+    <div class="container">
+        <a class="navbar-brand text-white fs-5 fw-bold" href="#">Rider</a>
+    </div>
+</nav>
+
+<!-- Main Section -->
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-lg-2 offset-md-2 mt-5 mb-md-1 mb-lg-1">
+                <h1 class="fw-bold my-3">Calculate your fare</h1>
+                <p>Get an estimate of your fare before booking a ride. Enter your pickup and drop location to get the
+                    approximate fare for your ride. Fare estimates are based on current traffic and weather conditions.
+                </p>
+            </div>
+        </div>
+        <form #priceForm="ngForm" (ngSubmit)="calculatePrice(priceForm)">
+            <div class="row">
+                <div class="col-md-4 offset-lg-2 offset-md-2 my-2">
+                    <label for="pickup" class="form-label">Pickup Location</label>
+                    <input type="text" class="form-control" id="pickup" placeholder="Enter pickup location"
+                        [(ngModel)]="locationDetails.pickupLoc" name="pickupLoc" #pickupRef="ngModel"
+                        pattern="^[a-zA-Z ]*$" required />
+
+                    <div *ngIf="pickupRef.invalid && pickupRef.touched">
+                        <small class="text-danger" *ngIf="pickupRef.errors?.['required']">Pickup location is
+                            required.</small>
+                        <small class="text-danger" *ngIf="pickupRef.errors?.['pattern']">Only alphabets and spaces
+                            allowed.</small>
+                    </div>
+                </div>
+                <div class="col-md-4 my-2">
+                    <label for="dropoff" class="form-label">Drop Location</label>
+                    <input type="text" class="form-control" id="dropoff" placeholder="Enter drop location"
+                        [(ngModel)]="locationDetails.dropLoc" name="dropLoc" #dropRef="ngModel" pattern="^[a-zA-Z ]*$"
+                        required />
+
+                    <div *ngIf="dropRef.invalid && dropRef.touched">
+                        <small class="text-danger" *ngIf="dropRef.errors?.['required']">Drop location is
+                            required.</small>
+                        <small class="text-danger" *ngIf="dropRef.errors?.['pattern']">Only alphabets and spaces
+                            allowed.</small>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8 offset-lg-2 offset-md-2 my-4">
+                    <button type="submit" class="btn btn-dark form-control" [disabled]="priceForm.invalid">Calculate
+                        Price</button>
+                </div>
+            </div>
+        </form>
+        <div class="row my-lg-4 my-md-4 my-2" *ngIf="isVehiclePriceGet">
+            <div class="col-lg-4 col-md-8 offset-lg-2 offset-md-2 mb-3">
+                <div class="card">
+                    <div class="card-body d-flex justify-content-between">
+                        <h5 class="m-0">Motorcycle</h5>
+                        <p class="m-0"><i class="bi bi-currency-rupee"></i>{{vehiclePrices.motorcycle || 0}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-8 offset-lg-0 offset-md-2 mb-3">
+                <div class="card">
+                    <div class="card-body d-flex justify-content-between">
+                        <h5 class="m-0">Auto</h5>
+                        <p class="m-0"><i class="bi bi-currency-rupee"></i>{{vehiclePrices.auto || 0}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-8 offset-lg-2 offset-md-2 mb-3">
+                <div class="card">
+                    <div class="card-body d-flex justify-content-between">
+                        <h5 class="m-0">Car</h5>
+                        <p class="m-0">
+                            <i class="bi bi-currency-rupee"></i>{{vehiclePrices.car || 0}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-8 offset-lg-0 offset-md-2 mb-3">
+                <div class="card">
+                    <div class="card-body d-flex justify-content-between">
+                        <h5 class="m-0">Taxi</h5>
+                        <p class="m-0"><i class="bi bi-currency-rupee"></i>{{vehiclePrices.taxi || 0}}</p>
+                    </div>
+                </div>
+            </div>
+            <p class="mt-md-3 mt-lg-3 mt-1 col-lg-8 col-md-8 offset-lg-2 offset-md-2">
+                <strong>Note:</strong> The above prices are approximate and may vary depending on the traffic and
+                weather conditions. If you want to book a ride, please
+                <a routerLink="/user-home" class="text-decoration-none">click here</a>.
+            </p>
+        </div>
+    </div>
+</section>

@@ -50,6 +50,7 @@ import { AdminRidesComponent } from './components/admin-rides/admin-rides.compon
 import { AdminUsersComponent } from './components/admin-users/admin-users.component';
 import { AdminCaptainsComponent } from './components/admin-captains/admin-captains.component';
 import { AdminCaptainsRequestComponent } from './components/admin-captains-request/admin-captains-request.component';
+import { PriceCalculatorComponent } from './pages/price-calculator/price-calculator.component';
 
 const config: SocketIoConfig = {
   url: environment.SOCKET_URL,
@@ -98,6 +99,7 @@ const config: SocketIoConfig = {
     AdminUsersComponent,
     AdminCaptainsComponent,
     AdminCaptainsRequestComponent,
+    PriceCalculatorComponent,
   ],
   imports: [
     SocketIoModule.forRoot(config),

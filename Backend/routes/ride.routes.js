@@ -36,7 +36,6 @@ router.get("/getRideById/:id", rideController.getRideById);
 
 router.post(
   "/getVehiclePrices",
-  authMiddelware.authUser,
   rideController.getVehiclePrices
 );
 

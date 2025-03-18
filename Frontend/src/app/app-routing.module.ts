@@ -35,6 +35,7 @@ import { AdminRidesComponent } from './components/admin-rides/admin-rides.compon
 import { AdminUsersComponent } from './components/admin-users/admin-users.component';
 import { AdminCaptainsComponent } from './components/admin-captains/admin-captains.component';
 import { AdminCaptainsRequestComponent } from './components/admin-captains-request/admin-captains-request.component';
+import { PriceCalculatorComponent } from './pages/price-calculator/price-calculator.component';
 
 const routes: Routes = [
   {
@@ -86,6 +87,10 @@ const routes: Routes = [
   {
     path: 'verify-email',
     component: EmailVerificationComponent,
+  },
+  {
+    path: 'price-calculator',
+    component: PriceCalculatorComponent, 
   },
 
   //User routes
