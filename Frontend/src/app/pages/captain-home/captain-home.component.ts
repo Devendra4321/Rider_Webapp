@@ -5,6 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { RideSocketService } from '../../services/ride-socket/ride-socket.service';
 import { ToastrService } from 'ngx-toastr';
 import { RidePopupComponent } from '../../components/ride-popup/ride-popup.component';
+import { MapService } from '../../services/map/map.service';
 
 @Component({
     selector: 'app-captain-home',
@@ -16,6 +17,7 @@ export class CaptainHomeComponent {
   constructor(
     private profileService: ProfileService,
     private rideSocketService: RideSocketService,
+    private mapService: MapService,
     private spinner: NgxSpinnerService,
     private toaster: ToastrService
   ) {}
@@ -155,6 +157,7 @@ export class CaptainHomeComponent {
           const longitude = position.coords.longitude;
           console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
           this.intervalId = setInterval(() => {
+            this.getPlace(latitude, longitude);
             this.setCaptainCurrentLocation(latitude, longitude);
             this.ridePopupComponent.getNewRideNotification();
           }, 1000);
@@ -182,11 +185,29 @@ export class CaptainHomeComponent {
     }
   }
 
+  placeName: any;
+  getPlace(lat: number, lon: number) {
+    this.mapService.getPlaceName(lat, lon).subscribe(
+      (data:any) => {
+        if (data.features.length > 0) {
+          this.placeName = data.features[0].place_name;
+          console.log('Current captain place name:', this.placeName);
+          
+        } else {
+          this.placeName = 'No location found';
+        }
+      },
+      (error) => {
+        console.error('Error fetching place name:', error);
+      }
+    );
+  }
+
   setCaptainCurrentLocation(latitude: any, longitude: any) {
     const userId = this.captainDetail._id;
     const location = { ltd: latitude, lng: longitude };
     this.rideSocketService.setCaptainCurrentLocation(userId, location);
-    console.log('Captain current location set', location);
+    // console.log('Captain current location set', location);
   }
 
   setOnlineStatus(status: any) {

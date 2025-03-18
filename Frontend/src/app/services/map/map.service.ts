@@ -21,4 +21,10 @@ export class MapService {
       `${environment.API_URL_MAP}/getCoordinates?address=${data}`
     );
   }
+
+  getPlaceName(lat: number, lon: number) {
+    const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lon},${lat}.json?access_token=${environment.MAP_BOX_ACCESS_TOKEN}`;
+
+    return this.http.get(url);
+  }
 }
