@@ -3,6 +3,7 @@ const captainModel = require("../model/captain.model");
 const userModel = require("../model/user.model");
 const blackListTokenModel = require("../model/blackListingToken.model");
 const rideModel = require("../model/ride.model");
+const walletModel = require("../model/wallet.model");
 
 module.exports.addAdmin = async (req, res, next) => {
   const authAdmin = req.admin;
@@ -603,6 +604,96 @@ module.exports.uploadCaptainDocument = async (req, res, next) => {
     res.status(400).json({
       statusCode: 400,
       message: "Failed to upload image",
+    });
+  }
+};
+
+module.exports.getAllUserWallet = async (req, res, next) => {
+  try {
+    const { page = 1, perPage = 5 } = req.body;
+    const pageNumber = parseInt(page, 10);
+    const pageSize = parseInt(perPage, 10);
+
+    if (
+      isNaN(pageNumber) ||
+      isNaN(pageSize) ||
+      pageNumber <= 0 ||
+      pageSize <= 0
+    ) {
+      return res.status(400).json({
+        statusCode: 400,
+        message:
+          "Invalid pagination parameters. 'page' and 'perPage' must be positive integers.",
+      });
+    }
+
+    const userWallets = await walletModel
+      .find({userId: { $ne: null }})
+      .skip((pageNumber - 1) * pageSize)
+      .limit(pageSize)
+      .populate("userId")
+      .sort({ _id: -1 });
+
+    const totalUserWallets = await walletModel.countDocuments({userId: { $ne: null }});
+    const totalPages = Math.ceil(totalUserWallets / pageSize);
+
+    res.status(200).json({
+      statusCode: 200,
+      message: "All user wallets fetched successfully",
+      totalUserWallets,
+      totalPages,
+      data: userWallets,
+    });
+    
+  } catch (error) {
+    res.status(500).json({
+      statusCode: 500,
+      error: error.message,
+    });
+  }
+};
+
+module.exports.getAllCaptainWallet = async (req, res, next) => {
+  try {
+    const { page = 1, perPage = 5 } = req.body;
+    const pageNumber = parseInt(page, 10);
+    const pageSize = parseInt(perPage, 10);
+
+    if (
+      isNaN(pageNumber) ||
+      isNaN(pageSize) ||
+      pageNumber <= 0 ||
+      pageSize <= 0
+    ) {
+      return res.status(400).json({
+        statusCode: 400,
+        message:
+          "Invalid pagination parameters. 'page' and 'perPage' must be positive integers.",
+      });
+    }
+
+    const captainWallets = await walletModel
+      .find({captainId: { $ne: null }})
+      .skip((pageNumber - 1) * pageSize)
+      .limit(pageSize)
+      .populate("captainId")
+      .sort({ _id: -1 });
+
+    const totalCaptainWallets = await walletModel.countDocuments({captainId: { $ne: null }});
+    const totalPages = Math.ceil(totalCaptainWallets / pageSize);
+
+    res.status(200).json({
+      statusCode: 200,
+      message: "All captain wallets fetched successfully",
+      totalCaptainWallets,
+      totalPages,
+      data: captainWallets,
+    });
+    
+  } catch (error) {
+    res.status(500).json({
+      statusCode: 500,
+      error: error.message,
     });
   }
 };

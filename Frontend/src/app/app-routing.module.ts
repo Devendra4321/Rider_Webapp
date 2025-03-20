@@ -38,6 +38,8 @@ import { AdminCaptainsRequestComponent } from './components/admin-captains-reque
 import { PriceCalculatorComponent } from './pages/price-calculator/price-calculator.component';
 import { AdminCouponsComponent } from './components/admin-coupons/admin-coupons.component';
 import { AdminAddCouponsComponent } from './components/admin-add-coupons/admin-add-coupons.component';
+import { AdminUserWalletsComponent } from './components/admin-user-wallets/admin-user-wallets.component';
+import { AdminCaptainWalletsComponent } from './components/admin-captain-wallets/admin-captain-wallets.component';
 
 const routes: Routes = [
   {
@@ -215,6 +217,14 @@ const routes: Routes = [
       {
         path: 'add-coupons',
         component: AdminAddCouponsComponent,
+      },
+      {
+        path: 'user-wallets',
+        component: AdminUserWalletsComponent,
+      },
+      {
+        path: 'captain-wallets',
+        component: AdminCaptainWalletsComponent,
       },
     ],
   },

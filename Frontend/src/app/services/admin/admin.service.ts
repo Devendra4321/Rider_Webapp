@@ -113,4 +113,32 @@ export class AdminService {
       }
     );
   }
+
+  getAllUserWallets(data: any) {
+    const token = localStorage.getItem('admin-token');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    return this.http.post(
+      environment.API_URL_ADMIN + 'getAllUserWallet',
+      data,
+      {
+        headers,
+      }
+    );
+  }
+
+  getAllCaptainWallets(data: any) {
+    const token = localStorage.getItem('admin-token');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    return this.http.post(
+      environment.API_URL_ADMIN + 'getAllCaptainWallet',
+      data,
+      {
+        headers,
+      }
+    );
+  }
 }

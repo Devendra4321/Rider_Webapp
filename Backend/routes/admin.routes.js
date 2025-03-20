@@ -57,4 +57,18 @@ router.post(
   upload.single("document"),
   adminController.uploadCaptainDocument
 );
+
+//wallet routes
+router.post(
+  "/getAllUserWallet",
+  authMiddelware.authAdmin,
+  adminController.getAllUserWallet
+);
+
+router.post(
+  "/getAllCaptainWallet",
+  authMiddelware.authAdmin,
+  adminController.getAllCaptainWallet
+);
+
 module.exports = router;

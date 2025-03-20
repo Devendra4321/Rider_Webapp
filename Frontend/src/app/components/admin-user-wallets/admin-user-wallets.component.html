@@ -1,0 +1,53 @@
+<div class="card mt-lg-5 mt-md-5 mt-4">
+    <div class="card-body">
+      <div class="row p-1">
+        <div class="d-flex justify-content-between">
+          <div>
+            <h2 class="card-title">User wallets</h2>
+          </div>
+          <div>
+            <!-- <button class="btn btn-success text-white mx-2">
+                Export to current
+              </button> -->
+            <!-- <button class="btn btn-secondary text-white mx-3">
+              Export to excel
+            </button> -->
+          </div>
+        </div>
+        <div class="table-responsive small my-3">
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th scope="col">id</th>
+                <th scope="col">User name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Wallet balance</th>
+                <th scope="col">Transcation made</th>
+                <th scope="col">Created date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let wallet of wallets">
+                <td>{{ wallet._id }}</td>
+                <td>{{ wallet.userId?.fullname?.firstname }} {{ wallet.userId?.fullname?.lastname }}</td>
+                <td>{{ wallet.userId?.email }}</td>
+                <td>{{ wallet.balance }}</td>
+                <td>{{ wallet.transactions?.length }}</td>
+                <td>{{ wallet.createdOn | date }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <ngb-pagination
+            [collectionSize]="totalActiveWallets"
+            [(page)]="activeWalletscurrentPage"
+            [maxSize]="5"
+            [pageSize]="activeWalletsTableSize"
+            (pageChange)="onTableActiveUserWalletsDataChange($event)"
+            ><ng-template ngbPaginationPrevious>Prev</ng-template>
+            <ng-template ngbPaginationNext>Next</ng-template>
+          </ngb-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+  

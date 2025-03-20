@@ -53,6 +53,8 @@ import { AdminCaptainsRequestComponent } from './components/admin-captains-reque
 import { PriceCalculatorComponent } from './pages/price-calculator/price-calculator.component';
 import { AdminCouponsComponent } from './components/admin-coupons/admin-coupons.component';
 import { AdminAddCouponsComponent } from './components/admin-add-coupons/admin-add-coupons.component';
+import { AdminUserWalletsComponent } from './components/admin-user-wallets/admin-user-wallets.component';
+import { AdminCaptainWalletsComponent } from './components/admin-captain-wallets/admin-captain-wallets.component';
 
 const config: SocketIoConfig = {
   url: environment.SOCKET_URL,
@@ -104,6 +106,8 @@ const config: SocketIoConfig = {
     PriceCalculatorComponent,
     AdminCouponsComponent,
     AdminAddCouponsComponent,
+    AdminUserWalletsComponent,
+    AdminCaptainWalletsComponent,
   ],
   imports: [
     SocketIoModule.forRoot(config),
