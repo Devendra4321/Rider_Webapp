@@ -24,6 +24,7 @@
               <th scope="col">Drop address</th>
               <th scope="col">Ride status</th>
               <th scope="col">Ride created</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -55,7 +56,7 @@
               </td>
               <td>{{ ride.createOn | date : "short" }}</td>
               <td>
-                <!-- <div class="dropdown">
+                <div class="dropdown">
                   <button
                     class="btn btn-sm btn-secondary dropdown-toggle"
                     type="button"
@@ -65,18 +66,18 @@
                     Action
                   </button>
                   <ul class="dropdown-menu">
-                    <li>
+                    <!-- <li>
                       <a
                         class="dropdown-item"
                         routerLink="/dashboard/trackorder/{{ ride._id }}"
                         >Track order</a
                       >
-                    </li>
+                    </li> -->
                     <li>
-                      <a class="dropdown-item"></a>
+                      <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="getRideById(ride._id)">View now</a>
                     </li>
                   </ul>
-                </div> -->
+                </div>
               </td>
             </tr>
           </tbody>
@@ -90,6 +91,198 @@
           ><ng-template ngbPaginationPrevious>Prev</ng-template>
           <ng-template ngbPaginationNext>Next</ng-template>
         </ngb-pagination>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- View more modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Ride details</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row mb-lg-2">
+          <div class="col-lg-5 offset-lg-1 my-1">
+            <label class="form-label">User name</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    [value]="viewRide?.user?.fullname.firstname + ' ' + viewRide?.user?.fullname.lastname"  
+                    disabled
+                />
+          </div>
+          <div class="col-lg-5 my-1">
+            <label class="form-label">Ride status</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    value="{{
+                      viewRide?.status === 'pending'
+                        ? 'Ride not accepted by captain'
+                        : viewRide?.status === 'accepted'
+                        ? 'Ride accepted by captain'
+                        : viewRide?.status === 'ongoing'
+                        ? 'Ride started'
+                        : viewRide?.status === 'completed'
+                        ? 'Ride completed'
+                        : viewRide?.status === 'cancelled'
+                        ? 'Ride cancelled'
+                        : null
+                    }}"
+                    disabled
+                />
+          </div>
+        </div>
+
+        <div class="row mb-lg-2">
+          <div class="col-lg-5 offset-lg-1 my-1">
+            <label class="form-label">Pickup location</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    [value]="viewRide?.pickup"
+                    disabled
+                />
+          </div>
+          <div class="col-lg-5 my-1">
+            <label class="form-label">Drop location</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    [value]="viewRide?.destination"
+                    disabled
+                />
+          </div>
+        </div>
+
+        <div class="row mb-lg-2">
+          <div class="col-lg-5 offset-lg-1 my-1">
+            <label class="form-label">Ride otp</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    [value]="viewRide?.otp"
+                    disabled
+                />
+          </div>
+          <div class="col-lg-5 my-1">
+            <label class="form-label">Vehicle required</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    [value]="viewRide?.vehicleRequired"
+                    disabled
+                />
+          </div>
+        </div>
+
+        <div class="row mb-lg-2" *ngIf="viewRide?.captain !== undefined">
+          <div class="col-lg-5 offset-lg-1 my-1">
+            <label class="form-label">Captain name</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    [value]="viewRide?.captain?.fullname.firstname + ' ' + viewRide?.captain?.fullname.lastname"
+                    disabled
+                />
+          </div>
+          <div class="col-lg-5 my-1">
+            <label class="form-label">Vehicle number</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    [value]="viewRide?.captain?.vehicle?.plate"
+                    disabled
+                />
+          </div>
+        </div>
+
+        <div class="row mb-lg-2">
+          <div class="col-lg-5 offset-lg-1 my-1">
+            <label class="form-label">Ride fare</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    [value]="viewRide?.fare"
+                    disabled
+                />
+          </div>
+          <div class="col-lg-5 my-1">
+            <label class="form-label">Captain fare</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    [value]="viewRide?.captainFare"
+                    disabled
+                />
+          </div>
+        </div>
+
+        <div class="row mb-lg-2">
+          <div class="col-lg-5 offset-lg-1 my-1">
+            <label class="form-label">Payment status</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    value="{{
+                      viewRide?.paymentDetails?.status === 0
+                        ? 'Payment not done'
+                        : viewRide?.paymentDetails?.status === 1
+                        ? 'Payment done'
+                        : null
+                    }}"
+                    disabled
+                />
+          </div>
+          <div class="col-lg-5 my-1">
+            <label class="form-label">Payment method</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    [value]="viewRide?.paymentDetails.paymentMethod"
+                    disabled
+                />
+          </div>
+        </div>
+
+        <div class="row mb-lg-2">
+          <div class="col-lg-5 offset-lg-1 my-1">
+            <label class="form-label">Captain paid</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    value="{{
+                      viewRide?.paymentDetails?.isCaptainPaid === 0
+                        ? 'Captain payment not done'
+                        : viewRide?.paymentDetails?.isCaptainPaid === 1
+                        ? 'Captain payment done'
+                        : null
+                    }}"
+                    disabled
+                />
+          </div>
+          <div class="col-lg-5 my-1">
+            <label class="form-label">User return paid</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    value="{{
+                      viewRide?.paymentDetails?.isUserReturnRideAmountPaid === 0
+                        ? 'User return payment not required'
+                        : viewRide?.paymentDetails?.isUserReturnRideAmountPaid === 1
+                        ? 'User return payment done'
+                        : null
+                    }}"
+                    disabled
+                />
+          </div>
+        </div>
+
       </div>
     </div>
   </div>

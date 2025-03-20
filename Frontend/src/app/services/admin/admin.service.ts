@@ -141,4 +141,10 @@ export class AdminService {
       }
     );
   }
+
+  getRideById(id: any) {
+    return this.http.get(
+      `${environment.API_URL_Ride}getRideById/${id}`
+    );
+  }
 }

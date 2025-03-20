@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { AdminService } from '../../services/admin/admin.service';
+import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-admin-rides',
@@ -8,7 +10,11 @@ import { AdminService } from '../../services/admin/admin.service';
   styleUrl: './admin-rides.component.css',
 })
 export class AdminRidesComponent {
-  constructor(private adminService: AdminService) {}
+  constructor(
+    private adminService: AdminService,
+    private toaster: ToastrService,
+    private spinner: NgxSpinnerService,
+  ) {}
 
   ngOnInit() {
     this.getAllRides();
@@ -41,5 +47,30 @@ export class AdminRidesComponent {
   onTableActiveRideDataChange(event: any) {
     this.activeRidescurrentPage = event;
     this.getAllRides();
+  }
+
+
+  viewRide: any;
+
+  getRideById(id: any) {
+    this.spinner.show();
+    
+    this.adminService.getRideById(id).subscribe({
+      next: (result: any) => {
+        if(result.statusCode == 200){
+          this.spinner.hide();
+          this.viewRide = result.ride;
+          console.log('Ride get by id data', result);
+        }
+      },
+      error: (error: any) => {
+        this.spinner.hide();
+        console.log('Ride get by id data error', error.error);
+        this.toaster.error(error.error.message);
+      },
+      complete: () => {
+        this.spinner.hide();
+      },
+    });
   }
 }
