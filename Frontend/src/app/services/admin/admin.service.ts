@@ -58,4 +58,59 @@ export class AdminService {
       }
     );
   }
+
+  getCoupons(data: any) {
+    const token = localStorage.getItem('admin-token');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    return this.http.post(
+      environment.API_URL_COUPON + 'getAllCoupons',
+      data,
+      {
+        headers,
+      }
+    );
+  }
+
+  addCoupons(data: any) {
+    const token = localStorage.getItem('admin-token');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    return this.http.post(
+      environment.API_URL_COUPON + 'addCoupon',
+      data,
+      {
+        headers,
+      }
+    );
+  }
+
+  getCouponById(id: any) {
+    const token = localStorage.getItem('admin-token');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    return this.http.get(
+      `${environment.API_URL_COUPON}getCouponById/${id}`,
+      {
+        headers,
+      }
+    );
+  }
+
+  updateCoupon(data: any) {
+    const token = localStorage.getItem('admin-token');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    return this.http.put(
+      `${environment.API_URL_COUPON}updateCoupon/${data._id}`,
+      data,
+      {
+        headers,
+      }
+    );
+  }
 }

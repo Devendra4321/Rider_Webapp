@@ -112,7 +112,7 @@ module.exports.getActiveCoupons = async (req, res, next) => {
 //admin
 module.exports.updateCoupon = async (req, res, next) => {
     try {
-        const { code, discount, type, expirationDate, usageLimit } = req.body;
+        const { code, discount, type, expirationDate, usageLimit, isActive } = req.body;
 
         const admin = await adminModel.findById(req.admin._id);
 
@@ -120,7 +120,7 @@ module.exports.updateCoupon = async (req, res, next) => {
             return res.status(403).json({ statusCode: 403, message: "You are not authorized to add coupon" });
         }
 
-        const updatedCoupon = await couponModel.findByIdAndUpdate(req.params.id, { code, discount, type, expirationDate, usageLimit }, { new: true });
+        const updatedCoupon = await couponModel.findByIdAndUpdate(req.params.id, { code, discount, type, expirationDate, usageLimit, isActive }, { new: true });
 
         if (!updatedCoupon) {
             return res.status(404).json({ statusCode: 404, message: "Coupon not found" });
@@ -168,6 +168,22 @@ module.exports.getAllCoupons = async (req, res, next) => {
         const totalPages = Math.ceil(totalCoupons / pageSize);
 
         res.status(200).json({ statusCode: 200, totalPages, totalCoupons, coupons });
+    }
+    catch (error) {
+        res.status(500).json({ statusCode: 500, error: error.message });
+    }
+};
+
+//admin
+module.exports.getCouponById = async (req, res, next) => {
+    try {
+        const coupon = await couponModel.findById(req.params.id);
+
+        if (!coupon) {
+            return res.status(404).json({ statusCode: 404, message: "Coupon not found" });
+        }
+
+        res.status(200).json({ statusCode: 200, coupon });
     }
     catch (error) {
         res.status(500).json({ statusCode: 500, error: error.message });

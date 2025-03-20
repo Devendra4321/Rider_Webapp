@@ -1,0 +1,208 @@
+<div class="card mt-lg-5 mt-md-5 mt-4">
+    <div class="card-body">
+      <div class="row p-1">
+        <div class="d-flex justify-content-between">
+          <div>
+            <h2 class="card-title">All coupons</h2>
+          </div>
+          <div>
+            <!-- <button class="btn btn-success text-white mx-2">
+                Export to current
+              </button> -->
+            <!-- <button class="btn btn-secondary text-white mx-3">
+              Export to excel
+            </button> -->
+          </div>
+        </div>
+        <div class="table-responsive small my-3">
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th scope="col">_id</th>
+                <th scope="col">Code</th>
+                <th scope="col">Discount</th>
+                <th scope="col">Type</th>
+                <th scope="col">Usage limit</th>
+                <th scope="col">Usage count</th>
+                <th scope="col">Activation status</th>
+                <th scope="col">Expiration date</th>
+                 <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let coupon of coupons">
+                <td>{{ coupon._id }}</td>
+                <td>{{ coupon.code }}</td>
+                <td>{{ coupon.discount }}</td>
+                <td>{{ coupon.type }}</td>
+                <td>{{ coupon.usageLimit }}</td>
+                <td>{{ coupon.usedCount || 0 }}</td>
+                <td>{{ coupon.isActive }}</td>
+                <td>{{ coupon.expirationDate | date }}</td>
+                <td>
+                  <div class="dropdown">
+                  <button
+                    class="btn btn-sm btn-secondary dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Action
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="getCouponById(coupon._id)">Update</a>
+                    </li>
+                  </ul>
+                </div>
+              </td>
+              </tr>
+            </tbody>
+          </table>
+          <ngb-pagination
+            [collectionSize]="totalActiveCoupons"
+            [(page)]="activeCouponscurrentPage"
+            [maxSize]="5"
+            [pageSize]="activeCouponsTableSize"
+            (pageChange)="onTableActiveCouponsDataChange($event)"
+            ><ng-template ngbPaginationPrevious>Prev</ng-template>
+            <ng-template ngbPaginationNext>Next</ng-template>
+          </ngb-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+<!--update coupon Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Update coupon</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+        <form #updateCouponForm="ngForm" (ngSubmit)="updateCoupon(updateCouponForm)">
+          <div class="row">
+            <div class="col-lg-5 col-md-12 offset-lg-1 my-2">
+                <label class="form-label">Coupon code</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Enter coupon code"
+                        name="code"
+                        [(ngModel)]="couponDetails.code"
+                        #codeRef="ngModel"
+                        required
+                        pattern="^[A-Z0-9]+$"
+                    />
+                    <div *ngIf="codeRef.invalid && codeRef.touched" class="text-danger">
+                        <span *ngIf="codeRef.errors?.['required']">
+                            Coupon code is required.
+                        </span>
+                        <span *ngIf="codeRef.errors?.['pattern']">
+                            Code must be in uppercase and numeric.
+                        </span>
+                    </div>
+            </div>
+            <div class="col-lg-5 col-md-12 my-2">
+                <label class="form-label">Discount</label>
+                    <input
+                        type="number"
+                        class="form-control"
+                        placeholder="Enter discount"
+                        name="discount"
+                        [(ngModel)]="couponDetails.discount"
+                        #discountRef="ngModel"
+                        required
+                    />
+                    <div *ngIf="discountRef.invalid && discountRef.touched" class="text-danger">
+                        <span *ngIf="discountRef.errors?.['required']">
+                            Coupon discount is required.
+                        </span>
+                    </div>
+            </div>
+          </div>
+    
+          <div class="row">
+            <div class="col-lg-5 col-md-12 offset-lg-1 my-2">
+                <label class="form-label">Usage limit</label>
+                    <input
+                        type="number"
+                        class="form-control"
+                        placeholder="Enter usage limit"
+                        name="usageLimit"
+                        [(ngModel)]="couponDetails.usageLimit"
+                        #usageLimitRef="ngModel"
+                        required
+                    />
+                    <div *ngIf="usageLimitRef.invalid && usageLimitRef.touched" class="text-danger">
+                        <span *ngIf="usageLimitRef.errors?.['required']">
+                            Coupon usage limit is required.
+                        </span>
+                    </div>        
+            </div>
+            <div class="col-lg-5 col-md-12 my-2">
+                <label class="form-label">Expiration date</label>
+                    <input
+                        type="date"
+                        class="form-control"
+                        name="expirationDate"
+                        [(ngModel)]="couponDetails.expirationDate"
+                        #expirationDateRef="ngModel"
+                        required
+                    />
+                    <div *ngIf="expirationDateRef.invalid && expirationDateRef.touched" class="text-danger">
+                        <span *ngIf="expirationDateRef.errors?.['required']">
+                            Coupon expiration date is required.
+                        </span>
+                    </div>
+            </div>
+          </div>
+    
+          <div class="row">
+            <div class="col-lg-5 col-md-12 offset-lg-1 my-2">
+            <label class="form-label">Discount type</label>
+                <select class="form-control" name="discountType" [(ngModel)]="couponDetails.type" #typeRef="ngModel"
+                required>
+                    <option selected disabled>select discount type</option>
+                    <option value="percentage">Percentage</option>
+                    <option value="amount">Fixed amount</option>
+                </select>
+                <div *ngIf="typeRef.invalid && typeRef.touched" class="text-danger">
+                    <span *ngIf="typeRef.errors?.['required']">
+                        Coupon discount type is required.
+                    </span>
+                </div>
+            </div>
+            <div class="col-lg-5 col-md-12 my-2">
+              <label class="form-label">Activation status</label>
+                  <select class="form-control" name="activeStatus" [(ngModel)]="couponDetails.isActive" #activeStatusRef="ngModel"
+                  required>
+                      <option selected disabled>select activation status</option>
+                      <option value="true">Yes</option>
+                      <option value="false">No</option>
+                  </select>
+                  <div *ngIf="activeStatusRef.invalid && activeStatusRef.touched" class="text-danger">
+                      <span *ngIf="activeStatusRef.errors?.['required']">
+                          Coupon activation status is required.
+                      </span>
+                  </div>
+              </div>
+
+            <div class="col-lg-10 col-md-12 offset-lg-1 my-2">
+                <button type="submit" class="form-control btn btn-primary" [disabled]="updateCouponForm.invalid">Update coupon</button>
+            </div>
+          </div>
+        </form>
+
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div> -->
+    </div>
+  </div>
+</div>

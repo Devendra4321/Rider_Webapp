@@ -8,6 +8,7 @@ export const environment = {
   API_URL_Ride: 'https://riderbackend-5rue.onrender.com/ride/',
   API_URL_WALLET: 'https://riderbackend-5rue.onrender.com/wallet/',
   API_URL_ADMIN: 'https://riderbackend-5rue.onrender.com/admin/',
+  API_URL_COUPON: 'https://riderbackend-5rue.onrender.com/coupon/',
 
   // SOCKET_URL: 'http://localhost:4000',
   // API_URL_USER: 'http://localhost:4000/users/',
@@ -16,6 +17,7 @@ export const environment = {
   // API_URL_Ride: 'http://localhost:4000/ride/',
   // API_URL_WALLET: 'http://localhost:4000/wallet/',
   // API_URL_ADMIN: 'http://localhost:4000/admin/',
+  // API_URL_COUPON: 'http://localhost:4000/coupon/',
 
   MAP_BOX_ACCESS_TOKEN: `pk.eyJ1IjoiZGV2ZW5kcmEtMTExIiwiYSI6ImNtNTVpN3A4ejJueWYyaXIwNGF1M25jcWkifQ.ZmwxLooOqfPUNL1hwbDeqQ`,
 

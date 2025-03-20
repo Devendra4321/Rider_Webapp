@@ -1,0 +1,107 @@
+<div class="card my-lg-5 my-md-5 my-4">
+    <div class="card-body">
+      <div class="row">
+        <h2 class="card-title text-center">Add new coupon</h2>
+      </div>
+
+    <form #addCouponForm="ngForm" (ngSubmit)="addCoupon(addCouponForm)">
+      <div class="row">
+        <div class="col-lg-5 col-md-6 offset-lg-1 my-2">
+            <label class="form-label">Coupon code</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Enter coupon code"
+                    name="code"
+                    [(ngModel)]="couponDetails.code"
+                    #codeRef="ngModel"
+                    required
+                    pattern="^[A-Z0-9]+$"
+                />
+                <div *ngIf="codeRef.invalid && codeRef.touched" class="text-danger">
+                    <span *ngIf="codeRef.errors?.['required']">
+                        Coupon code is required.
+                    </span>
+                    <span *ngIf="codeRef.errors?.['pattern']">
+                        Code must be in uppercase and numeric.
+                    </span>
+                </div>
+        </div>
+        <div class="col-lg-5 col-md-6 my-2">
+            <label class="form-label">Discount</label>
+                <input
+                    type="number"
+                    class="form-control"
+                    placeholder="Enter discount"
+                    name="discount"
+                    [(ngModel)]="couponDetails.discount"
+                    #discountRef="ngModel"
+                    required
+                />
+                <div *ngIf="discountRef.invalid && discountRef.touched" class="text-danger">
+                    <span *ngIf="discountRef.errors?.['required']">
+                        Coupon discount is required.
+                    </span>
+                </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-5 col-md-6 offset-lg-1 my-2">
+            <label class="form-label">Usage limit</label>
+                <input
+                    type="number"
+                    class="form-control"
+                    placeholder="Enter usage limit"
+                    name="usageLimit"
+                    [(ngModel)]="couponDetails.usageLimit"
+                    #usageLimitRef="ngModel"
+                    required
+                />
+                <div *ngIf="usageLimitRef.invalid && usageLimitRef.touched" class="text-danger">
+                    <span *ngIf="usageLimitRef.errors?.['required']">
+                        Coupon usage limit is required.
+                    </span>
+                </div>        
+        </div>
+        <div class="col-lg-5 col-md-6 my-2">
+            <label class="form-label">Expiration date</label>
+                <input
+                    type="date"
+                    class="form-control"
+                    name="expirationDate"
+                    [(ngModel)]="couponDetails.expirationDate"
+                    #expirationDateRef="ngModel"
+                    required
+                />
+                <div *ngIf="expirationDateRef.invalid && expirationDateRef.touched" class="text-danger">
+                    <span *ngIf="expirationDateRef.errors?.['required']">
+                        Coupon expiration date is required.
+                    </span>
+                </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-10 col-md-12 offset-lg-1 my-2">
+        <label class="form-label">Discount type</label>
+            <select class="form-control" name="discountType" [(ngModel)]="couponDetails.type" #typeRef="ngModel"
+            required>
+                <option selected disabled>select discount type</option>
+                <option value="percentage">Percentage</option>
+                <option value="amount">Fixed amount</option>
+            </select>
+            <div *ngIf="typeRef.invalid && typeRef.touched" class="text-danger">
+                <span *ngIf="typeRef.errors?.['required']">
+                    Coupon discount type is required.
+                </span>
+            </div>
+        </div>
+        <div class="col-lg-10 col-md-12 offset-lg-1 my-2">
+            <button type="submit" class="form-control btn btn-primary" [disabled]="addCouponForm.invalid">Add coupon</button>
+        </div>
+      </div>
+    </form>
+
+    </div>
+</div>

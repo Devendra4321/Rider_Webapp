@@ -41,4 +41,11 @@ router.post(
     couponController.getAllCoupons
 );
 
+//admin
+router.get(
+    "/getCouponById/:id",
+    authMiddleware.authAdmin,
+    couponController.getCouponById
+);
+
 module.exports = router;
