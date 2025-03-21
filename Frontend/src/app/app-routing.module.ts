@@ -40,6 +40,7 @@ import { AdminCouponsComponent } from './components/admin-coupons/admin-coupons.
 import { AdminAddCouponsComponent } from './components/admin-add-coupons/admin-add-coupons.component';
 import { AdminUserWalletsComponent } from './components/admin-user-wallets/admin-user-wallets.component';
 import { AdminCaptainWalletsComponent } from './components/admin-captain-wallets/admin-captain-wallets.component';
+import { AuthGuardAdmin } from './services/auth-guard-admin/auth-admin.guard';
 
 const routes: Routes = [
   {
@@ -193,38 +194,47 @@ const routes: Routes = [
       {
         path: '',
         component: AdminDashboardHomeComponent,
+        canActivate: [AuthGuardAdmin],
       },
       {
         path: 'rides',
         component: AdminRidesComponent,
+        canActivate: [AuthGuardAdmin],
       },
       {
         path: 'users',
         component: AdminUsersComponent,
+        canActivate: [AuthGuardAdmin],
       },
       {
         path: 'captains',
         component: AdminCaptainsComponent,
+        canActivate: [AuthGuardAdmin],
       },
       {
         path: 'captains-request',
         component: AdminCaptainsRequestComponent,
+        canActivate: [AuthGuardAdmin],
       },
       {
         path: 'coupons',
         component: AdminCouponsComponent,
+        canActivate: [AuthGuardAdmin],
       },
       {
         path: 'add-coupons',
         component: AdminAddCouponsComponent,
+        canActivate: [AuthGuardAdmin],
       },
       {
         path: 'user-wallets',
         component: AdminUserWalletsComponent,
+        canActivate: [AuthGuardAdmin],
       },
       {
         path: 'captain-wallets',
         component: AdminCaptainWalletsComponent,
+        canActivate: [AuthGuardAdmin],
       },
     ],
   },

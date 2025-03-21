@@ -10,6 +10,10 @@ export class AdminLoginService {
 
   http = inject(HttpClient);
 
+  isAdminLoggedIn(): boolean {
+    return !!localStorage.getItem('admin-token');
+  }
+
   login(data: any) {
     return this.http.post(environment.API_URL_ADMIN + 'login', data);
   }
