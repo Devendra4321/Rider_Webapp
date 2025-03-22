@@ -3,6 +3,7 @@ import { ProfileService } from '../../services/profile/profile.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EmailVerificationService } from '../../services/email-verification/email-verification.service';
+import { CouponService } from '../../services/coupon/coupon.service';
 
 @Component({
     selector: 'app-user-profile',
@@ -14,12 +15,14 @@ export class UserProfileComponent {
   constructor(
     private profileService: ProfileService,
     private emailVerificationService: EmailVerificationService,
+    private couponService: CouponService,
     private toaster: ToastrService,
     private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit() {
     this.userProfile();
+    this.getActiveCoupons();
   }
 
   userDetail: any = {};
@@ -75,6 +78,40 @@ export class UserProfileComponent {
       complete: () => {
         this.spinner.hide();
       },
+    });
+  }
+
+  activeCoupons: any = [];
+
+  getActiveCoupons() {
+    this.spinner.show();
+    
+    this.couponService.getAllActiveCoupons().subscribe({
+      next: (result: any) => {
+        if (result.statusCode == 200) {
+          this.spinner.hide();
+          console.log('Active coupons', result);
+          this.activeCoupons = result.coupons;
+        }
+      },
+      error: (error) => {
+        console.log('Active coupons error', error.error);
+        this.spinner.hide();
+        this.toaster.error(error.error.message);
+      },
+      complete: () => {
+        this.spinner.hide();
+      },
+    });
+  }
+
+  copyCouponCode(text: string) {
+    navigator.clipboard.writeText(text).then(() => {
+      // alert('Copied: ' + text);
+      this.toaster.success('Coupon code copied', text);
+    }).catch((error) => {
+      console.error('Error in copying: ', error);
+      this.toaster.error('Error in copying', text);
     });
   }
 }

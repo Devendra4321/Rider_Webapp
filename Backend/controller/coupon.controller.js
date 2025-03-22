@@ -45,6 +45,10 @@ module.exports.applyCoupon = async (req, res, next) => {
             return res.status(400).json({ statusCode: 400, message: "Coupon usage limit exceeded" });
         }
 
+        if (coupon.usedBy.includes(req.user._id)) {
+            return res.status(400).json({ statusCode: 400, message: "You have already used this coupon" });
+        }
+
         res.status(200).json({ statusCode: 200, message: "Coupon applied", discount: coupon.discount, type: coupon.type });
     } catch (error) {
         res.status(500).json({ statusCode: 500, error: error.message });

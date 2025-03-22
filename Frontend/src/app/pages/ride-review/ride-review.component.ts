@@ -10,6 +10,7 @@ import { environment } from '../../../environment/environment';
 import { RideSocketService } from '../../services/ride-socket/ride-socket.service';
 import { ProfileService } from '../../services/profile/profile.service';
 import { UserWalletService } from '../../services/user-wallet/user-wallet.service';
+import { CouponService } from '../../services/coupon/coupon.service';
 declare var Razorpay: any;
 @Component({
   selector: 'app-ride-review',
@@ -24,6 +25,7 @@ export class RideReviewComponent {
     private rideSocketService: RideSocketService,
     private userWalletService: UserWalletService,
     private profileService: ProfileService,
+    private couponService: CouponService,
     private spinner: NgxSpinnerService,
     private toaster: ToastrService,
     private route: Router
@@ -51,6 +53,8 @@ export class RideReviewComponent {
     drop: '',
     vehicleType: '',
     paymentMethod: 'cash',
+    isCouponWanted: false,
+    couponCode: '',
   };
 
   getLocationDetails() {
@@ -227,13 +231,101 @@ export class RideReviewComponent {
     // console.log(this.rideDetails);
   }
 
+  appliedCouponData: any = {};
+
+  applyCoupon() {
+    this.spinner.show();
+
+    this.couponService
+      .applyCoupon(this.rideDetails.couponCode)
+      .subscribe({
+        next: (result: any) => {
+          if (result.statusCode == 200) {
+            this.spinner.hide();
+            console.log('Coupon data', result);
+            this.toaster.success(result.message);
+            this.appliedCouponData={
+              couponCode: this.rideDetails.couponCode,
+              discount: result.discount,
+              discountType: result.type,
+              isCouponApplied: true,
+            }
+            // console.log('Applied Coupon data', this.appliedCouponData);   
+          }
+        },
+        error: (error) => {
+          console.log('Coupon data error', error.error);
+          this.spinner.hide();
+          this.toaster.error(error.error.message);
+          this.appliedCouponData={
+            isCouponApplied: false,
+          }
+        },
+        complete: () => {
+          this.spinner.hide();
+        },
+      });
+  }
+
+  useCoupon() {
+    this.spinner.show();
+
+    this.couponService
+      .useCoupon(this.rideDetails.couponCode)
+      .subscribe({
+        next: (result: any) => {
+          if (result.statusCode == 200) {
+            this.spinner.hide();
+            console.log('Use Coupon data', result);
+          }
+        },
+        error: (error) => {
+          console.log('use Coupon data error', error.error);
+          this.spinner.hide();
+          this.toaster.error(error.error.message);
+        },
+        complete: () => {
+          this.spinner.hide();
+        },
+      });
+  }
+
+  //reset modal data
+  resetValue(){
+    this.rideDetails.couponCode = '';
+    this.rideDetails.isCouponWanted = false;
+    this.appliedCouponData = {
+      isCouponApplied: false,
+    }
+  }
+  //apply coupon discount
+  getDiscountAmount() {
+    if (this.appliedCouponData.discountType == 'percentage') {
+      return (
+        this.vehiclePrices[this.rideDetails.vehicleType] - (this.vehiclePrices[this.rideDetails.vehicleType] * this.appliedCouponData.discount / 100)
+      );
+    } else if(this.appliedCouponData.discountType == 'amount') {
+      return (
+        this.vehiclePrices[this.rideDetails.vehicleType] - this.appliedCouponData.discount
+      );
+    } else {
+      return this.vehiclePrices[this.rideDetails.vehicleType];
+    }
+  }
+
   generateTrip() {
     console.log('Ride Details', this.rideDetails);
-    this.createRide();
+    // this.createRide();
+
+    if(this.appliedCouponData.isCouponApplied){
+      this.createRide(this.appliedCouponData.couponCode, this.getDiscountAmount());
+    } else{
+      this.createRide('', '');
+    }
   }
 
   newCreatedRide: any;
-  createRide() {
+  createRide(couponCode: any, discount: any) {
     this.spinner.show();
 
     this.rideService
@@ -242,6 +334,8 @@ export class RideReviewComponent {
         destination: this.rideDetails.drop,
         vehicleType: this.rideDetails.vehicleType,
         paymentMethod: this.rideDetails.paymentMethod,
+        couponCode: couponCode,
+        totalDiscountedFare: discount,
       })
       .subscribe({
         next: (result: any) => {
@@ -250,8 +344,16 @@ export class RideReviewComponent {
             console.log('Ride created', result);
             this.newCreatedRide = result.ride;
 
+            if (this.newCreatedRide.couponDetails.couponApplied === 1){
+              this.useCoupon();
+            }
+
             if (this.newCreatedRide.paymentDetails.paymentMethod == 'online') {
-              this.paymentInit(this.newCreatedRide.fare);
+              if (this.newCreatedRide.couponDetails.couponApplied === 1){
+                this.paymentInit(this.newCreatedRide.couponDetails.totalDiscountedFare.toFixed(2));
+              } else {
+                this.paymentInit(this.newCreatedRide.fare);  
+              }           
             } else if (
               this.newCreatedRide.paymentDetails.paymentMethod == 'wallet'
             ) {
@@ -342,7 +444,6 @@ export class RideReviewComponent {
 
   paymentInit(amount: any) {
     this.spinner.show();
-
     this.paymentService
       .paymentInit({ amount: amount * 10 })
       .subscribe((order: any) => {

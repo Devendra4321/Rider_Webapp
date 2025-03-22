@@ -93,5 +93,32 @@
         </div> -->
       </div>
     </div>
+
+    <div class="row">
+      <div class="col-lg-10 offset-lg-2">
+        <p class="fs-4 fw-bold mt-3">Your's Coupons</p>
+      </div>
+    </div>
+
+    <div class="row w-lg-75 w-md-100 offset-lg-2 me-auto mb-3">
+      <p class="fs-5" *ngIf="activeCoupons.length !== 0">Use the below coupon for your next ride.</p>
+      <div class="col-lg-5 col-md-6 col-sm-6" *ngFor="let coupon of activeCoupons">
+        <div class="card my-2">
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <p class="fs-5 fw-bold m-0" #couponText>{{ coupon.code }}</p>
+              <p class="fs-5"><i class="bi bi-clipboard" (click)="copyCouponCode(couponText.innerText)"></i></p>
+            </div>
+            <div>
+              <p class="fs-6">Discount: <span class="fw-bold">{{ coupon.type === 'percentage' ? coupon.discount + '%' : coupon.type === 'amount' ? '₹' + coupon.discount : null }}</span></p>
+              <p class="fs-6">Valid till: <span class="fw-bold">{{ coupon.expirationDate | date }}</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="activeCoupons.length === 0" class="col-lg-5 col-md-6 col-sm-6">
+        <p class="fs-5 text-danger fw-semibold">No coupons available...</p>
+      </div>
+    </div>   
   </div>
 </section>

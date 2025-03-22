@@ -582,20 +582,27 @@ module.exports.debitInUserWallet = async (req, res, next) => {
       });
     }
 
-    if (wallet.balance < ride.fare) {
+    if (wallet.balance < ride.fare || wallet.balance < ride.couponDetails.totalDiscountedFare || wallet.balance <= 0) {
       return res.status(400).json({
         statusCode: 400,
         message: "Insufficient balance",
       });
     }
 
-    const balance = wallet.balance - ride.fare;
-    wallet.balance = balance.toFixed(2);
+    if(ride.couponDetails.couponApplied === 1){
+      wallet.balance = wallet.balance - ride.couponDetails.totalDiscountedFare;
+      wallet.balance = wallet.balance.toFixed(2);
+      amount = ride.couponDetails.totalDiscountedFare.toFixed(2);
+    } else{
+      wallet.balance = wallet.balance - ride.fare;
+      wallet.balance = wallet.balance.toFixed(2);
+      amount = ride.fare.toFixed(2);
+    }
 
     const transaction = new transactionModel({
       userId: req.user._id,
       rideId: ride._id,
-      amount: ride.fare.toFixed(2),
+      amount: amount,
       transactionType: "debit",
       description: "Ride amount debited from user wallet",
     });
@@ -676,13 +683,20 @@ module.exports.creditInUserWallet = async (req, res, next) => {
       });
     }
 
-    const balance = wallet.balance + ride.fare;
-    wallet.balance = balance.toFixed(2);
+    if(ride.couponDetails.couponApplied === 1){
+      wallet.balance = wallet.balance + ride.couponDetails.totalDiscountedFare;
+      wallet.balance = wallet.balance.toFixed(2);
+      amount = ride.couponDetails.totalDiscountedFare.toFixed(2);
+    } else{
+      wallet.balance = wallet.balance + ride.fare;
+      wallet.balance = wallet.balance.toFixed(2);
+      amount = ride.fare.toFixed(2);
+    }
 
     const transaction = new transactionModel({
       userId: req.user._id,
       rideId: ride._id,
-      amount: ride.fare.toFixed(2),
+      amount: amount,
       transactionType: "credit",
       description: "Ride amount credited in user wallet",
     });

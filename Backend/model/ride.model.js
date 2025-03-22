@@ -82,6 +82,20 @@ const rideSchema = new mongoose.Schema({
       default: 0,
     },
   },
+  couponDetails: {
+    coupon: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "coupon",
+    },
+    couponApplied: {
+      type: Number,
+      default: 0,
+    },
+    totalDiscountedFare:{
+      type: Number,
+      default: 0,
+    }
+  },
   orderId: {
     type: String,
   },

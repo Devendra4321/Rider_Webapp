@@ -210,10 +210,11 @@
               <div>
                 <button
                   class="btn"
+                  data-bs-toggle="modal" 
+                  data-bs-target="#summaryModal"
                   [disabled]="!rideDetails.vehicleType || isWalletAmountLess"
-                  (click)="generateTrip()"
                 >
-                  Request {{ rideDetails.vehicleType }}
+                  Get summary
                 </button>
               </div>
             </div>
@@ -326,6 +327,78 @@
         >
           Save
         </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Summary Modal -->
+<div class="modal fade" id="summaryModal"  data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="summaryModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="summaryModalLabel">Ride Summary</h1>
+        <button type="button" class="btn-close" (click)="resetValue()" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+        <div class="row p-1">
+          <p class="m-0 mb-1"><span class="fs-6 fw-bold">Pickup location:</span> {{ rideDetails.pickup }}</p>
+          <p class="m-0 mb-1"><span class="fs-6 fw-bold">Drop location:</span> {{ rideDetails.drop }}</p>
+          <p class="m-0 mb-1"><span class="fs-6 fw-bold">Vehicle required:</span> {{ rideDetails.vehicleType }}</p>
+          <p class="m-0 mb-1"><span class="fs-6 fw-bold">Payment method:</span> {{ rideDetails.paymentMethod }}</p>
+          <div *ngIf="rideDetails.paymentMethod !== 'cash'">
+          <input type="checkbox" name="" id="" [(ngModel)]="rideDetails.isCouponWanted"><span class="mx-2">Are you want to apply coupon code?</span>
+          </div>
+        </div>
+
+        <div class="row mt-3" *ngIf="rideDetails.isCouponWanted">
+          <div class="col-lg-9 col-md-9">
+            <input type="text" class="form-control" placeholder="Enter coupon code" name="couponCode" [(ngModel)]="rideDetails.couponCode" #couponCodeRef="ngModel" pattern="[A-Z0-9]+" required>
+            <div class="text-danger" *ngIf="couponCodeRef.invalid && couponCodeRef.touched">
+              <span *ngIf="couponCodeRef.errors?.['pattern']">Please enter valid coupon code</span>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-12 mt-lg-0 mt-md-0 mt-2">
+            <button class="btn btn-dark w-100" [disabled]="!rideDetails.couponCode || couponCodeRef.errors?.['pattern']" (click)="applyCoupon()">Apply</button>
+          </div>
+        </div>
+
+        <div class="row mt-4">
+          <div class="col-lg-10 col-md-10 offset-lg-1 offset-md-1">
+            <table class="table table-bordered border-dark">
+              <thead>
+                <tr>
+                  <th colspan="2" class="text-center">Bill details</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr >
+                  <td>Base fare</td>
+                  <td class="text-end">{{ vehiclePrices[rideDetails.vehicleType] }}</td>
+                </tr>
+                <tr >
+                  <td>Coupon discount</td>
+                  <td class="text-end">{{ appliedCouponData?.discountType === 'percentage' 
+                    ? appliedCouponData.discount + ' %' 
+                    : appliedCouponData?.discountType === 'amount' 
+                      ? '₹ ' + appliedCouponData.discount 
+                      : 0 }}
+                </td>  
+                </tr>
+                <tr >
+                  <td>Total fare</td>
+                  <td class="text-end">{{ getDiscountAmount() }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button class="w-100 btn btn-dark" (click)="generateTrip()" data-bs-dismiss="modal"
+        aria-label="Close">Request {{ rideDetails.vehicleType }}</button>
       </div>
     </div>
   </div>

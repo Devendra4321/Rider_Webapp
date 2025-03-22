@@ -9,9 +9,11 @@ const captainModel = require("../model/captain.model");
 const razorpay = require("../razorpay.config");
 const crypto = require("crypto");
 const transporter = require("../mail.config");
+const couponModel = require("../model/coupon.model");
+
 
 module.exports.createRide = async (req, res, next) => {
-  const { pickup, destination, vehicleType, paymentMethod } = req.body;
+  const { pickup, destination, vehicleType, paymentMethod, couponCode, totalDiscountedFare } = req.body;
 
   if (!pickup || !destination || !vehicleType || !paymentMethod) {
     res.status(400).json({
@@ -25,6 +27,10 @@ module.exports.createRide = async (req, res, next) => {
   const pickupLatLng = await mapService.getCoordinates(pickup);
 
   const destinationLatLng = await mapService.getCoordinates(destination);
+
+  const coupon = await couponModel.findOne({
+    code: couponCode,
+  });
 
   try {
     const ride = new rideModel({
@@ -48,6 +54,13 @@ module.exports.createRide = async (req, res, next) => {
       captainFare: (fare[vehicleType] * 0.9).toFixed(2), // minus 10% of fare
     });
 
+    ride.couponDetails.coupon = coupon?._id;
+    if(coupon){
+      ride.couponDetails.totalDiscountedFare = totalDiscountedFare;
+      ride.couponDetails.couponApplied = 1;
+    }else{
+      ride.couponDetails.totalDiscountedFare = fare[vehicleType];
+    }
     await ride.save();
 
     await transporter.sendMail({
@@ -96,7 +109,7 @@ module.exports.createRide = async (req, res, next) => {
       ride: ride,
     });
   } catch (error) {
-    res.status(500).json({ statusCode: 500, message: "Internal server error" });
+    res.status(500).json({ statusCode: 500, message: "Internal server error", error: error.message });
   }
 };
 
