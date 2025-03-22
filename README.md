@@ -2,7 +2,7 @@
 
 ## Description
 
-Rider Webapp is a platform that connects riders with drivers for convenient and efficient transportation services. The application aims to provide a seamless experience for users to book rides, track their journeys, and make payments securely. It includes features such as real-time ride tracking, fare estimation, wallets, and multiple payment options. The platform also offers a user-friendly interface, secure authentication, and efficient communication between riders and drivers. Additionally, it supports various payment methods and digital wallets, ensuring a smooth and hassle-free transaction process.
+Rider Webapp is a platform that connects riders with drivers for convenient and efficient transportation services. The application aims to provide a seamless experience for users to book rides, track their journeys, and make payments securely. It includes real-time ride tracking, fare estimation, wallets, and multiple payment options. The platform offers a user-friendly interface, secure authentication, and efficient communication between riders and drivers. Additionally, it supports various payment methods, digital wallets, and coupons, ensuring a smooth and hassle-free transaction process.
 
 ## Technologies Used
 
