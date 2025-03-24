@@ -147,4 +147,52 @@ export class AdminService {
       `${environment.API_URL_Ride}getRideById/${id}`
     );
   }
+
+  addNewAdmin(data: any) {
+    const token = localStorage.getItem('admin-token');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    return this.http.post(
+      environment.API_URL_ADMIN + 'addAdmin',
+      data,
+      {
+        headers,
+      }
+    );
+  }
+
+  getAllAdmins(data: any) {
+    return this.http.post(
+      environment.API_URL_ADMIN + 'getAllAdmin',
+      data,
+    );
+  }
+
+  getAdminById(adminId: any) {
+    const token = localStorage.getItem('admin-token');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    return this.http.get(
+      `${environment.API_URL_ADMIN}getAdminById/${adminId}`,
+      {
+        headers,
+      }
+    );
+  }
+
+  updateAdmin(adminId: any, data: any) {
+    const token = localStorage.getItem('admin-token');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    return this.http.put(
+      `${environment.API_URL_ADMIN}updateAdmin/${adminId}`,
+      data,
+      {
+        headers,
+      }
+    );
+  }
 }

@@ -41,6 +41,8 @@ import { AdminAddCouponsComponent } from './components/admin-add-coupons/admin-a
 import { AdminUserWalletsComponent } from './components/admin-user-wallets/admin-user-wallets.component';
 import { AdminCaptainWalletsComponent } from './components/admin-captain-wallets/admin-captain-wallets.component';
 import { AuthGuardAdmin } from './services/auth-guard-admin/auth-admin.guard';
+import { AdminAddAdminComponent } from './components/admin-add-admin/admin-add-admin.component';
+import { AdminAdminsComponent } from './components/admin-admins/admin-admins.component';
 
 const routes: Routes = [
   {
@@ -234,6 +236,16 @@ const routes: Routes = [
       {
         path: 'captain-wallets',
         component: AdminCaptainWalletsComponent,
+        canActivate: [AuthGuardAdmin],
+      },
+      {
+        path: 'add-admin',
+        component: AdminAddAdminComponent,
+        canActivate: [AuthGuardAdmin],
+      },
+      {
+        path: 'admins',
+        component: AdminAdminsComponent,
         canActivate: [AuthGuardAdmin],
       },
     ],

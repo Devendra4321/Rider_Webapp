@@ -1,0 +1,283 @@
+<div class="card mt-lg-5 mt-md-5 mt-4">
+    <div class="card-body">
+      <div class="row p-1">
+        <div class="d-flex justify-content-between">
+          <div>
+            <h2 class="card-title">All Admins</h2>
+          </div>
+          <div>
+            <!-- <button class="btn btn-success text-white mx-2">
+                  Export to current
+                </button> -->
+            <!-- <button
+              class="btn btn-secondary text-white mx-3 dropdown-toggle"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Export to excel
+            </button>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item" (click)="exportActiveTableToExcel(false)"
+                  >Active Admins</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" (click)="exportActiveTableToExcel(true)"
+                  >Inactive Admins</a
+                >
+              </li>
+            </ul> -->
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-12">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button
+                  class="nav-link active"
+                  id="home-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#home-tab-pane"
+                  type="button"
+                  role="tab"
+                  aria-controls="home-tab-pane"
+                  aria-selected="true"
+                  (click)="getActiveAdmins()"
+                >
+                  Active admins
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button
+                  class="nav-link"
+                  id="profile-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#profile-tab-pane"
+                  type="button"
+                  role="tab"
+                  aria-controls="profile-tab-pane"
+                  aria-selected="false"
+                  (click)="getDeletedAdmins()"
+                >
+                  Inactive admins
+                </button>
+              </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+              <div
+                class="tab-pane fade show active"
+                id="home-tab-pane"
+                role="tabpanel"
+                aria-labelledby="home-tab"
+                tabindex="0"
+              >
+                <div class="table-responsive small">
+                  <table class="table table-sm">
+                    <thead>
+                      <tr>
+                        <th scope="col">_id</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Deleted status</th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let admin of activeAdmins">
+                        <td>{{ admin._id }}</td>
+                        <td>{{ admin.email }}</td>
+                        <td>{{ admin.type }}</td>
+                        <td>
+                          {{
+                            admin.isDeleted === true
+                              ? "Admin Deleted"
+                              : admin.isDeleted === false
+                              ? "Admin Active"
+                              : null
+                          }}
+                        </td>
+                        <td>
+                          <div class="dropdown">
+                            <button
+                              class="btn btn-sm btn-secondary dropdown-toggle"
+                              type="button"
+                              data-bs-toggle="dropdown"
+                              aria-expanded="false"
+                            >
+                              Action
+                            </button>
+                            <ul class="dropdown-menu">
+                              <li>
+                                <a
+                                  class="dropdown-item"
+                                  data-bs-toggle="modal" 
+                                  data-bs-target="#staticBackdrop"
+                                  (click)="getAdminById(admin._id)"
+                                  >Edit admin</a
+                                >
+                              </li>
+                            </ul>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div *ngIf="totalActiveAdmins == 0" class="text-danger my-4">
+                    <p class="fw-bold fs-5">Data Not Found..!</p>
+                  </div>
+                  <ngb-pagination
+                    [collectionSize]="totalActiveAdmins"
+                    [(page)]="activeAdminscurrentPage"
+                    [maxSize]="5"
+                    [pageSize]="activeAdminsTableSize"
+                    (pageChange)="onTableActiveAdminDataChange($event)"
+                    ><ng-template ngbPaginationPrevious>Prev</ng-template>
+                    <ng-template ngbPaginationNext>Next</ng-template>
+                  </ngb-pagination>
+                </div>
+              </div>
+              <div
+                class="tab-pane fade"
+                id="profile-tab-pane"
+                role="tabpanel"
+                aria-labelledby="profile-tab"
+                tabindex="0"
+              >
+                <div class="table-responsive small">
+                  <table class="table table-sm" id="active-users-table">
+                    <thead>
+                      <tr>
+                        <th scope="col">_id</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Deleted status</th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let admin of deletedAdmins">
+                        <td>{{ admin._id }}</td>
+                        <td>{{ admin.email }}</td>
+                        <td>{{ admin.type }}</td>
+                        <td>
+                          {{
+                            admin.isDeleted === true
+                              ? "Admin Inactive"
+                              : admin.isDeleted === false
+                              ? "Admin Active"
+                              : null
+                          }}
+                        </td>
+                        <td>
+                          <div class="dropdown">
+                            <button
+                              class="btn btn-sm btn-secondary dropdown-toggle"
+                              type="button"
+                              data-bs-toggle="dropdown"
+                              aria-expanded="false"
+                            >
+                              Action
+                            </button>
+                            <ul class="dropdown-menu">
+                              <li>
+                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="getAdminById(admin._id)">Edit admin</a>
+                              </li>
+                            </ul>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div *ngIf="totalDeletedAdmins == 0" class="text-danger my-4">
+                    <p class="fw-bold fs-5">Data Not Found..!</p>
+                  </div>
+                  <ngb-pagination
+                    [collectionSize]="totalDeletedAdmins"
+                    [(page)]="deletedAdminscurrentPage"
+                    [maxSize]="5"
+                    [pageSize]="deletedAdminsTableSize"
+                    (pageChange)="onTableDeletedAdminDataChange($event)"
+                    ><ng-template ngbPaginationPrevious>Prev</ng-template>
+                    <ng-template ngbPaginationNext>Next</ng-template>
+                  </ngb-pagination>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Update Admin Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #updateAdminForm="ngForm" (ngSubmit)="updateAdminFormData(updateAdminForm)">
+          <div class="row">
+            <div class="col-lg-10 col-md-12 offset-lg-1 my-2">
+                <label class="form-label">Admin email</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="email"
+                        [(ngModel)]="adminDetails.email"
+                        #emailRef="ngModel"
+                        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                        required                
+                    />
+                    <div *ngIf="emailRef.invalid && emailRef.touched" class="text-danger">
+                        <span *ngIf="emailRef.errors?.['required']">
+                            Admin email is required.
+                        </span>
+                        <span *ngIf="emailRef.errors?.['pattern']">
+                            Email must be in correct format.
+                        </span>
+                    </div>
+            </div>
+          </div>
+    
+          <div class="row">
+            <div class="col-lg-5 col-md-12 offset-lg-1 my-2">
+            <label class="form-label">Admin type</label>
+                <select class="form-select" name="adminType" [(ngModel)]="adminDetails.type" #adminTypeRef="ngModel" required>
+                    <option selected disabled>Select admin type</option>
+                    <option value="superadmin">Super Admin</option>
+                    <option value="subadmin">Sub Admin</option>
+                    <option value="admin">Admin</option>
+                </select>
+                <div *ngIf="adminTypeRef.invalid && adminTypeRef.touched" class="text-danger">
+                    <span *ngIf="adminTypeRef.errors?.['required']">
+                        Admin type is required.
+                    </span>
+                </div>
+            </div>
+            <div class="col-lg-5 col-md-12 my-2">
+              <label class="form-label">Activation status</label>
+                  <select class="form-select" name="activeStatus" [(ngModel)]="adminDetails.isDeleted" #activeStatusRef="ngModel" required>
+                      <option selected disabled>select activation status</option>
+                      <option value="true">Admin Inactive</option>
+                      <option value="false">Admin Active</option>
+                  </select>
+                  <div *ngIf="activeStatusRef.invalid && activeStatusRef.touched" class="text-danger">
+                      <span *ngIf="activeStatusRef.errors?.['required']">
+                          Admin activation status is required.
+                      </span>
+                  </div>
+              </div>
+
+            <div class="col-lg-10 col-md-12 offset-lg-1 my-2">
+                <button type="submit" class="form-control btn btn-primary">Update admin</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

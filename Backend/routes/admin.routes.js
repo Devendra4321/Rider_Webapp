@@ -11,6 +11,10 @@ router.get("/logout", adminController.logoutAdmin);
 
 router.post("/getAllAdmin", adminController.getAllAdmins);
 
+router.get('/getAdminById/:adminId', authMiddelware.authAdmin, adminController.getAdminById);
+
+router.put('/updateAdmin/:adminId', authMiddelware.authAdmin, adminController.updateAdmin);
+
 router.post("/getAllUsers", adminController.getAllUsers);
 
 router.post("/getAllCaptains", adminController.getAllCaptains);

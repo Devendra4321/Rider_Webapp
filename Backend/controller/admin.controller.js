@@ -15,12 +15,12 @@ module.exports.addAdmin = async (req, res, next) => {
     });
   }
 
-  const { email, password } = req.body;
+  const { email, password, type } = req.body;
 
-  if (!email || !password) {
+  if (!email || !password || !type) {
     return res.status(400).json({
       statuscode: 400,
-      message: "Please provide email and password",
+      message: "Please provide email, password and type",
     });
   }
 
@@ -38,6 +38,7 @@ module.exports.addAdmin = async (req, res, next) => {
   const admin = await adminModel.create({
     email,
     password: hashPassword,
+    type,
   });
 
   await admin.save();
@@ -134,6 +135,38 @@ module.exports.getAllAdmins = async (req, res, next) => {
     data: admins,
   });
 };
+
+module.exports.getAdminById = async (req, res, next) => {
+  try {
+    const admin = await adminModel.findById(req.params.adminId);
+
+    if(!admin){
+      return res.status(400).json({ statusCode: 400, message: "Admin not found" })
+    }
+
+    res.status(200).json({ statusCode: 200, admin })   
+  } catch (error) {
+    res.status(500).json({ statusCode:500, message: error.message })
+  }
+}
+
+module.exports.updateAdmin = async (req, res, next) => {
+  try {
+    const { email, type, isDeleted } = req.body;
+
+    const admin = await adminModel.findById(req.admin._id);
+
+    if(admin.type !== 'superadmin'){
+      return res.status(400).json({ statusCode: 400, message: "You have not authority" })
+    }
+
+    const updatedAdmin = await adminModel.findByIdAndUpdate(req.params.adminId,{ email, type, isDeleted }, { new: true })
+
+    res.status(200).json({ statusCode: 200, message:"Admin updated", admin: updatedAdmin })   
+  } catch (error) {
+    res.status(500).json({ statusCode:500, message: error.message })
+  }
+}
 
 module.exports.getAllUsers = async (req, res, next) => {
   const { page = 1, perPage = 5, isDeleted } = req.body;

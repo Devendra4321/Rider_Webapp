@@ -1,0 +1,52 @@
+<div class="card col-lg-9 m-auto my-lg-5">
+    <div class="card-body">
+        <h5 class="card-title fs-3 text-center mb-3">Add Admin</h5>
+        
+      <form #addAdminForm="ngForm" (ngSubmit)="addAdmin(addAdminForm)">
+        <div class="row mt-lg-3">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <label class="form-label">Admin email</label>
+                <input type="email" class="form-control" placeholder="Enter Admin email" name="email" [(ngModel)]="newAdmin.email" #emailRef="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+                <div *ngIf="emailRef.invalid && emailRef.touched">
+                    <span class="text-danger" *ngIf="emailRef.errors?.['required']">
+                        Email is required.
+                    </span>
+                    <span class="text-danger" *ngIf="emailRef.errors?.['pattern']">
+                        Email is invalid.
+                    </span>
+                </div>                
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 mt-3 mt-lg-0 mt-md-0 mt-sm-0">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-control" placeholder="Enter password" name="password" [(ngModel)]="newAdmin.password" #passwordRef="ngModel" required>
+                <div *ngIf="passwordRef.invalid && passwordRef.touched">
+                    <span class="text-danger" *ngIf="passwordRef.errors?.['required']">
+                        Password is required.
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-lg-3 mt-md-3 mt-3">
+            <div class="col-lg-12">
+                <label class="form-label">Admin type</label>
+                <select class="form-select" name="type" [(ngModel)]="newAdmin.type" #typeRef="ngModel" required>
+                    <option selected disabled>Choose admin type</option>
+                    <option value="superadmin">Super Admin</option>
+                    <option value="subadmin">Sub Admin</option>
+                    <option value="admin">Admin</option>
+                </select> 
+                <div *ngIf="typeRef.invalid && typeRef.touched">
+                    <span class="text-danger" *ngIf="typeRef.errors?.['required']">
+                        Admin type is required.
+                    </span>
+                </div>          
+            </div>
+        </div>
+        <div class="row mt-lg-3 mt-3">
+            <div class="col-lg-12">
+                <button class="w-100 btn btn-primary" type="submit" [disabled]="addAdminForm.invalid">Add Admin</button>                
+            </div>
+        </div>
+      </form>
+    </div>
+</div>
