@@ -1,1 +1,125 @@
-<p>admin-dashboard-home works!</p>
+<div
+    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+    >
+        <h1 class="h2">Dashboard</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+          <div class="btn-group me-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary">
+              Share
+            </button>
+            <button type="button" class="btn btn-sm btn-outline-secondary">
+              Export
+            </button>
+          </div>
+          <button
+            type="button"
+            class="btn btn-sm btn-outline-secondary dropdown-toggle d-flex align-items-center gap-1"
+          >
+            <!-- <svg class="bi"><use xlink:href="#calendar3" /></svg> -->
+            This week
+          </button>
+        </div>
+      </div>
+
+<!-- Card section -->
+<section class="my-4">
+    <div class="row m-auto">
+        <div class="col-lg-4 col-md-6">
+            <div class="card text-bg-primary mb-3" style="max-width: 22rem;">
+               <div class="card-header fw-bold fs-4"><i class="bi bi-ev-front-fill me-2"></i>Total Rides</div>
+                <div class="card-body">
+                  <h5 class="card-title">{{ totalRides || 0 }}</h5>
+                  <p class="card-text">
+                    All rides generated and completed untill today.
+                  </p>
+                  <p class="card-text text-end" role="button" tabindex="0" routerLink="/dashboard/rides">
+                    Get more details
+                  </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+            <div class="card text-bg-secondary mb-3" style="max-width: 22rem;">
+               <div class="card-header fw-bold fs-4"><i class="bi bi-people-fill me-2"></i>Total Users</div>
+                <div class="card-body">
+                  <h5 class="card-title">{{ totalUsers || 0 }}</h5>
+                  <p class="card-text pe-0">All users are registered untill today and ready to ride.</p>
+                  <p class="card-text text-end" role="button" tabindex="0" routerLink="/dashboard/users">
+                    Get more details
+                  </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+            <div class="card text-bg-danger mb-3" style="max-width: 22rem;">
+               <div class="card-header fw-bold fs-4"><i class="bi bi-car-front-fill me-2"></i>Total Captains</div>
+                <div class="card-body">
+                  <h5 class="card-title">{{ totalCaptains || 0}}</h5>
+                  <p class="card-text">All captains are registered and ready to accept ride.</p>
+                  <p class="card-text text-end" role="button" tabindex="0" routerLink="/dashboard/captains">
+                    Get more details
+                  </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Today ride section -->
+<section class="my-5">
+  <div class="container">
+    <div>
+      <p class="fw-semibold fs-2">Today's rides</p>
+    </div>
+    <div class="table-responsive small my-4" *ngIf="todaysRides?.length !== 0">
+      <table class="table table-sm">
+        <thead>
+          <tr>
+            <th scope="col">_id</th>
+            <th scope="col">Ride created</th>
+            <th scope="col">Pickup address</th>
+            <th scope="col">Drop address</th>
+            <th scope="col">Ride status</th>
+            <th scope="col">Ride created</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ride of todaysRides">
+            <td>{{ ride._id }}</td>
+            <td>
+              {{
+                ride.user.fullname.firstname +
+                  " " +
+                  ride.user.fullname.lastname
+              }}
+            </td>
+            <td>{{ ride.pickup }}</td>
+            <td>{{ ride.destination }}</td>
+            <td>
+              {{
+                ride.status === "pending"
+                  ? "Ride not accepted by captain"
+                  : ride.status === "accepted"
+                  ? "Ride accepted by captain"
+                  : ride.status === "ongoing"
+                  ? "Ride started"
+                  : ride.status === "completed"
+                  ? "Ride completed"
+                  : ride.status === "cancelled"
+                  ? "Ride cancelled"
+                  : null
+              }}
+            </td>
+            <td>{{ ride.createOn | date : "short" }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div *ngIf="todaysRides?.length === 0">
+      <p class="fw-semibold fs-5 text-danger mx-3">Ride not created by user yet...</p>
+    </div>
+  </div>
+</section>
