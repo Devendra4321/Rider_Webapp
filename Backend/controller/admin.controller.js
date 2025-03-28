@@ -4,6 +4,7 @@ const userModel = require("../model/user.model");
 const blackListTokenModel = require("../model/blackListingToken.model");
 const rideModel = require("../model/ride.model");
 const walletModel = require("../model/wallet.model");
+const vehicleModel = require("../model/vehicle.model");
 
 module.exports.addAdmin = async (req, res, next) => {
   const authAdmin = req.admin;
@@ -729,4 +730,106 @@ module.exports.getAllCaptainWallet = async (req, res, next) => {
       error: error.message,
     });
   }
+};
+
+module.exports.addVehicle = async (req, res, next) => {
+  try {
+    const { vehicleName, baseFare, discountedFare, perKmRate, perMinuteRate, description} = req.body;
+
+    if(!vehicleName || !baseFare || !discountedFare || !perKmRate || !perMinuteRate || !description){
+      return res.status(400).json({
+        statusCode: 400,
+        message: "All information is required",
+      });
+    }
+
+    const admin = req.admin;
+
+    if (admin.type == "admin" || admin.type == "subadmin") {
+      return res.status(403).json({
+        statusCode: 403,
+        message: "You have not authority to add vehicle",
+      });
+    }
+    
+    const vehicle = new vehicleModel({
+      vehicleName, 
+      baseFare, 
+      discountedFare, 
+      perKmRate, 
+      perMinuteRate, 
+      vehicleImage: req.file.path,
+      description
+    })
+
+    await vehicle.save();
+
+    res.status(201).json({ statusCode: 201, message: "Vehicle added", vehicle: vehicle });
+  } catch (error) {
+    res.status(500).json({ statusCode: 500, message: error.message });
+  }  
+};
+
+module.exports.getAllVehicles = async (req, res, next) => {
+  try {
+    const vehicles = await vehicleModel.find();
+
+    if(vehicles.length === 0){
+      return res.status(400).json({
+        statusCode: 400,
+        message: "Vehicles not found",
+      });
+    }
+
+    res.status(200).json({ statusCode: 200, vehicles: vehicles });    
+  } catch (error) {
+    res.status(500).json({ statusCode: 500, message: error.message });
+  }
+};
+
+module.exports.getVehicleById = async (req, res, next) => {
+  try {
+    const vehicle = await vehicleModel.findById(req.params.vehicleId);
+
+    if(!vehicle){
+      return res.status(400).json({
+        statusCode: 400,
+        message: "Vehicle not found",
+      });
+    }
+
+    res.status(200).json({ statusCode: 200, vehicle: vehicle });    
+  } catch (error) {
+    res.status(500).json({ statusCode: 500, message: error.message });
+  }
+};
+
+module.exports.updateVehicle = async (req, res, next) => {
+  try {
+    const { vehicleName, baseFare, discountedFare, perKmRate, perMinuteRate, description, isActive } = req.body;
+
+    const admin = req.admin;
+
+    if (admin.type == "admin") {
+      return res.status(403).json({
+        statusCode: 403,
+        message: "You have not authority to add vehicle",
+      });
+    }
+    
+    const vehicle = await vehicleModel.findByIdAndUpdate(req.params.vehicleId, {
+      vehicleName, baseFare, discountedFare, perKmRate, perMinuteRate, description, isActive
+    }, { new: true });
+
+    if(!vehicle){
+      return res.status(400).json({
+        statusCode: 400,
+        message: "Vehicle not found",
+      });
+    }
+
+    res.status(200).json({ statusCode: 200, message: "Vehicle updated", vehicle: vehicle });
+  } catch (error) {
+    res.status(500).json({ statusCode: 500, message: error.message });
+  }  
 };

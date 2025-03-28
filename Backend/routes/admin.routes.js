@@ -75,4 +75,30 @@ router.post(
   adminController.getAllCaptainWallet
 );
 
+//vehicle routes
+router.post(
+  '/addVehicle',
+  authMiddelware.authAdmin,
+  upload.single("document"),
+  adminController.addVehicle
+)
+
+router.get(
+  "/getAllVehicles",
+  authMiddelware.authAdmin,
+  adminController.getAllVehicles
+);
+
+router.get(
+  "/getVehicleById/:vehicleId",
+  authMiddelware.authAdmin,
+  adminController.getVehicleById
+);
+
+router.patch(
+  "/updateVehicle/:vehicleId",
+  authMiddelware.authAdmin,
+  adminController.updateVehicle
+);
+
 module.exports = router;

@@ -11,7 +11,7 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: "Rider_App",
+    folder: process.env.CLOUDINARY_PROD_FOLDER_NAME,
     format: async () => "jpeg",
     public_id: (req, file) => Date.now(),
   },

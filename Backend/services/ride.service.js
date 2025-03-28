@@ -1,3 +1,4 @@
+const vehicleModel = require("../model/vehicle.model");
 const mapService = require("./map.service");
 const crypto = require("crypto");
 
@@ -11,49 +12,31 @@ module.exports.getFare = async (pickup, destination) => {
     destination
   );
 
-  const baseFare = {
-    auto: 30,
-    car: 50,
-    motorcycle: 20,
-    taxi: 55,
-  };
+  if (!distanceTime) {
+    return "Failed to calculate distance and time";
+  }
 
-  const perKmRate = {
-    auto: 10,
-    car: 15,
-    motorcycle: 8,
-    taxi: 18,
-  };
+  const vehicles = await vehicleModel.find();
 
-  const perMinuteRate = {
-    auto: 2,
-    car: 3,
-    motorcycle: 1.5,
-    taxi: 5,
-  };
+  if (!vehicles || vehicles.length === 0) {
+    return "No vehicles available";
+  }
 
-  const fare = {
-    auto: (
-      baseFare.auto +
-      perKmRate.auto * distanceTime.distanceInKilometers +
-      perMinuteRate.auto * distanceTime.durationInMinutes
-    ).toFixed(2),
-    car: (
-      baseFare.car +
-      perKmRate.car * distanceTime.distanceInKilometers +
-      perMinuteRate.car * distanceTime.durationInMinutes
-    ).toFixed(2),
-    motorcycle: (
-      baseFare.motorcycle +
-      perKmRate.motorcycle * distanceTime.distanceInKilometers +
-      perMinuteRate.motorcycle * distanceTime.durationInMinutes
-    ).toFixed(2),
-    taxi: (
-      baseFare.taxi +
-      perKmRate.taxi * distanceTime.distanceInKilometers +
-      perMinuteRate.taxi * distanceTime.durationInMinutes
-    ).toFixed(2),
-  };
+  const fare = vehicles.map(vehicle => {
+    const totalFare = (
+      vehicle.baseFare +
+      vehicle.perKmRate * distanceTime.distanceInKilometers +
+      vehicle.perMinuteRate * distanceTime.durationInMinutes
+    );
+  
+    return {
+      vehicleType: vehicle.vehicleName,
+      vehicleImage: vehicle.vehicleImage,
+      description: vehicle.description,
+      fare: totalFare.toFixed(2),
+      discountedFare: (totalFare - vehicle.discountedFare).toFixed(2),
+    };
+  });
 
   return fare;
 };
