@@ -70,3 +70,27 @@
   color: white !important;
   border: none !important;
 }
+
+
+/* new changes */
+
+.choose-vehicle-container {
+  max-height: 400px; /* Adjust height as needed */
+  overflow-y: auto;
+  scrollbar-width: thin; /* For Firefox */
+  scrollbar-color: #888 #f1f1f1;
+}
+
+/* For WebKit browsers (Chrome, Safari) */
+.choose-vehicle-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.choose-vehicle-container::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 10px;
+}
+
+.choose-vehicle-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}

@@ -16,7 +16,7 @@ module.exports.getFare = async (pickup, destination) => {
     return "Failed to calculate distance and time";
   }
 
-  const vehicles = await vehicleModel.find();
+  const vehicles = await vehicleModel.find({ isActive: true });
 
   if (!vehicles || vehicles.length === 0) {
     return "No vehicles available";

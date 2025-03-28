@@ -154,6 +154,9 @@ export class RideReviewComponent {
 
   vehiclePrices: any = {};
 
+  vehiclesData: any;
+  activeVehicleIndex: number | undefined;
+
   getVehiclePrices() {
     this.spinner.show();
 
@@ -166,7 +169,14 @@ export class RideReviewComponent {
         next: (result: any) => {
           if (result.statusCode == 200) {
             this.spinner.hide();
-            this.vehiclePrices = result.data;
+            this.vehiclesData = result.data;
+            this.vehiclePrices = this.vehiclesData.map((vehicle: any) => {
+              return {
+                vehicleName: vehicle.vehicleType, 
+                fare: vehicle.discountedFare,
+                baseFare: vehicle.fare
+              };
+            });           
             console.log('Vehicle data', result);
           }
         },
@@ -186,46 +196,21 @@ export class RideReviewComponent {
       });
   }
 
-  isMotercyclevehicleTypeClicked = false;
-  isAutovehicleTypeClicked = false;
-  isCarvehicleTypeClicked = false;
-  isTaxivehicleTypeClicked = false;
   isWalletAmountLess = false;
+  selectedVehicle: any;
 
-  getVehicleDetails(vehicleType: any, isclicked: boolean) {
+  getVehicleDetails(index: number, vehicleType: any) {
     this.rideDetails.vehicleType = vehicleType;
+    this.activeVehicleIndex = index;
+    this.selectedVehicle = this.vehiclePrices.find((vehicle: any) => vehicle.vehicleName === vehicleType);
 
     if (
       this.rideDetails.paymentMethod == 'wallet' &&
-      this.walletBalance < this.vehiclePrices[vehicleType]
+      this.walletBalance < this.selectedVehicle.fare
     ) {
       this.isWalletAmountLess = true;
     } else {
       this.isWalletAmountLess = false;
-    }
-
-    if (vehicleType == 'motorcycle') {
-      this.isMotercyclevehicleTypeClicked = isclicked;
-    } else {
-      this.isMotercyclevehicleTypeClicked = false;
-    }
-
-    if (vehicleType == 'auto') {
-      this.isAutovehicleTypeClicked = isclicked;
-    } else {
-      this.isAutovehicleTypeClicked = false;
-    }
-
-    if (vehicleType == 'car') {
-      this.isCarvehicleTypeClicked = isclicked;
-    } else {
-      this.isCarvehicleTypeClicked = false;
-    }
-
-    if (vehicleType == 'taxi') {
-      this.isTaxivehicleTypeClicked = isclicked;
-    } else {
-      this.isTaxivehicleTypeClicked = false;
     }
 
     // console.log(this.rideDetails);
@@ -298,21 +283,22 @@ export class RideReviewComponent {
       isCouponApplied: false,
     }
   }
+
   //apply coupon discount
   getDiscountAmount() {
     if (this.appliedCouponData.discountType == 'percentage') {
       return (
-        this.vehiclePrices[this.rideDetails.vehicleType] - (this.vehiclePrices[this.rideDetails.vehicleType] * this.appliedCouponData.discount / 100)
+        this.selectedVehicle?.fare - (this.selectedVehicle?.fare * this.appliedCouponData.discount / 100)
       );
     } else if(this.appliedCouponData.discountType == 'amount') {
       return (
-        this.vehiclePrices[this.rideDetails.vehicleType] - this.appliedCouponData.discount
+        this.selectedVehicle?.fare - this.appliedCouponData.discount
       );
     } else {
-      return this.vehiclePrices[this.rideDetails.vehicleType];
+      return this.selectedVehicle?.fare;
     }
   }
-
+  
   generateTrip() {
     console.log('Ride Details', this.rideDetails);
     // this.createRide();

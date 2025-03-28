@@ -22,7 +22,7 @@ export class PriceCalculatorComponent {
     dropLoc: '',
   };
 
-  vehiclePrices: any = {};
+  vehiclePrices: any;
 
   getVehiclePrices() {
     this.spinner.show();

@@ -23,7 +23,9 @@ module.exports.createRide = async (req, res, next) => {
   }
 
   const fare = await rideService.getFare(pickup, destination);
-
+  
+  const selectedVehicle = fare.find(vehicle => vehicle.vehicleType === vehicleType);
+  
   const pickupLatLng = await mapService.getCoordinates(pickup);
 
   const destinationLatLng = await mapService.getCoordinates(destination);
@@ -50,8 +52,8 @@ module.exports.createRide = async (req, res, next) => {
         paymentMethod: paymentMethod,
       },
       vehicleRequired: vehicleType,
-      fare: fare[vehicleType], // minus 10% of fare
-      captainFare: (fare[vehicleType] * 0.9).toFixed(2), // minus 10% of fare
+      fare: selectedVehicle.discountedFare,
+      captainFare: (selectedVehicle.discountedFare * 0.9).toFixed(2), // minus 10% of fare
     });
 
     ride.couponDetails.coupon = coupon?._id;

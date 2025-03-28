@@ -52,145 +52,50 @@
             <p class="fs-1 fw-bolder mx-1">Choose a ride</p>
             <p class="fs-5 fw-bolder mx-1">Recommended</p>
           </div>
-          <div class="choose-vehicle">
-            <!-- first vehicle -->
-            <div
-              class="card mb-3 vehicle-card"
-              tabindex="0"
-              [ngClass]="{
-                'vehicle-card-border': isMotercyclevehicleTypeClicked
-              }"
-              (click)="getVehicleDetails('motorcycle', true)"
-            >
-              <div class="d-flex align-items-center">
-                <div>
-                  <img
-                    src="../../../assets/images/rider_bik.webp"
-                    class="img-fluid rounded-start img-vehicle"
-                    alt="..."
-                  />
-                </div>
-                <div
-                  class="d-flex justify-content-between align-items-center w-100"
-                >
-                  <div class="card-body p-0 me-lg-5 me-sm-5">
-                    <h5 class="card-title fw-bold mb-0">2-Wheeler</h5>
-                    <p class="card-text">
-                      Fast convenient efficient <br />
-                      <small class="text-body-secondary">7 mins away</small>
-                    </p>
-                  </div>
-                  <div>
-                    <h5 class="card-title fw-bold ms-5 me-2">
-                      {{ vehiclePrices.motorcycle }}
-                    </h5>
-                  </div>
-                </div>
-              </div>
-            </div>
 
-            <!-- second vehicle -->
-            <div
-              class="card mb-3 vehicle-card"
-              tabindex="0"
-              [ngClass]="{ 'vehicle-card-border': isAutovehicleTypeClicked }"
-              (click)="getVehicleDetails('auto', true)"
-            >
-              <div class="d-flex align-items-center">
-                <div>
-                  <img
-                    src="../../../assets/images/rider_Auto.webp"
-                    class="img-fluid rounded-start img-vehicle"
-                    alt="..."
-                  />
-                </div>
-                <div
-                  class="d-flex justify-content-between align-items-center w-100"
-                >
-                  <div class="card-body p-0 me-lg-5 me-sm-5">
-                    <h5 class="card-title fw-bold mb-0">Auto</h5>
-                    <p class="card-text">
-                      Affordable reliable rides <br />
-                      <small class="text-body-secondary">7 mins away</small>
-                    </p>
-                  </div>
-                  <div>
-                    <h5 class="card-title fw-bold ms-5 me-2">
-                      {{ vehiclePrices.auto }}
-                    </h5>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- third vehicle -->
-            <div
-              class="card mb-3 vehicle-card"
-              tabindex="0"
-              [ngClass]="{ 'vehicle-card-border': isCarvehicleTypeClicked }"
-              (click)="getVehicleDetails('car', true)"
-            >
-              <div class="d-flex align-items-center">
-                <div>
-                  <img
-                    src="../../../assets/images/ride_car.png"
-                    class="img-fluid rounded-start img-vehicle"
-                    alt="..."
-                  />
-                </div>
-                <div
-                  class="d-flex justify-content-between align-items-center w-100"
-                >
-                  <div class="card-body p-0 me-lg-5 me-sm-5">
-                    <h5 class="card-title fw-bold mb-0">Car</h5>
-                    <p class="card-text">
-                      Affordable compact rides <br />
-                      <small class="text-body-secondary">7 mins away</small>
-                    </p>
-                  </div>
-                  <div>
-                    <h5 class="card-title fw-bold ms-5 me-2">
-                      {{ vehiclePrices.car }}
-                    </h5>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- fourth vehicle -->
-            <div
-              class="card mb-3 vehicle-card"
-              tabindex="0"
-              [ngClass]="{ 'vehicle-card-border': isTaxivehicleTypeClicked }"
-              (click)="getVehicleDetails('taxi', true)"
-            >
-              <div class="d-flex align-items-center">
-                <div>
-                  <img
-                    src="../../../assets/images/rider_4wheeler.webp"
-                    class="img-fluid rounded-start img-vehicle"
-                    alt="..."
-                  />
-                </div>
-                <div
-                  class="d-flex justify-content-between align-items-center w-100"
-                >
-                  <div class="card-body p-0 me-lg-5 me-sm-5">
-                    <h5 class="card-title fw-bold mb-0">Taxi</h5>
-                    <p class="card-text">
-                      Spacious comfortable rides <br />
-                      <small class="text-body-secondary">7 mins away</small>
-                    </p>
-                  </div>
-                  <div>
-                    <h5 class="card-title fw-bold ms-5 me-2">
-                      {{ vehiclePrices.taxi }}
-                    </h5>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div class="choose-vehicle-container" *ngIf="vehiclesData?.length === 0">
+            <p class="text-danger fs-5 fw-bold text-center">Vehicle prices not fetched..</p>
           </div>
+          
+          <div class="choose-vehicle-container" *ngIf="vehiclesData?.length !== 0">
+            <div class="choose-vehicle" *ngFor="let vehicle of vehiclesData; let i = index">
+              <div
+                class="card mb-3 vehicle-card"
+                tabindex="0"
+                [ngClass]="{
+                  'vehicle-card-border': activeVehicleIndex === i
+                }"
+                (click)="getVehicleDetails(i,vehicle.vehicleType)"
+              >
+                <div class="d-flex align-items-center">
+                  <div>
+                    <img
+                      [src]='vehicle.vehicleImage'
+                      class="img-fluid rounded-start img-vehicle"
+                      alt="Vehicle image"
+                    />
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center w-100">
+                    <div class="card-body p-0 me-lg-5 me-sm-5">
+                        <h5 class="card-title fw-bold mb-0">{{ vehicle.vehicleType | titlecase }}</h5>
+                      <p class="card-text">
+                        {{ vehicle.description }} <br />
+                        <small class="text-body-secondary">7 mins away</small>
+                      </p>
+                    </div>
+                    <div>
+                      <h5 class="card-title fw-bold ms-5 me-2">
+                        {{ vehicle.discountedFare }}
+                      </h5>
+                      <h6 class="card-title fw-bold ms-5 me-2 text-end text-decoration-line-through">
+                        {{ vehicle.fare }}
+                      </h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>         
           <div>
             <div
               class="payment-method d-flex justify-content-between align-items-center mb-3 mb-md-0"
@@ -375,7 +280,11 @@
               <tbody>
                 <tr >
                   <td>Base fare</td>
-                  <td class="text-end">{{ vehiclePrices[rideDetails.vehicleType] }}</td>
+                  <td class="text-end">₹ {{ selectedVehicle?.baseFare }}</td>
+                </tr>
+                <tr >
+                  <td>Discounted fare</td>
+                  <td class="text-end">₹ {{ selectedVehicle?.baseFare - selectedVehicle?.fare }}</td>
                 </tr>
                 <tr >
                   <td>Coupon discount</td>
@@ -388,7 +297,7 @@
                 </tr>
                 <tr >
                   <td>Total fare</td>
-                  <td class="text-end">{{ getDiscountAmount() }}</td>
+                  <td class="text-end">₹ {{ getDiscountAmount() }}</td>
                 </tr>
               </tbody>
             </table>
