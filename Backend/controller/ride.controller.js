@@ -10,7 +10,7 @@ const razorpay = require("../razorpay.config");
 const crypto = require("crypto");
 const transporter = require("../mail.config");
 const couponModel = require("../model/coupon.model");
-
+const vehicleModel = require("../model/vehicle.model");
 
 module.exports.createRide = async (req, res, next) => {
   const { pickup, destination, vehicleType, paymentMethod, couponCode, totalDiscountedFare } = req.body;
@@ -878,5 +878,24 @@ module.exports.getVehiclePrices = async (req, res, next) => {
     });
   } catch (error) {
     res.status(500).json({ statusCode: 500, message: "Internal server error" });
+  }
+};
+
+module.exports.getAllVehicleNames = async (req, res, next) => {
+  try {
+    const vehicles = await vehicleModel.find({ isActive: true });
+
+    if(vehicles.length === 0){
+      return res.status(400).json({
+        statusCode: 400,
+        message: "Vehicles not found",
+      });
+    }
+
+    const vehicleNames = vehicles.map(vehicle => vehicle.vehicleName);
+    
+    res.status(200).json({ statusCode: 200, vehicles: vehicleNames });
+  } catch (error) {
+    res.status(500).json({ statusCode: 500, message: error.message });
   }
 };

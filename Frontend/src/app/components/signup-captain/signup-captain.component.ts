@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { SignupService } from '../../services/signup/signup.service';
 import { ToastrService } from 'ngx-toastr';
@@ -18,6 +18,10 @@ export class SignupCaptainComponent {
     private spinner: NgxSpinnerService,
     private route: Router
   ) {}
+
+  ngOnInit(): void {
+    this.getVehicleNames(); 
+  }
 
   emailDiv = true;
   vehicleDiv = false;
@@ -68,7 +72,7 @@ export class SignupCaptainComponent {
 
   captainSignUp(form: NgForm) {
     if (form.valid) {
-      // console.log(this.signUpData);
+      console.log(this.signUpData);
 
       this.spinner.show();
 
@@ -96,5 +100,29 @@ export class SignupCaptainComponent {
         },
       });
     }
+  }
+
+  vehicles: any;
+
+  getVehicleNames(){
+    this.spinner.show();
+
+    this.signUpService.getVehicleNames().subscribe({
+      next: (result: any) => {
+        if(result.statusCode === 200){
+          this.spinner.hide();
+          console.log("Vehicle names data", result);
+          this.vehicles = result.vehicles;
+        }
+      },
+      error: (error: any) => {
+        this.spinner.hide();
+        console.log("Vehicle names data erroe", error.error);
+        this.toaster.error(error.error.message);
+      },
+      complete: () => {
+        this.spinner.hide();
+      }
+    })
   }
 }

@@ -17,4 +17,8 @@ export class SignupService {
   captainRegister(data: any) {
     return this.http.post(environment.API_URL_CAPTAIN + 'register', data);
   }
+
+  getVehicleNames() {
+    return this.http.get(environment.API_URL_Ride + 'getAllVehicleNames');
+  }
 }

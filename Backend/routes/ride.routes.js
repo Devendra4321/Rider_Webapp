@@ -39,4 +39,9 @@ router.post(
   rideController.getVehiclePrices
 );
 
+router.get(
+  "/getAllVehicleNames",
+  rideController.getAllVehicleNames
+);
+
 module.exports = router;

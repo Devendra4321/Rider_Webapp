@@ -118,10 +118,7 @@
             #vehicleType="ngModel"
           >
             <option value="" disabled selected>Enter your vehicle type</option>
-            <option value="motorcycle">Motor Cycle</option>
-            <option value="auto">Auto</option>
-            <option value="car">Car</option>
-            <option value="taxi">Taxi</option>
+            <option *ngFor="let vehicleName of vehicles" [value]="vehicleName">{{ vehicleName | titlecase }}</option>
           </select>
           <div
             *ngIf="vehicleType.invalid && vehicleType.touched"
