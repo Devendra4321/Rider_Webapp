@@ -1,0 +1,148 @@
+<div class="card col-lg-9 m-auto my-lg-5">
+    <div class="card-body">
+        <h5 class="card-title fs-3 text-center mb-3">Add new vehicle</h5>
+        
+        <form #addVehicleForm="ngForm" (ngSubmit)="addVehicle(addVehicleForm)">
+            <div class="row">
+              <div class="col-lg-5 col-md-12 offset-lg-1 my-2">
+                  <label class="form-label">Vehicle name</label>
+                      <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Enter vehicle name"
+                          name="vehicleName"
+                          [(ngModel)]="vehicleDetails.vehicleName"
+                          #vehicleNameRef="ngModel"
+                          required
+                          pattern="^[A-Za-z]+$"
+                      />
+                      <div *ngIf="vehicleNameRef.invalid && vehicleNameRef.touched" class="text-danger">
+                          <span *ngIf="vehicleNameRef.errors?.['required']">
+                              Vehicle name is required.
+                          </span>
+                          <span *ngIf="vehicleNameRef.errors?.['pattern']">
+                              Vehicle name must be in valid format.
+                          </span>
+                      </div>
+              </div>
+              <div class="col-lg-5 col-md-12 my-2">
+                  <label class="form-label">Base fare</label>
+                      <input
+                          type="number"
+                          class="form-control"
+                          placeholder="Enter vehicle base fare"
+                          name="baseFare"
+                          [(ngModel)]="vehicleDetails.baseFare"
+                          #baseFareRef="ngModel"
+                          required
+                      />
+                      <div *ngIf="baseFareRef.invalid && baseFareRef.touched" class="text-danger">
+                          <span *ngIf="baseFareRef.errors?.['required']">
+                              Base fare is required.
+                          </span>
+                      </div>
+              </div>
+            </div>
+      
+            <div class="row">
+              <div class="col-lg-5 col-md-12 offset-lg-1 my-2">
+                  <label class="form-label">Discounted fare</label>
+                      <input
+                          type="number"
+                          class="form-control"
+                          placeholder="Enter vehicle discounted fare"
+                          name="disFare"
+                          [(ngModel)]="vehicleDetails.discountedFare"
+                          #disFareRef="ngModel"
+                          required
+                      />
+                      <div *ngIf="disFareRef.invalid && disFareRef.touched" class="text-danger">
+                          <span *ngIf="disFareRef.errors?.['required']">
+                              Discounted fare is required.
+                          </span>
+                      </div>        
+              </div>
+              <div class="col-lg-5 col-md-12 my-2">
+                  <label class="form-label">Perkmrate</label>
+                      <input
+                          type="number"
+                          class="form-control"
+                          placeholder="Enter vehicle per kilometer rate"
+                          name="perKmRate"
+                          [(ngModel)]="vehicleDetails.perKmRate"
+                          #perKmRateRef="ngModel"
+                          required
+                      />
+                      <div *ngIf="perKmRateRef.invalid && perKmRateRef.touched" class="text-danger">
+                          <span *ngIf="perKmRateRef.errors?.['required']">
+                              Per km rate is required.
+                          </span>
+                      </div>
+              </div>
+            </div>
+      
+            <div class="row">
+              <div class="col-lg-5 col-md-12 offset-lg-1 my-2">
+              <label class="form-label">Perminuterate</label>
+              <input
+                    type="number"
+                    class="form-control"
+                    placeholder="Enter vehicle per minute rate"
+                    name="perMinuteRate"
+                    [(ngModel)]="vehicleDetails.perMinuteRate"
+                    #perMinuteRateRef="ngModel"
+                    required
+                />
+          <div *ngIf="perMinuteRateRef.invalid && perMinuteRateRef.touched" class="text-danger">
+              <span *ngIf="perMinuteRateRef.errors?.['required']">
+                  Per minute rate is required.
+              </span>
+          </div> 
+              </div>
+              <div class="col-lg-5 col-md-12 my-2">
+                <label class="form-label">Vehicle image</label>
+                <input
+                    type="file"
+                    class="form-control"
+                    name="vehicleImage"
+                    [(ngModel)]="vehicleDetails.vehicleImage"
+                    #vehicleImageRef="ngModel"
+                    required
+                    (change)="onFileSelected($event)"
+                />
+                <div *ngIf="vehicleImageRef.invalid && vehicleImageRef.touched" class="text-danger">
+                    <span *ngIf="vehicleImageRef.errors?.['required']">
+                        Vehicle image is required.
+                    </span>
+                </div> 
+                </div>
+
+                <div class="col-lg-10 col-md-12 offset-lg-1 my-2">
+                  <label class="form-label">Description</label>
+                      <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Enter vehicle description"
+                          name="description"
+                          [(ngModel)]="vehicleDetails.description"
+                          #descriptionRef="ngModel"
+                          required
+                          pattern="^[A-Za-z ]+$"
+                      />
+                      <div *ngIf="descriptionRef.invalid && descriptionRef.touched" class="text-danger">
+                          <span *ngIf="descriptionRef.errors?.['required']">
+                              Vehicle description is required.
+                          </span>
+                          <span *ngIf="vehicleNameRef.errors?.['pattern']">
+                            Vehicle description must be in valid format.
+                        </span>
+                      </div>
+                </div>  
+  
+              <div class="col-lg-10 col-md-12 offset-lg-1 my-2">
+                  <button type="submit" class="w-100 btn btn-primary" [disabled]="addVehicleForm.invalid">Add vehicle</button>
+              </div>
+            </div>
+          </form>
+    </div>
+</div>

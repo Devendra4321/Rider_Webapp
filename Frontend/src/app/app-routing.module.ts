@@ -43,6 +43,8 @@ import { AdminCaptainWalletsComponent } from './components/admin-captain-wallets
 import { AuthGuardAdmin } from './services/auth-guard-admin/auth-admin.guard';
 import { AdminAddAdminComponent } from './components/admin-add-admin/admin-add-admin.component';
 import { AdminAdminsComponent } from './components/admin-admins/admin-admins.component';
+import { AdminVehiclesComponent } from './components/admin-vehicles/admin-vehicles.component';
+import { AdminAddVehicleComponent } from './components/admin-add-vehicle/admin-add-vehicle.component';
 
 const routes: Routes = [
   {
@@ -246,6 +248,16 @@ const routes: Routes = [
       {
         path: 'admins',
         component: AdminAdminsComponent,
+        canActivate: [AuthGuardAdmin],
+      },
+      {
+        path: 'vehicles',
+        component: AdminVehiclesComponent,
+        canActivate: [AuthGuardAdmin],
+      },
+      {
+        path: 'add-vehicle',
+        component: AdminAddVehicleComponent,
         canActivate: [AuthGuardAdmin],
       },
     ],

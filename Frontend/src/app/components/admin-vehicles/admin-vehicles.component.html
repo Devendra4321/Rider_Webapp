@@ -1,0 +1,221 @@
+<div class="card mt-lg-5 mt-md-5 mt-4">
+    <div class="card-body">
+      <div class="row p-1">
+        <div class="d-flex justify-content-between">
+          <div>
+            <h2 class="card-title">All vehicles</h2>
+          </div>
+          <div>
+            <!-- <button class="btn btn-success text-white mx-2">
+                Export to current
+              </button> -->
+            <!-- <button class="btn btn-secondary text-white mx-3">
+              Export to excel
+            </button> -->
+          </div>
+        </div>
+        <div class="table-responsive small my-3">
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th scope="col">_id</th>
+                <th scope="col">Vehicle name</th>
+                <th scope="col">Base fare</th>
+                <th scope="col">Discounted fare</th>
+                <th scope="col">Perkmrate</th>
+                <th scope="col">Perminuterate</th>
+                <th scope="col">Activation status</th>
+                 <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let vehicle of vehicles">
+                <td>{{ vehicle._id }}</td>
+                <td>{{ vehicle.vehicleName | titlecase }}</td>
+                <td>{{ vehicle.baseFare }}</td>
+                <td>{{ vehicle.discountedFare }}</td>
+                <td>{{ vehicle.perKmRate }}</td>
+                <td>{{ vehicle.perMinuteRate }}</td>
+                <td>
+                    {{ vehicle.isActive === true ? "Activated" : vehicle.isActive === false ? "Not activated" : null }}
+                </td>
+                <td>
+                  <div class="dropdown">
+                  <button
+                    class="btn btn-sm btn-secondary dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Action
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="getVehicleById(vehicle._id)">Update vehicle</a>
+                    </li>
+                  </ul>
+                </div>
+              </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--update coupon Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Update vehicle</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <div class="row mt-0">
+            <img [src]="vehicleDetails.vehicleImage" alt="Vehicle image" class="m-auto" style="height: 30vh; width: 50vh;" />
+          </div>
+          
+          <form #updateVehicleForm="ngForm" (ngSubmit)="updateVehicle(updateVehicleForm)">
+            <div class="row">
+              <div class="col-lg-5 col-md-12 offset-lg-1 my-2">
+                  <label class="form-label">Vehicle name</label>
+                      <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Enter coupon code"
+                          name="vehicleName"
+                          [(ngModel)]="vehicleDetails.vehicleName"
+                          #vehicleNameRef="ngModel"
+                          required
+                          pattern="^[A-Za-z]+$"
+                      />
+                      <div *ngIf="vehicleNameRef.invalid && vehicleNameRef.touched" class="text-danger">
+                          <span *ngIf="vehicleNameRef.errors?.['required']">
+                              Vehicle name is required.
+                          </span>
+                          <span *ngIf="vehicleNameRef.errors?.['pattern']">
+                              Vehicle name must be in valid format.
+                          </span>
+                      </div>
+              </div>
+              <div class="col-lg-5 col-md-12 my-2">
+                  <label class="form-label">Base fare</label>
+                      <input
+                          type="number"
+                          class="form-control"
+                          placeholder="Enter discount"
+                          name="baseFare"
+                          [(ngModel)]="vehicleDetails.baseFare"
+                          #baseFareRef="ngModel"
+                          required
+                      />
+                      <div *ngIf="baseFareRef.invalid && baseFareRef.touched" class="text-danger">
+                          <span *ngIf="baseFareRef.errors?.['required']">
+                              Base fare is required.
+                          </span>
+                      </div>
+              </div>
+            </div>
+      
+            <div class="row">
+              <div class="col-lg-5 col-md-12 offset-lg-1 my-2">
+                  <label class="form-label">Discounted fare</label>
+                      <input
+                          type="number"
+                          class="form-control"
+                          placeholder="Enter usage limit"
+                          name="disFare"
+                          [(ngModel)]="vehicleDetails.discountedFare"
+                          #disFareRef="ngModel"
+                          required
+                      />
+                      <div *ngIf="disFareRef.invalid && disFareRef.touched" class="text-danger">
+                          <span *ngIf="disFareRef.errors?.['required']">
+                              Discounted fare is required.
+                          </span>
+                      </div>        
+              </div>
+              <div class="col-lg-5 col-md-12 my-2">
+                  <label class="form-label">Perkmrate</label>
+                      <input
+                          type="number"
+                          class="form-control"
+                          name="perKmRate"
+                          [(ngModel)]="vehicleDetails.perKmRate"
+                          #perKmRateRef="ngModel"
+                          required
+                      />
+                      <div *ngIf="perKmRateRef.invalid && perKmRateRef.touched" class="text-danger">
+                          <span *ngIf="perKmRateRef.errors?.['required']">
+                              Per km rate is required.
+                          </span>
+                      </div>
+              </div>
+            </div>
+      
+            <div class="row">
+              <div class="col-lg-5 col-md-12 offset-lg-1 my-2">
+              <label class="form-label">Perminuterate</label>
+              <input
+                    type="number"
+                    class="form-control"
+                    name="perMinuteRate"
+                    [(ngModel)]="vehicleDetails.perMinuteRate"
+                    #perMinuteRateRef="ngModel"
+                    required
+                />
+          <div *ngIf="perMinuteRateRef.invalid && perMinuteRateRef.touched" class="text-danger">
+              <span *ngIf="perMinuteRateRef.errors?.['required']">
+                  Per minute rate is required.
+              </span>
+          </div> 
+              </div>
+              <div class="col-lg-5 col-md-12 my-2">
+                <label class="form-label">Activation status</label>
+                    <select class="form-select" name="activeStatus" [(ngModel)]="vehicleDetails.isActive" #activeStatusRef="ngModel"
+                    required>
+                        <option selected disabled>select activation status</option>
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                    </select>
+                    <div *ngIf="activeStatusRef.invalid && activeStatusRef.touched" class="text-danger">
+                        <span *ngIf="activeStatusRef.errors?.['required']">
+                            Vehicle activation status is required.
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-lg-10 col-md-12 offset-lg-1 my-2">
+                  <label class="form-label">Description</label>
+                      <input
+                          type="text"
+                          class="form-control"
+                          name="description"
+                          [(ngModel)]="vehicleDetails.description"
+                          #descriptionRef="ngModel"
+                          required
+                          pattern="^[A-Za-z ]+$"
+                      />
+                      <div *ngIf="descriptionRef.invalid && descriptionRef.touched" class="text-danger">
+                          <span *ngIf="descriptionRef.errors?.['required']">
+                              Vehicle description is required.
+                          </span>
+                          <span *ngIf="vehicleNameRef.errors?.['pattern']">
+                            Vehicle description must be in valid format.
+                        </span>
+                      </div>
+                </div>  
+  
+              <div class="col-lg-10 col-md-12 offset-lg-1 my-2">
+                  <button type="submit" class="w-100 btn btn-primary" [disabled]="updateVehicleForm.invalid">Update vehicle</button>
+              </div>
+            </div>
+          </form>
+  
+        </div>
+      </div>
+    </div>
+  </div>

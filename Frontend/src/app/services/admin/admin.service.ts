@@ -195,4 +195,67 @@ export class AdminService {
       }
     );
   }
+
+  getAllVehicles() {
+    const token = localStorage.getItem('admin-token');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    return this.http.get(
+      environment.API_URL_ADMIN + 'getAllVehicles',
+      {
+        headers,
+      }
+    );
+  }
+
+  getVehicleById(vehicleId: any) {
+    const token = localStorage.getItem('admin-token');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    return this.http.get(
+      `${environment.API_URL_ADMIN}getVehicleById/${vehicleId}`,
+      {
+        headers,
+      }
+    );
+  }
+
+  updateVehicle(vehicleId: any, data: any) {
+    const token = localStorage.getItem('admin-token');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    return this.http.patch(
+      `${environment.API_URL_ADMIN}updateVehicle/${vehicleId}`,
+      data,
+      {
+        headers,
+      }
+    );
+  }
+
+  addVehicle(file: any, vehicleData: any) {
+    const formData = new FormData();
+    formData.append('document', file);
+    formData.append('vehicleName', vehicleData.vehicleName);
+    formData.append('baseFare', vehicleData.baseFare);
+    formData.append('discountedFare', vehicleData.discountedFare);
+    formData.append('perKmRate', vehicleData.perKmRate);
+    formData.append('perMinuteRate', vehicleData.perMinuteRate);
+    formData.append('description', vehicleData.description);
+
+    const token = localStorage.getItem('admin-token');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    return this.http.post(
+      environment.API_URL_ADMIN + 'addVehicle',
+      formData,
+      {
+        headers,
+      }
+    );
+  }
 }
