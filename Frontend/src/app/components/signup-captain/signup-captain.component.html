@@ -2,7 +2,7 @@
 <section *ngIf="emailDiv">
   <div class="container">
     <div class="login-container">
-      <h5>What's your email?</h5>
+      <h5>{{"What's your email" | translate}}?</h5>
 
       <form
         #personalDetailsForm="ngForm"
@@ -23,7 +23,7 @@
             class="text-danger text-start"
           >
             <small class="text-start" *ngIf="firstName.errors?.['required']"
-              >First name is required.</small
+              >{{'First name is required' | translate}}.</small
             >
           </div>
         </div>
@@ -43,7 +43,7 @@
             class="text-danger text-start"
           >
             <small class="text-start" *ngIf="lastName.errors?.['required']"
-              >Last name is required.</small
+              >{{'Last name is required' | translate}}.</small
             >
           </div>
         </div>
@@ -64,16 +64,16 @@
             class="text-danger text-start"
           >
             <small class="text-start" *ngIf="emailMob.errors?.['required']"
-              >Email is required.</small
+              >{{'Email is required' | translate}}.</small
             >
             <small *ngIf="emailMob.errors?.['pattern']"
-              >Invalid email format.</small
+              >{{'Invalid email format' | translate}}.</small
             >
           </div>
         </div>
 
         <button class="btn btn-black" [disabled]="personalDetailsForm.invalid">
-          Continue
+          {{"Continue" | translate}}
         </button>
       </form>
 
@@ -81,17 +81,15 @@
 
       <button class="btn main-btn w-100">
         <i class="bi bi-google mx-1"></i>
-        Continue with Google
+        {{'Continue with Google' | translate}}
       </button>
       <button class="btn main-btn w-100 mt-2">
         <i class="bi bi-apple mx-1"></i>
-        Continue with Apple
+        {{'Continue with Apple' | translate}}
       </button>
 
       <p class="text-muted text-left mt-3 small">
-        By proceeding, you consent to get calls, WhatsApp or SMS/RCS messages,
-        including by automated means, from Rider and its affiliates to the
-        number provided.
+        {{'By proceeding, you consent to get calls, WhatsApp or SMS/RCS messages, including by automated means, from Rider and its affiliates to the number provided.' | translate}}
       </p>
     </div>
   </div>
@@ -101,8 +99,8 @@
 <section *ngIf="vehicleDiv">
   <div class="container">
     <div class="vehicle-container">
-      <h5>Enter your vehicle details.</h5>
-      <p>Enter the basic details of your vehicle.</p>
+      <h5>{{'Enter your vehicle details' | translate}}.</h5>
+      <p>{{'Enter the basic details of your vehicle' | translate}}.</p>
 
       <form
         #vehicleDetailsForm="ngForm"
@@ -117,7 +115,7 @@
             required
             #vehicleType="ngModel"
           >
-            <option value="" disabled selected>Enter your vehicle type</option>
+            <option value="" disabled selected>{{'Enter your vehicle type' | translate}}</option>
             <option *ngFor="let vehicleName of vehicles" [value]="vehicleName">{{ vehicleName | titlecase }}</option>
           </select>
           <div
@@ -125,7 +123,7 @@
             class="text-danger text-start"
           >
             <small class="text-start" *ngIf="vehicleType.errors?.['required']">
-              Vehicle type is required.
+              {{'Vehicle type is required' | translate}}.
             </small>
           </div>
         </div>
@@ -145,7 +143,7 @@
             class="text-danger text-start"
           >
             <small *ngIf="vehicleNumber.errors?.['required']">
-              Vehicle number is required.
+              {{'Vehicle number is required' | translate}}.
             </small>
           </div>
         </div>
@@ -165,7 +163,7 @@
             class="text-danger text-start"
           >
             <small *ngIf="vehicleColor.errors?.['required']">
-              Vehicle color is required.
+              {{'Vehicle color is required' | translate}}.
             </small>
           </div>
         </div>
@@ -180,7 +178,7 @@
             #vehicleCapacity="ngModel"
           >
             <option value="" disabled selected>
-              Enter your vehicle capacity in (kg)
+              {{'Enter your vehicle capacity in' | translate}} (kg)
             </option>
             <option value="20">20</option>
             <option value="100">100</option>
@@ -194,7 +192,7 @@
               class="text-start"
               *ngIf="vehicleCapacity.errors?.['required']"
             >
-              Vehicle capacity is required.
+              {{'Vehicle capacity is required' | translate}}.
             </small>
           </div>
         </div>
@@ -210,7 +208,7 @@
               class="btn btn-secondary w-100"
               [disabled]="vehicleDetailsForm.invalid"
             >
-              Next <i class="bi bi-arrow-right"></i>
+              {{'Next' | translate}} <i class="bi bi-arrow-right"></i>
             </button>
           </div>
         </div>
@@ -223,8 +221,8 @@
 <section *ngIf="passwordDiv">
   <div class="container">
     <div class="password-container">
-      <h5>Enter your password</h5>
-      <p>Enter the password for your account.</p>
+      <h5>{{'Enter your password' | translate}}</h5>
+      <p>{{'Enter the password for your account' | translate}}.</p>
 
       <form #passwordForm="ngForm" (ngSubmit)="captainSignUp(passwordForm)">
         <div class="my-3">
@@ -242,19 +240,19 @@
             class="text-danger text-start"
           >
             <small class="text-start" *ngIf="passwordRef.errors?.['required']"
-              >Email is required.</small
+              >{{'Password is required' | translate}}.</small
             >
           </div>
         </div>
 
-        <a href="#" class="text-decoration-none">Forgot your password?</a>
+        <!-- <a href="#" class="text-decoration-none">Forgot your password?</a> -->
 
         <div>
           <button
             class="btn btn-secondary w-100 mt-3 btn-black"
             [disabled]="passwordForm.invalid"
           >
-            Sign up
+            {{"Sign up" | translate}}
           </button>
         </div>
         <div class="mt-4">

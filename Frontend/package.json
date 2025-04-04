@@ -21,6 +21,8 @@
     "@angular/router": "19.1.5",
     "@mapbox/mapbox-sdk": "^0.16.1",
     "@ng-bootstrap/ng-bootstrap": "^18.0.0",
+    "@ngx-translate/core": "^16.0.4",
+    "@ngx-translate/http-loader": "^16.0.1",
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",

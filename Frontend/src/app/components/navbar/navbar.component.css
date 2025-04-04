@@ -2,3 +2,22 @@
   background-color: white;
   border-bottom: 4px solid #e5e5e5;
 }
+
+.lang-sel-div{
+  padding: 0.7rem;
+  cursor: pointer;
+}
+
+.lang-sel-div:hover{
+  background-color: cyan;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.lang-selected-div{
+  background-color: black;
+  color: white;
+  padding: 0.7rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}

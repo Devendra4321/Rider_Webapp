@@ -3,6 +3,7 @@ import { LogoutService } from '../../services/logout/logout.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-navbar-captain',
@@ -15,8 +16,13 @@ export class NavbarCaptainComponent {
     private logoutService: LogoutService,
     private toaster: ToastrService,
     private spinner: NgxSpinnerService,
+    private translate: TranslateService,
     private route: Router
   ) {}
+
+  ngOnInit(): void {
+    this.language = localStorage.getItem('language') || 'en';    
+  }
 
   logOutCaptain() {
     this.spinner.show();
@@ -45,5 +51,13 @@ export class NavbarCaptainComponent {
         this.spinner.hide();
       },
     });
+  }
+
+  language: any;
+
+  selectLanguage(lang: any){
+    this.translate.use(lang);
+    localStorage.setItem('language', lang);
+    this.language = localStorage.getItem('language');    
   }
 }

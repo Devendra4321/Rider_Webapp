@@ -6,13 +6,13 @@
   <div class="container">
     <div class="row mt-4">
       <p class="fw-medium back-btn" routerLink="/trips">
-        <i class="bi bi-arrow-left me-2"></i>Back to trips
+        <i class="bi bi-arrow-left me-2"></i>{{'Back to trips' | translate}}
       </p>
     </div>
     <div class="row">
       <div class="col-2"></div>
       <div class="col-lg-8 mx-2 mx-md-0 mx-lg-0">
-        <p class="fs-2 fw-bold">Your ride</p>
+        <p class="fs-2 fw-bold">{{'Your ride' | translate}}</p>
 
         <p class="fs-5 fw-semibold">
           {{ rideDetail.pickup }} - {{ rideDetail.destination }}
@@ -33,19 +33,19 @@
         <div class="d-flex justify-content-between">
           <p>{{ rideDetail.createOn | date : "h:mm:ss a, MMMM d y" }}</p>
           <p class="btn btn-primary" *ngIf="rideDetail.status == 'pending'">
-            Pending
+            {{'Pending' | translate}}
           </p>
           <p class="btn btn-success" *ngIf="rideDetail.status == 'accepted'">
-            Accepted
+            {{'Accepted' | translate}}
           </p>
           <p class="btn btn-secondary" *ngIf="rideDetail.status == 'ongoing'">
-            Ongoing
+            {{'Ongoing' | translate}}
           </p>
           <p class="btn btn-dark" *ngIf="rideDetail.status == 'completed'">
-            Completed
+            {{'Completed' | translate}}
           </p>
           <p class="btn btn-danger" *ngIf="rideDetail.status == 'cancelled'">
-            Cancelled
+            {{'Cancelled' | translate}}
           </p>
         </div>
       </div>

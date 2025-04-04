@@ -32,7 +32,7 @@ import { CaptainRideOngoingComponent } from './pages/captain-ride-ongoing/captai
 import { CaptainProfileComponent } from './pages/captain-profile/captain-profile.component';
 import { CaptainUploadDocumentComponent } from './pages/captain-upload-document/captain-upload-document.component';
 import { WalletCaptainComponent } from './pages/wallet-captain/wallet-captain.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
@@ -59,11 +59,18 @@ import { AdminAddAdminComponent } from './components/admin-add-admin/admin-add-a
 import { AdminAdminsComponent } from './components/admin-admins/admin-admins.component';
 import { AdminVehiclesComponent } from './components/admin-vehicles/admin-vehicles.component';
 import { AdminAddVehicleComponent } from './components/admin-add-vehicle/admin-add-vehicle.component';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 const config: SocketIoConfig = {
   url: environment.SOCKET_URL,
   options: {},
 };
+
+// Function to set up ngx-translate with HttpLoader
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
+}
 
 @NgModule({
   declarations: [
@@ -132,6 +139,13 @@ const config: SocketIoConfig = {
     }),
     NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
     NgbPaginationModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [],
   bootstrap: [AppComponent],

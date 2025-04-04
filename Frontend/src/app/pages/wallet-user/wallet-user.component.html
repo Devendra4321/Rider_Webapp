@@ -7,7 +7,7 @@
     <div class="row">
       <div class="col-lg-2"></div>
       <div class="col-10">
-        <p class="fs-3 fw-bold mt-4">Rider Wallet</p>
+        <p class="fs-3 fw-bold mt-4">{{'Rider Wallet' | translate}}</p>
       </div>
     </div>
     <div class="row">
@@ -16,14 +16,13 @@
         <div class="card cash-card">
           <div class="card-body">
             <p class="card-subtitle fs-6 fw-semibold text-body-secondary mt-2">
-              Rider Cash
+              {{'Rider Cash' | translate}}
             </p>
             <p class="card-title fs-2 fw-bold mt-3 mb-4">
               <i class="bi bi-currency-rupee"></i>{{ wallet?.balance }}
             </p>
             <p class="card-text fw-medium mb-2">
-              Current balance or current rider cash present in rider user
-              account. Use this cash for ride generation.
+              {{'Current balance or current rider cash present in rider user account. Use this cash for ride generation.' | translate}}
             </p>
           </div>
         </div>
@@ -32,10 +31,10 @@
         <div class="card cash-card">
           <div class="card-body">
             <p class="card-subtitle fs-6 fw-semibold text-body-secondary mt-2">
-              Add rider Cash
+              {{'Add rider Cash' | translate}}
             </p>
             <p class="card-text fw-medium my-2">
-              Add money to wallet for ride booking.
+              {{'Add money to wallet for ride booking' | translate}}
             </p>
 
             <input
@@ -50,7 +49,7 @@
               (click)="paymentInit()"
               [disabled]="addCashAmount <= 0"
             >
-              Add cash
+              {{'Add cash' | translate}}
             </button>
           </div>
         </div>
@@ -59,21 +58,21 @@
     <div class="row">
       <div class="col-lg-2"></div>
       <div class="col-10">
-        <p class="fs-3 fw-bold mt-5">Wallet transactions</p>
+        <p class="fs-3 fw-bold mt-5">{{'Wallet transactions' | translate}}</p>
       </div>
     </div>
     <div class="row">
       <div class="col-lg-2"></div>
-      <div class="col-lg-8 table-responsive small">
+      <div class="col-lg-8 table-responsive small" *ngIf="totalTransaction !== 0">
         <table class="table table-sm">
           <thead>
             <tr>
-              <th scope="col">_id</th>
-              <th scope="col">Ride Info</th>
-              <th scope="col">Transaction</th>
-              <th scope="col">Amount</th>
-              <th scope="col">Description</th>
-              <th scope="col">Date</th>
+              <th scope="col">{{'_id' | translate}}</th>
+              <th scope="col">{{'Ride Info' | translate}}</th>
+              <th scope="col">{{'Transaction' | translate}}</th>
+              <th scope="col">{{'Amount' | translate}}</th>
+              <th scope="col">{{'Description' | translate}}</th>
+              <th scope="col">{{'Date' | translate}}</th>
             </tr>
           </thead>
           <tbody>
@@ -96,13 +95,13 @@
           [maxSize]="5"
           [pageSize]="activeTransactionTableSize"
           (pageChange)="onTableActiveRideDataChange($event)"
-          ><ng-template ngbPaginationPrevious>Prev</ng-template>
-          <ng-template ngbPaginationNext>Next</ng-template>
+          ><ng-template ngbPaginationPrevious>{{'Prev' | translate}}</ng-template>
+          <ng-template ngbPaginationNext>{{'Next' | translate}}</ng-template>
         </ngb-pagination>
       </div>
       <div class="col-lg-8">
         <p class="fs-5 fw-semibold text-danger" *ngIf="totalTransaction == 0">
-          No transaction found in your wallet...
+          {{'No transaction found in your wallet...' | translate}}
         </p>
       </div>
     </div>

@@ -18,8 +18,19 @@
           <a
             class="nav-link text-white"
             aria-current="page"
+            role="button" 
+            tabindex="0"
+            data-bs-toggle="modal" 
+            data-bs-target="#staticBackdrop"
+            ><i class="bi bi-globe me-2"></i>{{ language | uppercase }}</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link text-white"
+            aria-current="page"
             routerLink="/captain-home"
-            >Home</a
+            >{{'Home' | translate}}</a
           >
         </li>
         <li class="nav-item">
@@ -27,7 +38,7 @@
             class="nav-link text-white"
             aria-current="page"
             routerLink="/captain-trips"
-            >Activity</a
+            >{{'Activity' | translate}}</a
           >
         </li>
 
@@ -38,28 +49,28 @@
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            Details
+            {{"Details" | translate}}
           </a>
           <ul class="dropdown-menu bg-dark details-ul my-lg-3">
             <li class="">
               <a
                 class="dropdown-item text-white dropdown-bg"
                 routerLink="/wallet-captain"
-                >Wallet</a
+                >{{'Wallet' | translate}}</a
               >
             </li>
             <li>
               <a
                 class="dropdown-item text-white dropdown-bg"
                 routerLink="/captain-profile"
-                >Manage profile</a
+                >{{'Manage profile' | translate}}</a
               >
             </li>
             <li>
               <a
                 class="dropdown-item text-white dropdown-bg"
                 routerLink="/forgot-password/captain"
-                >Forgot password</a
+                >{{'Forgot password' | translate}}</a
               >
             </li>
             <li><hr class="dropdown-divider divider" /></li>
@@ -67,7 +78,7 @@
               <a
                 class="dropdown-item text-white dropdown-bg"
                 (click)="logOutCaptain()"
-                >Log out</a
+                >{{'Log out' | translate}}</a
               >
             </li>
           </ul>
@@ -76,3 +87,23 @@
     </div>
   </div>
 </nav>
+
+
+<!--Language selection Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="d-flex justify-content-between">
+          <h1 class="modal-title fs-3 fw-bold" id="staticBackdropLabel">{{'Select your preferred language' | translate}}</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>        
+        <div class="row my-4 ms-1 gap-4">
+          <div class="col-lg-3 col-md-4 col-sm-8 col-10 fw-semibold" [class.lang-sel-div]="!(language == 'en')" [ngClass]="{'lang-selected-div' : language == 'en'}" data-bs-dismiss="modal" (click)="selectLanguage('en')">English</div>
+          <div class="col-lg-3 col-md-4 col-sm-8 col-10 fw-semibold" [class.lang-sel-div]="!(language == 'hi')" [ngClass]="{'lang-selected-div' : language == 'hi'}" data-bs-dismiss="modal" (click)="selectLanguage('hi')">हिन्दी</div>
+          <div class="col-lg-3 col-md-4 col-sm-8 col-10 fw-semibold" [class.lang-sel-div]="!(language == 'mr')" [ngClass]="{'lang-selected-div' : language == 'mr'}" data-bs-dismiss="modal" (click)="selectLanguage('mr')">मराठी</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -8,7 +8,7 @@
       <div class="col-lg-3 col-md-5">
         <div class="shadow-lg p-3 mb-md-5 mb-4 bg-body-tertiary rounded">
           <div>
-            <p class="fs-4 fw-bolder mx-1">Get a ride</p>
+            <p class="fs-4 fw-bolder mx-1">{{'Request a ride' | translate}}</p>
           </div>
           <div>
             <div class="form-floating mb-3">
@@ -20,7 +20,7 @@
                 [(ngModel)]="locationDetails.pickupLoc"
                 disabled
               />
-              <label for="floatingInput">Pickup location</label>
+              <label for="floatingInput">{{'Pickup location' | translate}}</label>
             </div>
             <div class="form-floating mb-3">
               <input
@@ -31,7 +31,7 @@
                 [(ngModel)]="locationDetails.dropLoc"
                 disabled
               />
-              <label for="floatingInput">Drop location</label>
+              <label for="floatingInput">{{'Drop location' | translate}}</label>
             </div>
             <!-- <button class="btn btn-dark form-control p-2 mb-2">Search</button> -->
           </div>
@@ -44,17 +44,16 @@
             role="alert"
             *ngIf="isWalletAmountLess"
           >
-            <i class="bi bi-exclamation-triangle-fill me-2"></i>Wallet amount is
-            less than the ride amount please recharge your wallet!
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>{{'Wallet amount is less than the ride amount please recharge your wallet!' | translate}}
           </div>
 
           <div>
-            <p class="fs-1 fw-bolder mx-1">Choose a ride</p>
-            <p class="fs-5 fw-bolder mx-1">Recommended</p>
+            <p class="fs-1 fw-bolder mx-1">{{'Choose a ride' | translate}}</p>
+            <p class="fs-5 fw-bolder mx-1">{{'Recommended' | translate}}</p>
           </div>
 
           <div class="choose-vehicle-container" *ngIf="vehiclesData?.length === 0">
-            <p class="text-danger fs-5 fw-bold text-center">Vehicle prices not fetched..</p>
+            <p class="text-danger fs-5 fw-bold text-center">{{'Vehicle prices not fetched..' | translate}}</p>
           </div>
           
           <div class="choose-vehicle-container" *ngIf="vehiclesData?.length !== 0">
@@ -104,7 +103,7 @@
                 <p
                   class="m-0 fw-bold"
                   data-bs-toggle="modal"
-                  data-bs-target="#staticBackdrop"
+                  data-bs-target="#paymentModal"
                   role="button"
                   tabindex="0"
                 >
@@ -119,7 +118,7 @@
                   data-bs-target="#summaryModal"
                   [disabled]="!rideDetails.vehicleType || isWalletAmountLess"
                 >
-                  Get summary
+                  {{'Get summary' | translate}}
                 </button>
               </div>
             </div>
@@ -138,7 +137,7 @@
 <!-- Payment Modal -->
 <div
   class="modal fade"
-  id="staticBackdrop"
+  id="paymentModal"
   data-bs-backdrop="static"
   data-bs-keyboard="false"
   tabindex="-1"
@@ -149,7 +148,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-4 fw-bold" id="staticBackdropLabel">
-          Payment options
+          {{'Payment options' | translate}}
         </h1>
         <button
           type="button"
@@ -160,11 +159,11 @@
       </div>
       <div class="modal-body">
         <div class="row mb-3">
-          <div class="mb-3 fs-5 fw-semibold">Rider cash:</div>
+          <div class="mb-3 fs-5 fw-semibold">{{'Rider cash' | translate}}:</div>
           <div class="d-flex justify-content-between align-items-center">
             <div>
               <p class="fs-6 fw-semibold">
-                <i class="bi bi-wallet2 me-2"></i>Rider cash:<i
+                <i class="bi bi-wallet2 me-2"></i>{{'Rider cash' | translate}}:<i
                   class="bi bi-currency-rupee mx-1"
                 ></i
                 >{{ walletBalance }}
@@ -184,11 +183,11 @@
         </div>
 
         <div class="row">
-          <div class="mb-3 fs-5 fw-semibold">Payment method:</div>
+          <div class="mb-3 fs-5 fw-semibold">{{'Payment method' | translate}}:</div>
           <div class="d-flex justify-content-between align-items-center">
             <div>
               <p class="fs-6 fw-semibold">
-                <i class="bi bi-cash-stack me-2"></i> Cash
+                <i class="bi bi-cash-stack me-2"></i> {{'Cash' | translate}}
               </p>
             </div>
             <div>
@@ -207,7 +206,7 @@
           <div class="d-flex justify-content-between align-items-center mt-2">
             <div>
               <p class="fs-6 fw-semibold">
-                <i class="bi bi-credit-card-fill me-2"></i> Online
+                <i class="bi bi-credit-card-fill me-2"></i> {{'Online' | translate}}
               </p>
             </div>
             <div>
@@ -230,7 +229,7 @@
           data-bs-dismiss="modal"
           aria-label="Close"
         >
-          Save
+          {{'Save' | translate}}
         </button>
       </div>
     </div>
@@ -242,18 +241,18 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="summaryModalLabel">Ride Summary</h1>
+        <h1 class="modal-title fs-5" id="summaryModalLabel">{{'Ride Summary' | translate}}</h1>
         <button type="button" class="btn-close" (click)="resetValue()" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         
         <div class="row p-1">
-          <p class="m-0 mb-1"><span class="fs-6 fw-bold">Pickup location:</span> {{ rideDetails.pickup }}</p>
-          <p class="m-0 mb-1"><span class="fs-6 fw-bold">Drop location:</span> {{ rideDetails.drop }}</p>
-          <p class="m-0 mb-1"><span class="fs-6 fw-bold">Vehicle required:</span> {{ rideDetails.vehicleType }}</p>
-          <p class="m-0 mb-1"><span class="fs-6 fw-bold">Payment method:</span> {{ rideDetails.paymentMethod }}</p>
+          <p class="m-0 mb-1"><span class="fs-6 fw-bold">{{'Pickup location' | translate}}:</span> {{ rideDetails.pickup }}</p>
+          <p class="m-0 mb-1"><span class="fs-6 fw-bold">{{'Drop location' | translate}}:</span> {{ rideDetails.drop }}</p>
+          <p class="m-0 mb-1"><span class="fs-6 fw-bold">{{'Vehicle required' | translate}}:</span> {{ rideDetails.vehicleType }}</p>
+          <p class="m-0 mb-1"><span class="fs-6 fw-bold">{{'Payment method' | translate}}:</span> {{ rideDetails.paymentMethod }}</p>
           <div *ngIf="rideDetails.paymentMethod !== 'cash'">
-          <input type="checkbox" name="" id="" [(ngModel)]="rideDetails.isCouponWanted"><span class="mx-2">Are you want to apply coupon code?</span>
+          <input type="checkbox" name="" id="" [(ngModel)]="rideDetails.isCouponWanted"><span class="mx-2">{{'Are you want to apply coupon code' | translate}}?</span>
           </div>
         </div>
 
@@ -261,11 +260,11 @@
           <div class="col-lg-9 col-md-9">
             <input type="text" class="form-control" placeholder="Enter coupon code" name="couponCode" [(ngModel)]="rideDetails.couponCode" #couponCodeRef="ngModel" pattern="[A-Z0-9]+" required>
             <div class="text-danger" *ngIf="couponCodeRef.invalid && couponCodeRef.touched">
-              <span *ngIf="couponCodeRef.errors?.['pattern']">Please enter valid coupon code</span>
+              <span *ngIf="couponCodeRef.errors?.['pattern']">{{'Please enter valid coupon code' | translate}}</span>
             </div>
           </div>
           <div class="col-lg-3 col-md-3 col-12 mt-lg-0 mt-md-0 mt-2">
-            <button class="btn btn-dark w-100" [disabled]="!rideDetails.couponCode || couponCodeRef.errors?.['pattern']" (click)="applyCoupon()">Apply</button>
+            <button class="btn btn-dark w-100" [disabled]="!rideDetails.couponCode || couponCodeRef.errors?.['pattern']" (click)="applyCoupon()">{{'Apply' | translate}}</button>
           </div>
         </div>
 
@@ -274,20 +273,20 @@
             <table class="table table-bordered border-dark">
               <thead>
                 <tr>
-                  <th colspan="2" class="text-center">Bill details</th>
+                  <th colspan="2" class="text-center">{{'Bill details' | translate}}</th>
                 </tr>
               </thead>
               <tbody>
                 <tr >
-                  <td>Base fare</td>
+                  <td>{{'Base fare' | translate}}</td>
                   <td class="text-end">₹ {{ selectedVehicle?.baseFare }}</td>
                 </tr>
                 <tr >
-                  <td>Discounted fare</td>
+                  <td>{{'Discounted fare' | translate}}</td>
                   <td class="text-end">₹ {{ selectedVehicle?.baseFare - selectedVehicle?.fare }}</td>
                 </tr>
                 <tr >
-                  <td>Coupon discount</td>
+                  <td>{{'Coupon discount' | translate}}</td>
                   <td class="text-end">{{ appliedCouponData?.discountType === 'percentage' 
                     ? appliedCouponData.discount + ' %' 
                     : appliedCouponData?.discountType === 'amount' 
@@ -296,7 +295,7 @@
                 </td>  
                 </tr>
                 <tr >
-                  <td>Total fare</td>
+                  <td>{{'Total fare' | translate}}</td>
                   <td class="text-end">₹ {{ getDiscountAmount() }}</td>
                 </tr>
               </tbody>

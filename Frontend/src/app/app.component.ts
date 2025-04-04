@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-root',
@@ -7,5 +8,13 @@ import { Component } from '@angular/core';
     standalone: false
 })
 export class AppComponent {
+
+  constructor(private translate: TranslateService) {
+    this.translate.addLangs(['en', 'hi', 'mr']); // Add supported languages
+    const savedLang = localStorage.getItem('language') || 'en';
+    this.translate.setDefaultLang(savedLang);
+    this.translate.use(savedLang);
+  }
+  
   title = 'Frontend';
 }

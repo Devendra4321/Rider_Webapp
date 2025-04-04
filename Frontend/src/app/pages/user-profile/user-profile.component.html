@@ -7,17 +7,16 @@
     <div class="row">
       <div class="col-lg-2"></div>
       <div class="col-10">
-        <p class="fs-3 fw-bold mt-4">Welcome, Devendra</p>
+        <p class="fs-3 fw-bold mt-4">{{'Welcome' | translate}}, {{  userDetail.fullname.firstname }}</p>
         <p class="fs-5">
-          Manage your info, security, and data to make Rider work better for
-          you.
+          {{'Manage your info, security, and data to make Rider work better for you.' | translate}}
         </p>
       </div>
     </div>
     <div class="row">
       <div class="col-lg-2"></div>
       <div class="col-lg-8 mb-3 mb-md-0 my-3">
-        <p class="fs-4 fw-bold mt-3">Basic info</p>
+        <p class="fs-4 fw-bold mt-3">{{'Basic info' | translate}}</p>
         <div class="row g-2">
           <div class="col-lg-6 col-md-6">
             <div class="form-floating">
@@ -29,7 +28,7 @@
                 [value]="userDetail.fullname.firstname"
                 disabled
               />
-              <label for="floatingInputGrid">First name</label>
+              <label for="floatingInputGrid">{{'First name' | translate}}</label>
             </div>
           </div>
           <div class="col-lg-6 col-md-6">
@@ -42,7 +41,7 @@
                 [value]="userDetail.fullname.lastname"
                 disabled
               />
-              <label for="floatingInputGrid">Last name</label>
+              <label for="floatingInputGrid">{{'Last name' | translate}}</label>
             </div>
           </div>
         </div>
@@ -62,7 +61,7 @@
                 [value]="userDetail.email"
                 disabled
               />
-              <label for="floatingInput" class="mx-2">Email address</label>
+              <label for="floatingInput" class="mx-2">{{'Email address' |translate}}</label>
             </div>
           </div>
           <div
@@ -76,7 +75,7 @@
               class="btn btn-dark w-100 p-3"
               (click)="getEmailVerificationLink()"
             >
-              Verify
+              {{'Verify' | translate}}
             </button>
           </div>
         </div>
@@ -96,12 +95,12 @@
 
     <div class="row">
       <div class="col-lg-10 offset-lg-2">
-        <p class="fs-4 fw-bold mt-3">Your's Coupons</p>
+        <p class="fs-4 fw-bold mt-3">{{"Your's Coupons" | translate}}</p>
       </div>
     </div>
 
     <div class="row w-lg-75 w-md-100 offset-lg-2 me-auto mb-3">
-      <p class="fs-5" *ngIf="activeCoupons.length !== 0">Use the below coupon for your next ride.</p>
+      <p class="fs-5" *ngIf="activeCoupons.length !== 0">{{'Use the below coupon for your next ride.' | translate}}</p>
       <div class="col-lg-5 col-md-6 col-sm-6" *ngFor="let coupon of activeCoupons">
         <div class="card my-2">
           <div class="card-body">
@@ -110,14 +109,14 @@
               <p class="fs-5"><i class="bi bi-clipboard" (click)="copyCouponCode(couponText.innerText)"></i></p>
             </div>
             <div>
-              <p class="fs-6">Discount: <span class="fw-bold">{{ coupon.type === 'percentage' ? coupon.discount + '%' : coupon.type === 'amount' ? '₹' + coupon.discount : null }}</span></p>
-              <p class="fs-6">Valid till: <span class="fw-bold">{{ coupon.expirationDate | date }}</span></p>
+              <p class="fs-6">{{'Discount' | translate}}: <span class="fw-bold">{{ coupon.type === 'percentage' ? coupon.discount + '%' : coupon.type === 'amount' ? '₹' + coupon.discount : null }}</span></p>
+              <p class="fs-6">{{'Valid till' | translate}}: <span class="fw-bold">{{ coupon.expirationDate | date }}</span></p>
             </div>
           </div>
         </div>
       </div>
       <div *ngIf="activeCoupons.length === 0" class="col-lg-5 col-md-6 col-sm-6">
-        <p class="fs-5 text-danger fw-semibold">No coupons available...</p>
+        <p class="fs-5 text-danger fw-semibold">{{'No coupons available...' | translate}}</p>
       </div>
     </div>   
   </div>

@@ -7,14 +7,13 @@
     <div class="row">
       <div class="col-lg-2"></div>
       <div class="col-10">
-        <p class="fs-3 fw-bold mt-4">Upload Documents</p>
+        <p class="fs-3 fw-bold mt-4">{{'Upload Documents' | translate}}</p>
         <p class="fs-5 my-3">
           <span
-            >Add documents for verification. Please ensure that all documents
-            are clear and legible.</span
+            >{{'Add documents for verification. Please ensure that all documents are clear and legible.' | translate}}</span
           >
           <br />
-          <span>Accepted all formats expect PDF.</span>
+          <span>{{'Accepted all formats expect PDF.' | translate}}</span>
         </p>
       </div>
     </div>
@@ -24,7 +23,7 @@
       <div class="col-lg-4 col-md-6">
         <div class="mb-3">
           <label for="formFile" class="form-label fw-semibold"
-            >Aadhar card front side</label
+            >{{'Aadhar card front side' | translate}}</label
           >
           <input
             class="form-control"
@@ -32,14 +31,14 @@
             (change)="onFileSelected($event, 'aadharfront')"
           />
           <div class="" *ngIf="aadharCardFrontUploaded">
-            <p class="text-danger">Aadhar card front side uploaded!</p>
+            <p class="text-danger">{{'Aadhar card front side uploaded' | translate}}!</p>
           </div>
         </div>
       </div>
       <div class="col-lg-4 col-md-6">
         <div class="mb-3">
           <label for="formFile" class="form-label fw-semibold"
-            >Aadhar card back side</label
+            >{{'Aadhar card back side' | translate}}</label
           >
           <input
             class="form-control"
@@ -47,7 +46,7 @@
             (change)="onFileSelected($event, 'aadharback')"
           />
           <div class="" *ngIf="aadharCardBackUploaded">
-            <p class="text-danger">Aadhar card back side uploaded!</p>
+            <p class="text-danger">{{'Aadhar card back side uploaded' | translate}}!</p>
           </div>
         </div>
       </div>
@@ -58,7 +57,7 @@
       <div class="col-lg-4 col-md-6">
         <div class="mb-3">
           <label for="formFile" class="form-label fw-semibold"
-            >Driving license</label
+            >{{'Driving license' | translate}}</label
           >
           <input
             class="form-control"
@@ -66,14 +65,14 @@
             (change)="onFileSelected($event, 'drivinglicense')"
           />
           <div class="" *ngIf="drivinglicenseUploaded">
-            <p class="text-danger">Driving license uploaded!</p>
+            <p class="text-danger">{{'Driving license uploaded' | translate}}!</p>
           </div>
         </div>
       </div>
       <div class="col-lg-4 col-md-6">
         <div class="mb-3">
           <label for="formFile" class="form-label fw-semibold"
-            >Register certificate (RC)</label
+            >{{'Register certificate' | translate}} (RC)</label
           >
           <input
             class="form-control"
@@ -81,7 +80,7 @@
             (change)="onFileSelected($event, 'rc')"
           />
           <div class="" *ngIf="rcUploaded">
-            <p class="text-danger">Register certificate (RC) uploaded!</p>
+            <p class="text-danger">{{'Register certificate (RC) uploaded' | translate}}!</p>
           </div>
         </div>
       </div>

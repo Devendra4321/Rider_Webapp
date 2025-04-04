@@ -6,7 +6,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-8 offset-md-2">
-        <p class="fs-2 fw-bold my-3">Ongoing</p>
+        <p class="fs-2 fw-bold my-3">{{'Ongoing' | translate}}</p>
 
         <div
           class="card my-4 rounded-4"
@@ -49,13 +49,13 @@
               <div class="col-md-4">
                 <div class="d-flex float-end mt-1 mt-md-0 mt-lg-0">
                   <button class="trips-btn me-2 my-2">
-                    <i class="bi bi-question-circle me-2"></i>Help
+                    <i class="bi bi-question-circle me-2"></i>{{'Help' | translate}}
                   </button>
                   <button
                     class="trips-btn me-2 my-2"
                     [routerLink]="['/captain-ride-ongoing', ride._id]"
                   >
-                    <i class="bi bi-info-circle me-2"></i>Details
+                    <i class="bi bi-info-circle me-2"></i>{{'Details' | translate}}
                   </button>
                 </div>
               </div>
@@ -75,7 +75,7 @@
             alt="trips_image"
           />
           <div class="card-body">
-            <p class="fs-3 fw-bold">You have no ongoing trips</p>
+            <p class="fs-3 fw-bold">{{'You have no ongoing trips' | translate}}</p>
           </div>
         </div>
       </div>
@@ -88,7 +88,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-8 offset-md-2">
-        <p class="fs-2 fw-bold my-3">Past</p>
+        <p class="fs-2 fw-bold my-3">{{'Past' | translate}}</p>
 
         <div class="card mb-3 rounded-4" *ngFor="let ride of allRides">
           <div class="row">
@@ -122,29 +122,29 @@
                 </p>
                 <div>
                   <button class="me-2 trips-btn">
-                    <i class="bi bi-question-circle me-2"></i>Help
+                    <i class="bi bi-question-circle me-2"></i>{{'Help' | translate}}
                   </button>
                   <button
                     class="me-2 trips-btn"
                     [routerLink]="['/captain-trips', ride._id]"
                   >
-                    <i class="bi bi-info-circle me-2"></i>Details
+                    <i class="bi bi-info-circle me-2"></i>{{'Details' | translate}}
                   </button>
                   <button
-                    class="trips-btn mt-2 mt-md-0 mt-lg-0 mt-sm-0"
+                    class="trips-btn2 mt-2 mt-md-0 mt-lg-0 mt-sm-0"
                     routerLink="/user-home"
                   >
-                    <i class="bi bi-bootstrap-reboot me-2"></i>Rebook
+                    <i class="bi bi-bootstrap-reboot me-2"></i>{{'Rebook' | translate}}
                   </button>
                 </div>
               </div>
 
               <div class="card-body" *ngIf="totalRides == 0">
                 <p class="fs-3 fw-bold">
-                  You have not taken any rides yet, take your first ride
+                  {{'You have not taken any rides yet, take your first ride' | translate}}
                 </p>
                 <button class="trips-btn" routerLink="/user-home">
-                  <i class="bi bi-car-front-fill me-2"></i>Book now
+                  <i class="bi bi-car-front-fill me-2"></i>{{'Book now' | translate}}
                 </button>
               </div>
             </div>
@@ -158,8 +158,8 @@
           [pageSize]="perPage"
           [maxSize]="2"
           (pageChange)="onPageChange($event)"
-          ><ng-template ngbPaginationPrevious>Prev</ng-template>
-          <ng-template ngbPaginationNext>Next</ng-template>
+          ><ng-template ngbPaginationPrevious>{{'Prev' | translate}}</ng-template>
+          <ng-template ngbPaginationNext>{{'Next' | translate}}</ng-template>
         </ngb-pagination>
       </div>
     </div>

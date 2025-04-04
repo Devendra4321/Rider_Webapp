@@ -8,7 +8,7 @@
       <div class="col-lg-4 col-md-5 my-md-5">
         <div class="shadow-lg p-3 mb-md-5 mb-4 bg-body-tertiary rounded">
           <div>
-            <p class="fs-4 fw-bolder mx-1">Get a ride</p>
+            <p class="fs-4 fw-bolder mx-1">{{'Request a ride' | translate}}</p>
           </div>
           <div>
             <form
@@ -27,7 +27,7 @@
                   data-bs-toggle="dropdown"
                   autocomplete="off"
                 />
-                <label for="floatingInput">Pickup location</label>
+                <label for="floatingInput">{{"Pickup location" | translate}}</label>
 
                 <!-- Dropdown list -->
                 <ul class="dropdown-menu w-100 mt-1 position-absolute">
@@ -38,7 +38,7 @@
                     <a class="dropdown-item">{{ suggestion }}</a>
                   </li>
                   <li *ngIf="isSuggestionsPresent">
-                    <a class="dropdown-item disabled">No results</a>
+                    <a class="dropdown-item disabled">{{'No results' | translate}}</a>
                   </li>
                 </ul>
               </div>
@@ -55,7 +55,7 @@
                   data-bs-toggle="dropdown"
                   autocomplete="off"
                 />
-                <label for="floatingInput">Drop location</label>
+                <label for="floatingInput">{{'Drop location' | translate}}</label>
 
                 <!-- Dropdown list -->
                 <ul class="dropdown-menu w-100 mt-1 position-absolute">
@@ -66,7 +66,7 @@
                     <a class="dropdown-item">{{ suggestion }}</a>
                   </li>
                   <li *ngIf="isSuggestionsPresent">
-                    <a class="dropdown-item disabled">No results</a>
+                    <a class="dropdown-item disabled">{{'No results' | translate}}</a>
                   </li>
                 </ul>
               </div>
@@ -75,7 +75,7 @@
                 class="btn form-control p-2 mb-2 search-btn"
                 [disabled]="!location.pickupLoc || !location.dropLoc"
               >
-                Search
+                {{'Search' | translate}}
               </button>
             </form>
           </div>

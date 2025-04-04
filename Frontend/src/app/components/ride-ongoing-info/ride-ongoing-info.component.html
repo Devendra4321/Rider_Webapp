@@ -9,74 +9,74 @@
           class="fs-3 fw-bold text-center"
           *ngIf="rideDetail.status == 'accepted'"
         >
-          Ride Accepted By Captain
+          {{'Ride Accepted By Captain' | translate}}
         </p>
         <p
           class="fs-3 fw-bold text-center"
           *ngIf="rideDetail.status == 'ongoing'"
         >
-          Ride Started By Captain
+          {{'Ride Started By Captain' | translate}}
         </p>
         <p
           class="fs-3 fw-bold text-center"
           *ngIf="rideDetail.status == 'completed'"
         >
-          Ride Completed
+          {{'Ride Completed' | translate}}
         </p>
         <p
           class="fs-3 fw-bold text-center"
           *ngIf="rideDetail.status == 'cancelled'"
         >
-          Ride Cancelled
+          {{'Ride Cancelled' | translate}}
         </p>
 
         <div class="card my-3 order-md-1">
           <div class="card-body">
-            <p class="fs-5 fw-bold">Ride details:</p>
+            <p class="fs-5 fw-bold">{{'Ride details' | translate}}:</p>
             <p class="fs-6 fw-semibold">
-              Ride owner:
+              {{'Ride owner' | translate}}:
               <span class="float-lg-end float-md-end float-sm-end fw-normal"
                 >{{ rideDetail.user?.fullname?.firstname }}
                 {{ rideDetail.user?.fullname?.lastname }}</span
               >
             </p>
+            <p
+              class="fs-6 fw-semibold"
+              *ngIf="userType == 'captain' && rideDetail.status == 'accepted'"
+            >
+              {{'Ride OTP' | translate}}:
+              <span class="float-lg-end float-md-end float-sm-end fw-normal">{{
+                rideDetail.otp
+              }}</span>
+            </p>
             <p class="fs-6 fw-semibold">
-              Pickup location:
+              {{'Pickup location' | translate}}:
               <span class="float-lg-end float-md-end float-sm-end fw-normal">{{
                 rideDetail.pickup
               }}</span>
             </p>
             <p class="fs-6 fw-semibold">
-              Drop location:
+              {{'Drop location' | translate}}:
               <span class="float-lg-end float-md-end float-sm-end fw-normal">{{
                 rideDetail.destination
               }}</span>
             </p>
             <p class="fs-6 fw-semibold">
-              Vehicle:
+              {{'Vehicle' | translate}}:
               <span class="float-lg-end float-md-end float-sm-end fw-normal">{{
                 rideDetail.vehicleRequired
               }}</span>
             </p>
             <p class="fs-6 fw-semibold">
-              Ride fare:
+              {{'Ride fare' | translate}}:
               <span class="float-lg-end float-md-end float-sm-end fw-normal">{{
                 rideDetail.fare
               }}</span>
             </p>
             <p class="fs-6 fw-semibold">
-              Payment type:
+              {{'Payment type' | translate}}:
               <span class="float-lg-end float-md-end float-sm-end fw-normal">{{
                 rideDetail.paymentDetails?.paymentMethod
-              }}</span>
-            </p>
-            <p
-              class="fs-6 fw-semibold"
-              *ngIf="userType == 'captain' && rideDetail.status == 'accepted'"
-            >
-              Ride OTP:
-              <span class="float-lg-end float-md-end float-sm-end fw-normal">{{
-                rideDetail.otp
               }}</span>
             </p>
           </div>
@@ -84,28 +84,28 @@
 
         <div class="card my-3 order-md-2">
           <div class="card-body">
-            <p class="fs-5 fw-bold">Captain details:</p>
+            <p class="fs-5 fw-bold">{{'Captain details' | translate}}:</p>
             <p class="fs-6 fw-semibold">
-              Name:
+              {{'Name' | translate}}:
               <span class="float-lg-end float-md-end float-sm-end fw-normal"
                 >{{ rideDetail.captain?.fullname?.firstname }}
                 {{ rideDetail.captain?.fullname?.lastname }}</span
               >
             </p>
             <p class="fs-6 fw-semibold">
-              Email:
+              {{'Email' | translate}}:
               <span class="float-lg-end float-md-end float-sm-end fw-normal">{{
                 rideDetail.captain?.email
               }}</span>
             </p>
             <p class="fs-6 fw-semibold">
-              Vehicle:
+              {{'Vehicle' | translate}}:
               <span class="float-lg-end float-md-end float-sm-end fw-normal">{{
                 rideDetail.captain?.vehicle?.vehicleType
               }}</span>
             </p>
             <p class="fs-6 fw-semibold">
-              Vehicle number:
+              {{'Vehicle number' | translate}}:
               <span class="float-lg-end float-md-end float-sm-end fw-normal">{{
                 rideDetail.captain?.vehicle?.plate
               }}</span>
@@ -118,21 +118,21 @@
             class="btn btn-dark w-100 mb-md-0 mb-lg-0"
             (click)="rideCancelledConfirmPopup()"
           >
-            Cancel ride
+            {{'Cancel ride' | translate}}
           </button>
           <button
             *ngIf="userType == 'captain' && rideDetail.status == 'accepted'"
             class="btn btn-dark w-100 mb-md-0 mb-lg-0"
             (click)="verifyOtp()"
           >
-            Start ride
+            {{'Start ride' | translate}}
           </button>
           <button
             *ngIf="userType == 'captain' && rideDetail.status == 'ongoing'"
             class="btn btn-dark w-100 mb-md-0 mb-lg-0"
             (click)="completeRide(rideDetail._id)"
           >
-            Complete ride
+            {{'Complete ride' | translate}}
           </button>
         </div>
       </div>

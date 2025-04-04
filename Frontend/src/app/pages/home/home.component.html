@@ -13,19 +13,30 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link text-white" routerLink="/user-home">Ride</a>
+          <a
+            class="nav-link text-white"
+            aria-current="page"
+            role="button" 
+            tabindex="0"
+            data-bs-toggle="modal" 
+            data-bs-target="#staticBackdrop"
+            ><i class="bi bi-globe me-2"></i>{{ language | uppercase }}</a
+          >
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" routerLink="/captain-home">Captain</a>
+          <a class="nav-link text-white" routerLink="/user-home">{{'Ride' | translate}}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" routerLink="/price-calculator">Calculator</a>
+          <a class="nav-link text-white" routerLink="/captain-home">{{'Captain' | translate}}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" routerLink="/login">Login</a>
+          <a class="nav-link text-white" routerLink="/price-calculator">{{'Calculator' | translate}}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" routerLink="/signup">Sign up</a>
+          <a class="nav-link text-white" routerLink="/login">{{'Login' | translate}}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" routerLink="/signup">{{'Sign up' | translate}}</a>
         </li>
       </ul>
     </div>
@@ -38,16 +49,13 @@
     <div class="row">
       <div class="col-md-6 mt-md-4 mb-4">
         <div>
-          <p class="my-md-3 fs-1 fw-bold">Go anywhere with Rider</p>
+          <p class="my-md-3 fs-1 fw-bold">{{'Go anywhere with Rider' | translate}}</p>
         </div>
         <div class="mt-4">
           <p class="my-3 fs-4">
-            Rides, food delivery, and more—get the app that opens the door to a
-            world of possibilities. Download the Rider app now and start your
-            journey. Plan your trip with ease. Get started on your journey with
-            Rider.
+            {{'Rides, and more—get the app that opens the door to a world of possibilities. Download the Rider app now and start your journey. Plan your trip with ease. Get started on your journey with Rider.' | translate}}
           </p>
-          <button class="btn btn-dark" routerLink="/login">Get Started</button>
+          <button class="btn btn-dark" routerLink="/login">{{'Get Started' | translate}}</button>
         </div>
       </div>
       <div class="col-md-6 col-12">
@@ -64,14 +72,14 @@
 <!-- Suggestions -->
 <section class="container section">
   <div class="row ms-auto">
-    <p class="fs-1 fw-bold">Suggestions</p>
+    <p class="fs-1 fw-bold">{{'Suggestions' | translate}}</p>
     <div class="col-lg-4 col-md-6 col-sm-12 col-11 mb-3 mx-md-0 mx-2">
       <div class="d-flex justify-content-between flex-no-wrap suggestions">
         <div>
-          <p class="fw-bold">Ride</p>
-          <p>Go anywhere with Rider. Request a ride and go.</p>
+          <p class="fw-bold">{{'Ride' | translate}}</p>
+          <p>{{'Go anywhere with Rider. Request a ride and go.' | translate}}</p>
           <button class="btn btn-outline-dark" routerLink="/user-home">
-            Details
+            {{'Details' | translate}}
           </button>
         </div>
         <div>
@@ -87,9 +95,9 @@
     <div class="col-lg-4 col-md-6 col-sm-12 col-11 mb-3 mx-md-0 mx-2">
       <div class="d-flex justify-content-between suggestions">
         <div>
-          <p class="fw-bold">Reserve</p>
-          <p>Rider make reserve your ride in advance.</p>
-          <button class="btn btn-outline-dark">Details</button>
+          <p class="fw-bold">{{'Reserve' | translate}}</p>
+          <p>{{'Rider make reserve your ride in advance.' | translate}}</p>
+          <button class="btn btn-outline-dark">{{'Details' | translate}}</button>
         </div>
         <div>
           <img
@@ -104,9 +112,9 @@
     <div class="col-lg-4 col-md-12 col-sm-12 col-11 mb-3 mx-md-0 mx-2">
       <div class="d-flex justify-content-between suggestions">
         <div>
-          <p class="fw-bold">Courier</p>
-          <p>Rider makes same-day item delivery easy.</p>
-          <button class="btn btn-outline-dark">Details</button>
+          <p class="fw-bold">{{'Courier' | translate}}</p>
+          <p>{{'Rider makes same-day item delivery easy.' | translate}}</p>
+          <button class="btn btn-outline-dark">{{'Details' | translate}}</button>
         </div>
         <div>
           <img
@@ -124,16 +132,16 @@
 <section class="container section mt-md-4">
   <div class="row m-auto">
     <div class="col-md-6 col-12 mb-sm-4 mb-4 my-lg-5">
-      <p class="fs-1 fw-bold">Log in to see your recent activity</p>
+      <p class="fs-1 fw-bold">{{'Log in to see your recent activity' | translate}}</p>
       <p class="fs-5">
-        View past trips, tailored suggestions, support resources, and more.
+        {{'View past trips, tailored suggestions, support resources, and more.' | translate}}
       </p>
       <div class="mt-4 d-flex">
         <button class="btn btn-dark" routerLink="/login/user">
-          Log in to your account
+          {{'Log in to your account' | translate}}
         </button>
         <p class="mx-4 mt-2 intermediate-p" routerLink="/signup/user">
-          Don’t have an Rider account? Sign up
+          {{'Don’t have an Rider account? Sign up' | translate}}
         </p>
       </div>
     </div>
@@ -159,18 +167,17 @@
     </div>
     <div class="col-md-6 col-12 mb-sm-4 mb-4 my-lg-5">
       <p class="fs-1 fw-bold my-lg-4">
-        Drive when you want, make what you need
+        {{'Drive when you want, make what you need' | translate}}
       </p>
       <p class="fs-5">
-        Make money on your schedule with deliveries or rides—or both. You can
-        use your own car or choose a rental through Rider.
+        {{'Make money on your schedule with deliveries or rides—or both. You can use your own car or choose a rental through Rider.' | translate}}
       </p>
       <div class="mt-4 d-flex">
         <button class="btn btn-dark" routerLink="/signup/captain">
-          Get Started
+          {{'Get Started' | translate}}
         </button>
         <p class="mx-4 mt-2 intermediate-p" routerLink="/login/captain">
-          Already have an account? Sign in
+          {{'Already have an account? Sign in' | translate}}
         </p>
       </div>
     </div>
@@ -180,7 +187,7 @@
 <!-- QR Code Download Section -->
 <section class="qr-code section bg-light">
   <div class="container mb-5 mt-3">
-    <p class="fs-1 fw-bold">It’s easier in the apps</p>
+    <p class="fs-1 fw-bold">{{'It’s easier in the apps' | translate}}</p>
     <div class="row mt-5">
       <div class="col-md-6 mb-3">
         <div class="d-flex justify-content-center align-items-center qr-div">
@@ -192,8 +199,8 @@
             />
           </div>
           <div class="mx-3">
-            <p class="fs-4 fw-bold mb-0">Download the Rider app</p>
-            <p>Scan to download</p>
+            <p class="fs-4 fw-bold mb-0">{{'Download the Rider app' | translate}}</p>
+            <p>{{'Scan to download' | translate}}</p>
           </div>
         </div>
       </div>
@@ -207,8 +214,8 @@
             />
           </div>
           <div class="mx-3">
-            <p class="fs-4 fw-bold mb-0">Download the Captain app</p>
-            <p>Scan to download</p>
+            <p class="fs-4 fw-bold mb-0">{{'Download the Captain app' | translate}}</p>
+            <p>{{'Scan to download' | translate}}</p>
           </div>
         </div>
       </div>
@@ -219,6 +226,25 @@
 <!-- Footer -->
 <footer class="bg-dark text-white py-4">
   <div class="container">
-    <p class="mt-3 fs-5 fw-bold">&copy; 2025 Rider Technologies Inc.</p>
+    <p class="mt-3 fs-5 fw-bold">&copy; {{'2025 Rider Technologies Inc.' | translate}}</p>
   </div>
 </footer>
+
+<!--Language selection Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="d-flex justify-content-between">
+          <h1 class="modal-title fs-3 fw-bold" id="staticBackdropLabel">{{'Select your preferred language' | translate}}</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>        
+        <div class="row my-4 ms-1 gap-4">
+          <div class="col-lg-3 col-md-4 col-sm-8 col-10 fw-semibold" [class.lang-sel-div]="!(language == 'en')" [ngClass]="{'lang-selected-div' : language == 'en'}" data-bs-dismiss="modal" (click)="selectLanguage('en')">English</div>
+          <div class="col-lg-3 col-md-4 col-sm-8 col-10 fw-semibold" [class.lang-sel-div]="!(language == 'hi')" [ngClass]="{'lang-selected-div' : language == 'hi'}" data-bs-dismiss="modal" (click)="selectLanguage('hi')">हिन्दी</div>
+          <div class="col-lg-3 col-md-4 col-sm-8 col-10 fw-semibold" [class.lang-sel-div]="!(language == 'mr')" [ngClass]="{'lang-selected-div' : language == 'mr'}" data-bs-dismiss="modal" (click)="selectLanguage('mr')">मराठी</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
