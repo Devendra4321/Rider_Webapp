@@ -11,6 +11,7 @@ const mapRoutes = require("./routes/map.routes");
 const rideRoutes = require("./routes/ride.routes");
 const walletRoutes = require("./routes/wallet.routes");
 const couponRoutes = require("./routes/coupon.routes");
+const authRoutes = require("./routes/auth.routes");
 
 connectToDb();
 
@@ -26,5 +27,6 @@ app.use("/map", mapRoutes);
 app.use("/ride", rideRoutes);
 app.use("/wallet", walletRoutes);
 app.use("/coupon", couponRoutes);
+app.use('/auth', authRoutes);
 
 module.exports = app;

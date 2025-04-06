@@ -9,6 +9,8 @@ export const environment = {
   API_URL_WALLET: 'https://riderbackend-5rue.onrender.com/wallet/',
   API_URL_ADMIN: 'https://riderbackend-5rue.onrender.com/admin/',
   API_URL_COUPON: 'https://riderbackend-5rue.onrender.com/coupon/',
+  API_URL_AUTH: 'https://riderbackend-5rue.onrender.com/auth/',
+
 
   // SOCKET_URL: 'http://localhost:4000',
   // API_URL_USER: 'http://localhost:4000/users/',
@@ -18,10 +20,15 @@ export const environment = {
   // API_URL_WALLET: 'http://localhost:4000/wallet/',
   // API_URL_ADMIN: 'http://localhost:4000/admin/',
   // API_URL_COUPON: 'http://localhost:4000/coupon/',
+  // API_URL_AUTH: 'http://localhost:4000/auth/',
 
   MAP_BOX_ACCESS_TOKEN: `pk.eyJ1IjoiZGV2ZW5kcmEtMTExIiwiYSI6ImNtNTVpN3A4ejJueWYyaXIwNGF1M25jcWkifQ.ZmwxLooOqfPUNL1hwbDeqQ`,
 
   DOCUMENT_UPLOAD_FOLDER: 'document',
 
   RAZORPAY_KEY: 'rzp_test_uznZxROT4b9K3D',
+
+  CLIENT_ID: '61099471586-kacbo5pkrsl5upqtf9kpgghb4ie47567.apps.googleusercontent.com',
+
+  FACEBOOK_ID:'1800561347464928'
 };

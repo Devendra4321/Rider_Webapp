@@ -22,7 +22,6 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
     select: false,
   },
   socketId: {
@@ -53,6 +52,12 @@ const userSchema = new mongoose.Schema({
   isDeleted: {
     type: Boolean,
     default: false,
+  },
+  googleId: {
+    type: String,
+  },
+  facebookId: {
+    type: String,
   },
 });
 

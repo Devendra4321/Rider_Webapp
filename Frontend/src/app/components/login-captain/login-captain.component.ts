@@ -5,6 +5,10 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
 import { RideSocketService } from '../../services/ride-socket/ride-socket.service';
+import { environment } from '../../../environment/environment';
+import { GoogleAuthService } from '../../services/google-auth/google-auth.service';
+import { FacebookAuthService } from '../../services/facebook-auth/facebook-auth.service';
+export declare const google: any;
 
 @Component({
     selector: 'app-login-captain',
@@ -16,10 +20,61 @@ export class LoginCaptainComponent {
   constructor(
     private captainLoginService: CaptainLoginService,
     private rideSocketService: RideSocketService,
+    private googleAuthService: GoogleAuthService,
+    private facebookAuthService: FacebookAuthService,
     private toaster: ToastrService,
     private spinner: NgxSpinnerService,
     private route: Router
   ) {}
+
+  ngAfterViewInit(): void {
+      google.accounts.id.initialize({
+        client_id: environment.CLIENT_ID,
+        callback: (response: any) => this.googleAuthService.handleCaptainSignInResponse(response),
+      });
+  
+      google.accounts.id.renderButton(document.getElementById("google-btn"), {
+        theme: 'filled_blue',
+        size: 'large',
+        text: 'signin_with',
+      });
+  }
+
+  async loginWithFacebook() {
+    try {
+      // Step 1: Login with Facebook
+      const authResponse = await this.facebookAuthService.withFacebook();
+      
+      // Step 2: Get user data
+      // const userData = await this.facebookAuthService.getFacebookUserData();
+
+      if(authResponse){
+        this.spinner.show();
+
+        this.facebookAuthService.captainLoginWithFacebook({accessToken: authResponse.accessToken}).subscribe({
+          next: (result: any) => {
+            if (result.statusCode == 200) {
+              this.spinner.hide();
+              console.log('Login data', result);
+              this.toaster.success(result.message);
+              this.route.navigate(['/captain-home']);
+              localStorage.setItem('captain-token', result.token);
+            }
+          },
+          error: (error) => {
+            this.spinner.hide();
+            console.log('Login data error', error.error);
+            this.toaster.error(error.error.message);
+          },
+          complete: () => {
+            this.spinner.hide();
+          }
+        });
+      }
+    } catch (error) {
+      console.error('Error during Facebook login:', error);
+    }
+  } 
 
   emailDiv = true;
   otpDiv = false;

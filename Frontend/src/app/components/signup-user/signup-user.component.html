@@ -75,14 +75,13 @@
 
       <div class="divider">or</div>
 
-      <button class="btn main-btn w-100">
-        <i class="bi bi-google mx-1"></i>
-        {{'Continue with Google' | translate}}
-      </button>
-      <button class="btn main-btn w-100 mt-2">
-        <i class="bi bi-apple mx-1"></i>
-        {{'Continue with Apple' | translate}}
-      </button>
+      <div id="google-btn"></div>
+
+      <button class="btn btn-outline-light border w-100 d-flex align-items-center justify-content-start mt-2" (click)="signUpWithFacebook()">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png"
+             alt="Google logo" width="20" height="20" class="me-3">
+        <span class="text-dark flex-grow-1 text-center">Sign up with Facebook</span>
+      </button>          
 
       <p class="text-muted text-left mt-3 small">
         {{'By proceeding, you consent to get calls, WhatsApp or SMS/RCS messages, including by automated means, from Rider and its affiliates to the number provided.' | translate}}

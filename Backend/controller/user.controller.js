@@ -56,6 +56,14 @@ module.exports.loginUser = async (req, res, next) => {
     });
   }
 
+  if(user.password === undefined || user.password === null || user.password === ""
+  ) {
+    return res.status(404).json({
+      statusCode: 404,
+      message: "User not registered with password",
+    });
+  }
+
   if (user.isDeleted === true) {
     return res.status(404).json({
       statusCode: 404,
