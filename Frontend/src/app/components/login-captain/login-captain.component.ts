@@ -88,11 +88,17 @@ export class LoginCaptainComponent {
 
   getOtp(form: NgForm) {
     if (form.valid) {
-      this.captainLoginService
+      this.otp();
+    }
+  }
+
+  otp(){
+    this.spinner.show();
+    this.captainLoginService
         .captainOtp({ email: this.loginData.emailMob })
         .subscribe({
           next: (result: any) => {
-            this.spinner.show();
+            this.spinner.hide();
 
             if (result.statusCode == 200) {
               this.spinner.hide();
@@ -120,7 +126,6 @@ export class LoginCaptainComponent {
             this.spinner.hide();
           },
         });
-    }
   }
 
   wrongOtp = false;
@@ -206,7 +211,7 @@ export class LoginCaptainComponent {
   otp3: string = '';
   otp4: string = '';
 
-  moveFocus(event: any, nextInput: any, index: number) {
+  moveFocus(event: any, nextInput: any) {
     const value = event.target.value;
     if (value.length === 1 && nextInput) {
       nextInput.focus();

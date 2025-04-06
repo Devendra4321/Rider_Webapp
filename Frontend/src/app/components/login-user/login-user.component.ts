@@ -89,38 +89,42 @@ export class LoginUserComponent {
   getOtp(form: NgForm) {
     if (form.valid) {
       // console.log(this.loginData);
-
-      this.loginService.userOtp({ email: this.loginData.emailMob }).subscribe({
-        next: (result: any) => {
-          this.spinner.show();
-
-          if (result.statusCode == 200) {
-            this.spinner.hide();
-            console.log('Otp data', result);
-            this.toaster.success(result.message);
-            this.otpDiv = true;
-            this.emailDiv = false;
-          }
-        },
-
-        error: (error: any) => {
-          this.spinner.hide();
-          console.log('Get otp error:', error.error);
-
-          if (
-            error.error.statusCode == 400 ||
-            error.error.statusCode == 404 ||
-            error.error.statusCode == 500
-          ) {
-            this.toaster.error(error.error.message);
-          }
-        },
-
-        complete: () => {
-          this.spinner.hide();
-        },
-      });
+      this.otp();     
     }
+  }
+
+  otp(){
+    this.spinner.show();
+    this.loginService.userOtp({ email: this.loginData.emailMob }).subscribe({
+      next: (result: any) => {
+        this.spinner.hide();
+
+        if (result.statusCode == 200) {
+          this.spinner.hide();
+          console.log('Otp data', result);
+          this.toaster.success(result.message);
+          this.otpDiv = true;
+          this.emailDiv = false;
+        }
+      },
+
+      error: (error: any) => {
+        this.spinner.hide();
+        console.log('Get otp error:', error.error);
+
+        if (
+          error.error.statusCode == 400 ||
+          error.error.statusCode == 404 ||
+          error.error.statusCode == 500
+        ) {
+          this.toaster.error(error.error.message);
+        }
+      },
+
+      complete: () => {
+        this.spinner.hide();
+      },
+    });
   }
 
   wrongOtp = false;
@@ -208,7 +212,7 @@ export class LoginUserComponent {
   otp3: string = '';
   otp4: string = '';
 
-  moveFocus(event: any, nextInput: any, index: number) {
+  moveFocus(event: any, nextInput: any) {
     const value = event.target.value;
     if (value.length === 1 && nextInput) {
       nextInput.focus();

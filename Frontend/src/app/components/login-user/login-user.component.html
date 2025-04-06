@@ -49,7 +49,7 @@
       <button class="btn btn-outline-light border w-100 d-flex align-items-center justify-content-start mt-2" (click)="loginWithFacebook()">
         <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png"
              alt="Google logo" width="20" height="20" class="me-3">
-        <span class="text-dark flex-grow-1 text-center">Sign up with Facebook</span>
+        <span class="text-dark flex-grow-1 text-center">Sign in with Facebook</span>
       </button> 
 
       <!-- <div class="divider">or</div>
@@ -72,29 +72,32 @@
     <div class="otp-container">
       <h5>{{"Welcome back, User." | translate}}</h5>
       <p>{{'Enter the 4-digit code sent via Email at' | translate}} {{ loginData.emailMob }}</p>
-      <a href="#" class="text-decoration-none">{{'Changed your email' | translate}}?</a>
-
+      <!-- <a href="#" class="text-decoration-none">{{'Changed your email' | translate}}?</a> -->
+      
       <div class="d-flex justify-content-center my-3">
         <input
           type="text"
           class="otp-input form-control main-btn"
           maxlength="1"
           [(ngModel)]="otp1"
-          (input)="moveFocus($event, otp2, 1)"
+          (input)="moveFocus($event, otpInput2)"
+          #otpInput1
         />
         <input
           type="text"
           class="otp-input form-control main-btn"
           maxlength="1"
           [(ngModel)]="otp2"
-          (input)="moveFocus($event, otp3, 2)"
+          (input)="moveFocus($event, otpInput3)"
+          #otpInput2
         />
         <input
           type="text"
           class="otp-input form-control main-btn"
           maxlength="1"
           [(ngModel)]="otp3"
-          (input)="moveFocus($event, otp4, 3)"
+          (input)="moveFocus($event, otpInput4)"
+          #otpInput3
         />
         <input
           type="text"
@@ -102,11 +105,12 @@
           maxlength="1"
           [(ngModel)]="otp4"
           (input)="combineOTP()"
+          #otpInput4
         />
       </div>
       <p *ngIf="wrongOtp" class="text-danger">{{'Enter valid otp' | translate}}</p>
 
-      <button class="btn main-btn">{{'Resend code via Email' | translate}}</button>
+      <button class="btn main-btn" (click)="otp()">{{'Resend code via Email' | translate}}</button>
       <!-- <button class="btn main-btn mt-2">More options</button> -->
 
       <div class="d-flex justify-content-between align-items-center mt-4">
