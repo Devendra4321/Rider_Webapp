@@ -9,7 +9,7 @@ Rider Webapp is a platform that connects riders with drivers for convenient and 
 - Frontend: Angular, HTML, CSS, Bootstrap, TypeScript
 - Backend: Node.js, Express
 - Database: MongoDB
-- Authentication: JWT (JSON Web Tokens)
+- Authentication: JWT (JSON Web Tokens), Google, Facebook
 - Payment Gateway: Razorpay
 - Image Upload: Cloudinary
 - Real-time Communication: Socket.io
