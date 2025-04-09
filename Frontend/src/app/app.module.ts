@@ -61,6 +61,7 @@ import { AdminVehiclesComponent } from './components/admin-vehicles/admin-vehicl
 import { AdminAddVehicleComponent } from './components/admin-add-vehicle/admin-add-vehicle.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { ChatBotComponent } from './components/chat-bot/chat-bot.component';
 
 const config: SocketIoConfig = {
   url: environment.SOCKET_URL,
@@ -123,6 +124,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     AdminAdminsComponent,
     AdminVehiclesComponent,
     AdminAddVehicleComponent,
+    ChatBotComponent
   ],
   imports: [
     SocketIoModule.forRoot(config),

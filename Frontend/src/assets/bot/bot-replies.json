@@ -1,0 +1,51 @@
+[
+    {
+      "keywords": ["services", "offer"],
+      "response": "We offer a range of services including transportation. You can check our website for more details."
+    },
+    {
+      "keywords": ["booking", "reserve", "schedule"],
+      "response": "You can book a ride through our website or mobile app."
+    },
+    {
+      "keywords": ["driver", "chauffeur"],
+      "response": "All our drivers are professionally trained and background-checked for your safety."
+    },
+    {
+      "keywords": ["vehicle", "car", "ride"],
+      "response": "We have a fleet of well-maintained vehicles to ensure your comfort and safety."
+    },
+    {
+      "keywords": ["hours", "open", "working hours"],
+      "response": "We are open 24/7 to assist you with your needs."
+    },
+    {
+      "keywords": ["price", "cost", "charge"],
+      "response": "Our prices vary based on the service and distance. Please check our website for more details."
+    },
+    {
+      "keywords": ["contact", "support"],
+      "response": "You can contact us at riderwebapp999@gmail.com or call us at +91-9658485685."
+    },
+    {
+      "keywords": ["location", "city"],
+      "response": "We operate in multiple cities across India. You can check our website for the full list."
+    },
+    {
+      "keywords": ["payment", "pay", "transaction"],
+      "response": "We accept various payment methods including credit/debit cards, UPI, and cash."
+    },
+    {
+      "keywords": ["safety", "secure", "secure payment"],
+      "response": "We prioritize your safety and security. All transactions are encrypted and secure."
+    },
+    {
+      "keywords": ["feedback", "review"],
+      "response": "We value your feedback! Please share your experience with us."
+    },
+    {
+      "keywords": ["cancellation", "cancel"],
+      "response": "You can cancel your booking through our app or website. Please check our cancellation policy for more details."
+    }
+]
+  
