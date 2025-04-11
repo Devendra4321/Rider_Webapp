@@ -132,6 +132,13 @@ const captainSchema = new mongoose.Schema({
       },
     },
   },
+  averageRatings: {
+    overall: { type: Number, default: 0 },
+    vehicle: { type: Number, default: 0 },
+    onTime: { type: Number, default: 0 },
+    behaviour: { type: Number, default: 0 },
+    totalReviews: { type: Number, default: 0 }
+  },
   isDeleted: {
     type: Boolean,
     default: false,

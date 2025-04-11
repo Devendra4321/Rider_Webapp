@@ -44,4 +44,10 @@ router.get(
   rideController.getAllVehicleNames
 );
 
+router.post(
+  "/addRideReview",
+  authMiddelware.authUser,
+  rideController.addRideReview
+);
+
 module.exports = router;

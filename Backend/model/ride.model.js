@@ -96,6 +96,10 @@ const rideSchema = new mongoose.Schema({
       default: 0,
     }
   },
+  rideReview: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "review",
+  },
   orderId: {
     type: String,
   },

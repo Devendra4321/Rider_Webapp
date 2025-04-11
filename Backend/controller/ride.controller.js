@@ -11,6 +11,7 @@ const crypto = require("crypto");
 const transporter = require("../mail.config");
 const couponModel = require("../model/coupon.model");
 const vehicleModel = require("../model/vehicle.model");
+const reviewModel = require("../model/review.model");
 
 module.exports.createRide = async (req, res, next) => {
   const { pickup, destination, vehicleType, paymentMethod, couponCode, totalDiscountedFare } = req.body;
@@ -897,5 +898,78 @@ module.exports.getAllVehicleNames = async (req, res, next) => {
     res.status(200).json({ statusCode: 200, vehicles: vehicleNames });
   } catch (error) {
     res.status(500).json({ statusCode: 500, message: error.message });
+  }
+};
+
+module.exports.addRideReview = async (req, res, next) => {
+  try {
+    const { ride, overallRating, vehicleRating, onTimeRating, driverBehaviourRating, comment } = req.body;
+
+    if(!ride || !overallRating) {
+      return res.status(400).json({
+        statusCode: 400,
+        message: "All information required",
+      });
+    }
+
+    const existingRide = await rideModel.findById(ride);
+
+    if(!existingRide) {
+      return res.status(400).json({
+        statusCode: 400,
+        message: "Ride not found",
+      });
+    }
+
+    if(existingRide.status !== "completed") {
+      return res.status(400).json({
+        statusCode: 400,
+        message: "Ride not completed",
+      });
+    }
+
+    if(req.user.id !== existingRide.user.toString()) {
+      return res.status(400).json({
+        statusCode: 400,
+        message: "You are not authorized to add review",
+      });
+    }
+
+    const existingReview = await reviewModel.findOne({ ride: existingRide._id });
+
+    if(existingReview) {
+      return res.status(400).json({
+        statusCode: 400,
+        message: "Review already added",
+      });
+    }
+
+    const review = new reviewModel({
+      overallRating,
+      vehicleRating,
+      onTimeRating,
+      driverBehaviourRating,
+      comment,
+      ride: existingRide._id,
+      captain: existingRide.captain,
+    });
+
+    await review.save();
+
+    await existingRide.updateOne({
+      $push: {
+        rideReview: review._id,
+      },
+    }, { new: true });
+
+    await reviewModel.calculateAverageRatings(existingRide.captain);
+
+    res.status(201).json({
+      statusCode: 201,
+      message: "Review added successfully",
+      review,
+    });   
+  } catch (error) {
+    res.status(500).json({ statusCode: 500, message: error.message });   
   }
 };

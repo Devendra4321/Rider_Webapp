@@ -58,4 +58,10 @@ router.post(
   captainController.getCaptainAllRides
 );
 
+router.get(
+  "/getRatingAndReviewAverage",
+  authMiddleware.authCaptain,
+  captainController.getRatingAndReviewAverage
+);
+
 module.exports = router;

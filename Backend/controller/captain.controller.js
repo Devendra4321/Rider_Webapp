@@ -4,6 +4,7 @@ const blackListTokenModel = require("../model/blackListingToken.model");
 const transporter = require("../mail.config");
 const rideModel = require("../model/ride.model");
 const walletModel = require("../model/wallet.model");
+const reviewModel = require("../model/review.model");
 
 module.exports.registerCaptain = async (req, res, next) => {
   const { fullname, email, password, vehicle } = req.body;
@@ -513,5 +514,22 @@ module.exports.getCaptainAllRides = async (req, res, next) => {
       statusCode: 500,
       message: "Error fetching rides",
     });
+  }
+};
+
+module.exports.getRatingAndReviewAverage = async (req, res, next) => {
+  try {
+    const avgRatings = await reviewModel.calculateAverageRatings(req.captain._id);
+
+    if (!avgRatings) {
+      return res.status(404).json({
+        statusCode: 404,
+        message: "No ratings found",
+      });
+    }
+    
+    res.json({ statusCode: 200, data: avgRatings });
+  } catch (error) {
+    res.status(500).json({ statusCode: 500, message: error.message });
   }
 };
