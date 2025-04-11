@@ -174,9 +174,12 @@ export class WalletCaptainComponent {
   }
 
   paymentVerification(response: any) {
+    this.spinner.show();
+
     this.paymentService.walletPaymentVerify(response).subscribe({
       next: (result: any) => {
         if (result.statusCode == 200) {
+          this.spinner.hide();
           console.log('Payment verify data', result);
           this.addAmountInCaptainWallet(result.razorpay_payment_id);
         }

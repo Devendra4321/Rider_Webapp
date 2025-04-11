@@ -152,13 +152,13 @@ export class WalletUserComponent {
         },
         error: (error) => {
           console.log('payment error', error.error);
+          this.spinner.hide();
 
           if (
             error.error.statusCode == 400 ||
             error.error.statusCode == 500 ||
             error.error.statusCode == 401
           ) {
-            this.spinner.hide();
             this.toaster.error(error.error.message);
           } else {
             this.toaster.error('Something went wrong');
@@ -171,14 +171,17 @@ export class WalletUserComponent {
   }
 
   paymentVerification(response: any) {
+    this.spinner.show();
     this.paymentService.paymentVerify(response).subscribe({
       next: (result: any) => {
         if (result.statusCode == 200) {
+          this.spinner.hide();
           console.log('Payment verify data', result);
           this.addAmountInUserWallet(result.razorpay_payment_id);
         }
       },
       error: (error) => {
+        this.spinner.hide();
         console.log('Payment verify data error', error.error);
 
         if (

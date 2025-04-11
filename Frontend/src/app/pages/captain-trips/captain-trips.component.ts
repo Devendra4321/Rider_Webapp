@@ -40,6 +40,8 @@ export class CaptainTripsComponent {
             console.log('Get all rides data', result);
             this.allRides = result.rides;
             this.totalRides = result.totalRides;
+            console.log('All rides:', this.totalRides);
+            
           }
         },
         error: (error) => {

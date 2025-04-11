@@ -464,15 +464,18 @@ export class RideReviewComponent {
   }
 
   paymentVerification(response: any) {
+    this.spinner.show();
     this.paymentService.paymentVerify(response).subscribe({
       next: (result: any) => {
         if (result.statusCode == 200) {
+          this.spinner.hide();
           console.log('Payment verify data', result);
           this.sendNotification(this.newCreatedRide._id);
           this.upadatePaymentStatusAndId(response.razorpay_payment_id);
         }
       },
       error: (error) => {
+        this.spinner.hide();
         console.log('Payment verify data error', error.error);
 
         if (

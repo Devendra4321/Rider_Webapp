@@ -6,6 +6,7 @@ import { RideSocketService } from '../../services/ride-socket/ride-socket.servic
 import { ToastrService } from 'ngx-toastr';
 import { RidePopupComponent } from '../../components/ride-popup/ride-popup.component';
 import { MapService } from '../../services/map/map.service';
+import { CaptainWalletService } from '../../services/captain-wallet/captain-wallet.service';
 
 @Component({
     selector: 'app-captain-home',
@@ -17,6 +18,7 @@ export class CaptainHomeComponent {
   constructor(
     private profileService: ProfileService,
     private rideSocketService: RideSocketService,
+    private captainWalletService: CaptainWalletService,
     private mapService: MapService,
     private spinner: NgxSpinnerService,
     private toaster: ToastrService
@@ -33,6 +35,7 @@ export class CaptainHomeComponent {
     // }
 
     this.captainProfile();
+    this.getWallet();
 
     // if (this.isOnline) {
     //   this.captainSocketJoin(this.captainDetail._id, 'captain');
@@ -229,6 +232,31 @@ export class CaptainHomeComponent {
         } else {
           this.toaster.error('Something went wrong');
         }
+      },
+      complete: () => {
+        this.spinner.hide();
+      },
+    });
+  }
+
+  wallet: any;
+
+  getWallet() {
+    this.spinner.show();
+
+    this.captainWalletService.getCaptainWallet().subscribe({
+      next: (result: any) => {
+        if (result.statusCode === 200) {
+          this.spinner.hide();
+          console.log('wallet details', result.data);
+          this.wallet = result.data;
+          // this.toaster.success(result.message);
+        }
+      },
+      error: (error) => {
+        this.spinner.hide();
+        console.log('wallet data error', error.error);
+        this.toaster.error(error.error.message);
       },
       complete: () => {
         this.spinner.hide();

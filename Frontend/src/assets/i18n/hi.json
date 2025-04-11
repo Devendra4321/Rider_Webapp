@@ -204,5 +204,11 @@
     "Calculate Price": "कीमत की गणना करें",
     "The above prices are approximate and may vary depending on the traffic and weather conditions. If you want to book a ride, please": "उपरोक्त कीमतें अनुमानित हैं और यातायात और मौसम की स्थिति के आधार पर अलग-अलग हो सकती हैं। यदि आप सवारी बुक करना चाहते हैं, तो कृपया",
     "click here": "यहां क्लिक करें",
-    "Enter your vehicle type":"अपने वाहन का प्रकार दर्ज करें"    
+    "Enter your vehicle type":"अपने वाहन का प्रकार दर्ज करें",
+    "Your document is not verified. Contact to admin team": "आपका दस्तावेज़ सत्यापित नहीं है। प्रशासन टीम से संपर्क करें",
+    "Please upload your documents": "कृपया अपने दस्तावेज़ अपलोड करें",
+    "here": "यहाँ",
+    "Your document is verified. You can go online for rides": "आपका दस्तावेज़ सत्यापित हो गया है। आप सवारी के लिए ऑनलाइन जा सकते हैं",
+    "Your document is rejected. Contact to admin team": "आपका दस्तावेज़ अस्वीकृत हो गया है। प्रशासन टीम से संपर्क करें",
+    "Your wallet balance is less than 500 please recharge a wallet": "आपका वॉलेट बैलेंस 500 से कम है, कृपया वॉलेट रिचार्ज करें"
 }
