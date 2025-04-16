@@ -385,7 +385,7 @@ module.exports.endRide = async (req, res, next) => {
       },
       {
         status: "completed",
-      }
+      },
     );
 
     await captainModel.findOneAndUpdate(
@@ -407,36 +407,36 @@ module.exports.endRide = async (req, res, next) => {
 
     await transporter.sendMail({
       from: process.env.FROM_EMAIL,
-      to: ride.user.email,
+      to: rides.user.email,
       subject: "Rider app Ride Completed Successfully",
       html: `
     <div style="font-family: 'Arial', sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #ffffff; border: 1px solid #ddd; border-radius: 8px;">
       <h1 style="text-align: center; color: #333;">Welcome to <span style="color: #4CAF50;">Rider App</span></h1>
       <p style="font-size: 16px; color: #555;">Hello <strong>${
-        ride.user.fullname.firstname
+        rides.user.fullname.firstname
       }</strong>,</p>
       <p style="font-size: 16px; color: #555;">Your ride has been completed! Below are your ride details:</p>
       <div style="background-color: #f1f1f1; padding: 15px; border-radius: 5px; margin: 20px 0;">
         <p style="font-size: 16px; color: #555;"><strong>Ride ID:</strong> ${
-          ride.id
+          rides.id
         }</p>
         <p style="font-size: 16px; color: #555;"><strong>Pickup Location:</strong> ${
-          ride.pickup
+          rides.pickup
         }</p>
         <p style="font-size: 16px; color: #555;"><strong>Drop-off Location:</strong> ${
-          ride.destination
+          rides.destination
         }</p>
         <p style="font-size: 16px; color: #555;"><strong>Estimated Fare:</strong> ${
-          ride.fare
+          rides.fare
         }</p>
       </div>
       <p style="font-size: 16px; color: #555;">Your assigned captain details:</p>
       <div style="background-color: #f1f1f1; padding: 15px; border-radius: 5px; margin: 20px 0;">
         <p style="font-size: 16px; color: #555;"><strong>Captain Name:</strong> ${
-          ride.captain.fullname.firstname
-        } ${ride.captain.fullname.lastname}</p>
+          rides.captain.fullname.firstname
+        } ${rides.captain.fullname.lastname}</p>
         <p style="font-size: 16px; color: #555;"><strong>Vehicle Number:</strong> ${
-          ride.captain.vehicle.plate
+          rides.captain.vehicle.plate
         }</p>
       </div>
       <p style="font-size: 14px; color: #666;">If you need any modifications or assistance, please reach out to our support team.</p>
@@ -457,7 +457,7 @@ module.exports.endRide = async (req, res, next) => {
     // Send notification to user and captain ride completed
     sendMessageToBothSocketId(ride.user.socketId, ride.captain.socketId, {
       event: "ride-ended",
-      data: ride,
+      data: rides,
     });
 
     return res.status(200).json({
@@ -485,35 +485,35 @@ module.exports.cancelUserRide = async (req, res, next) => {
   }
 
   try {
-    const ride = await rideModel
+    const existingRide = await rideModel
       .findOne({
         _id: rideId,
       })
       .populate("user")
       .populate("captain");
 
-    if (!ride) {
+    if (!existingRide) {
       return res.status(400).json({
         statusCode: 400,
         message: "Ride not found",
       });
     }
 
-    if (ride.status == "ongoing") {
+    if (existingRide.status == "ongoing") {
       return res.status(400).json({
         statusCode: 400,
         message: "Ride cannot cancel after start ride",
       });
     }
 
-    if (ride.status == "completed") {
+    if (existingRide.status == "completed") {
       return res.status(400).json({
         statusCode: 400,
         message: "Ride already completed",
       });
     }
 
-    if (ride.status == "cancelled") {
+    if (existingRide.status == "cancelled") {
       return res.status(400).json({
         statusCode: 400,
         message: "Ride already cancelled",
@@ -521,15 +521,17 @@ module.exports.cancelUserRide = async (req, res, next) => {
     }
 
     // if (ride.status == "accepted") {
-    await rideModel.findOneAndUpdate(
+    const ride = await rideModel.findOneAndUpdate(
       {
         _id: rideId,
         status: "accepted",
       },
       {
         status: "cancelled",
-      }
-    );
+      },
+      { new: true }
+    ).populate("user")
+    .populate("captain");
 
     await transporter.sendMail({
       from: process.env.FROM_EMAIL,
@@ -595,7 +597,7 @@ module.exports.cancelUserRide = async (req, res, next) => {
   } catch (error) {
     return res
       .status(500)
-      .json({ statusCode: 500, message: "Internal server error" });
+      .json({ statusCode: 500, message: error.message });
   }
 };
 

@@ -86,6 +86,7 @@ export class CaptainHomeComponent {
 
   captainDetail: any = {};
   documentsAvailable: any;
+  ratings: any = {};
 
   captainProfile() {
     this.spinner.show();
@@ -96,6 +97,7 @@ export class CaptainHomeComponent {
           this.spinner.hide();
           console.log('Profile data', result);
           this.captainDetail = result.captain;
+          this.ratings = result.captain.averageRatings;
           this.documentsAvailable = {
             aadharfront:
               typeof this.captainDetail.documents?.aadharfront !== 'undefined',
@@ -262,5 +264,13 @@ export class CaptainHomeComponent {
         this.spinner.hide();
       },
     });
+  }
+  
+  getStars(rating: number): string[] {
+    const fullStars = Math.floor(rating);
+    const half = rating - fullStars >= 0.5;
+    const stars = Array(fullStars).fill('★');
+    if (half) stars.push('☆');
+    return stars;
   }
 }

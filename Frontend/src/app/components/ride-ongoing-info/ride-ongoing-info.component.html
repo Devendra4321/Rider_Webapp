@@ -1,146 +1,146 @@
 <!-- Main section -->
-<section class="my-md-5 my-lg-5 my-2">
-  <div class="container">
-    <div class="row">
-      <div
-        class="col-lg-5 col-md-10 offset-md-1 offset-lg-0 order-md-2 order-sm-2 order-2 mt-md-4 mt-lg-0 mt-3"
-      >
-        <p
-          class="fs-3 fw-bold text-center"
-          *ngIf="rideDetail.status == 'accepted'"
-        >
-          {{'Ride Accepted By Captain' | translate}}
-        </p>
-        <p
-          class="fs-3 fw-bold text-center"
-          *ngIf="rideDetail.status == 'ongoing'"
-        >
-          {{'Ride Started By Captain' | translate}}
-        </p>
-        <p
-          class="fs-3 fw-bold text-center"
-          *ngIf="rideDetail.status == 'completed'"
-        >
-          {{'Ride Completed' | translate}}
-        </p>
-        <p
-          class="fs-3 fw-bold text-center"
-          *ngIf="rideDetail.status == 'cancelled'"
-        >
-          {{'Ride Cancelled' | translate}}
-        </p>
-
-        <div class="card my-3 order-md-1">
-          <div class="card-body">
-            <p class="fs-5 fw-bold">{{'Ride details' | translate}}:</p>
-            <p class="fs-6 fw-semibold">
-              {{'Ride owner' | translate}}:
-              <span class="float-lg-end float-md-end float-sm-end fw-normal"
-                >{{ rideDetail.user?.fullname?.firstname }}
-                {{ rideDetail.user?.fullname?.lastname }}</span
-              >
-            </p>
-            <p
-              class="fs-6 fw-semibold"
-              *ngIf="userType == 'captain' && rideDetail.status == 'accepted'"
-            >
-              {{'Ride OTP' | translate}}:
-              <span class="float-lg-end float-md-end float-sm-end fw-normal">{{
-                rideDetail.otp
-              }}</span>
-            </p>
-            <p class="fs-6 fw-semibold">
-              {{'Pickup location' | translate}}:
-              <span class="float-lg-end float-md-end float-sm-end fw-normal">{{
-                rideDetail.pickup
-              }}</span>
-            </p>
-            <p class="fs-6 fw-semibold">
-              {{'Drop location' | translate}}:
-              <span class="float-lg-end float-md-end float-sm-end fw-normal">{{
-                rideDetail.destination
-              }}</span>
-            </p>
-            <p class="fs-6 fw-semibold">
-              {{'Vehicle' | translate}}:
-              <span class="float-lg-end float-md-end float-sm-end fw-normal">{{
-                rideDetail.vehicleRequired
-              }}</span>
-            </p>
-            <p class="fs-6 fw-semibold">
-              {{'Ride fare' | translate}}:
-              <span class="float-lg-end float-md-end float-sm-end fw-normal">{{
-                rideDetail.fare
-              }}</span>
-            </p>
-            <p class="fs-6 fw-semibold">
-              {{'Payment type' | translate}}:
-              <span class="float-lg-end float-md-end float-sm-end fw-normal">{{
-                rideDetail.paymentDetails?.paymentMethod
-              }}</span>
-            </p>
-          </div>
-        </div>
-
-        <div class="card my-3 order-md-2">
-          <div class="card-body">
-            <p class="fs-5 fw-bold">{{'Captain details' | translate}}:</p>
-            <p class="fs-6 fw-semibold">
-              {{'Name' | translate}}:
-              <span class="float-lg-end float-md-end float-sm-end fw-normal"
-                >{{ rideDetail.captain?.fullname?.firstname }}
-                {{ rideDetail.captain?.fullname?.lastname }}</span
-              >
-            </p>
-            <p class="fs-6 fw-semibold">
-              {{'Email' | translate}}:
-              <span class="float-lg-end float-md-end float-sm-end fw-normal">{{
-                rideDetail.captain?.email
-              }}</span>
-            </p>
-            <p class="fs-6 fw-semibold">
-              {{'Vehicle' | translate}}:
-              <span class="float-lg-end float-md-end float-sm-end fw-normal">{{
-                rideDetail.captain?.vehicle?.vehicleType
-              }}</span>
-            </p>
-            <p class="fs-6 fw-semibold">
-              {{'Vehicle number' | translate}}:
-              <span class="float-lg-end float-md-end float-sm-end fw-normal">{{
-                rideDetail.captain?.vehicle?.plate
-              }}</span>
-            </p>
-          </div>
-        </div>
-        <div>
-          <button
-            *ngIf="userType == 'user' && rideDetail.status == 'accepted'"
-            class="btn btn-dark w-100 mb-md-0 mb-lg-0"
-            (click)="rideCancelledConfirmPopup()"
-          >
-            {{'Cancel ride' | translate}}
-          </button>
-          <button
-            *ngIf="userType == 'captain' && rideDetail.status == 'accepted'"
-            class="btn btn-dark w-100 mb-md-0 mb-lg-0"
-            (click)="verifyOtp()"
-          >
-            {{'Start ride' | translate}}
-          </button>
-          <button
-            *ngIf="userType == 'captain' && rideDetail.status == 'ongoing'"
-            class="btn btn-dark w-100 mb-md-0 mb-lg-0"
-            (click)="completeRide(rideDetail._id)"
-          >
-            {{'Complete ride' | translate}}
-          </button>
+<section class="py-4 py-md-5 bg-light">
+  <div class="container-fluid px-3 px-md-5">
+    <div class="row g-4">
+      
+      <div class="col-lg-7 order-1 order-lg-2">
+        <div class="rounded-4 shadow-sm overflow-hidden border bg-white">
+          <app-map [height]="'90vh'"></app-map>
         </div>
       </div>
-      <div
-        class="col-lg-7 col-md-10 offset-md-1 offset-lg-0 order-md-1 order-md-1 order-1"
-      >
-        <!-- <div id="map"></div> -->
-        <app-map [height]="'96vh'"></app-map>
+
+      <div class="col-lg-5 order-2 order-lg-1">
+        <div class="sticky-top" style="top: 2rem">
+
+          <div class="card rounded-4 shadow-sm border-0 mb-4">
+            <div class="card-body">
+              <h5 class="fw-bold border-bottom pb-2 mb-3">
+                <i class="bi bi-clock-history me-2"></i>{{ 'Ride Progress' | translate }}
+              </h5>
+              <ul class="timeline list-unstyled ms-2 ps-3">
+                <li class="mb-2">
+                  <i class="bi bi-check-circle-fill text-success me-2"></i>
+                  {{ 'Ride Accepted By Captain' | translate }}
+                </li>
+                <li class="mb-2" *ngIf="rideDetail.status === 'ongoing' || rideDetail.status === 'completed'">
+                  <i class="bi bi-check-circle-fill text-warning me-2"></i>
+                  {{ 'Ride Started By Captain' | translate }}
+                </li>
+                <li class="mb-2" *ngIf="rideDetail.status === 'completed'">
+                  <i class="bi bi-check-circle-fill text-primary me-2"></i>
+                  {{ 'Ride Completed' | translate }}
+                </li>
+                <li class="mb-2" *ngIf="rideDetail.status === 'cancelled'">
+                  <i class="bi bi-x-circle-fill text-danger me-2"></i>
+                  {{ 'Ride Cancelled' | translate }}
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card rounded-4 shadow-sm border-0 mb-4">
+            <div class="card-body">
+              <h5 class="fw-bold border-bottom pb-2 mb-3">
+                <i class="bi bi-info-circle me-2"></i>{{ 'Ride details' | translate }}
+              </h5>
+              <ul class="list-unstyled text-sm">
+                <li class="mb-2">
+                  <i class="bi bi-person-fill me-2 text-secondary"></i>
+                  <strong>{{ 'Ride owner' | translate }}:</strong>
+                  <span class="text-muted ms-1">
+                    {{ rideDetail.user?.fullname?.firstname }} {{ rideDetail.user?.fullname?.lastname }}
+                  </span>
+                </li>
+                <li *ngIf="userType == 'captain' && rideDetail.status == 'accepted'" class="mb-2">
+                  <i class="bi bi-shield-lock-fill me-2 text-secondary"></i>
+                  <strong>{{ 'Ride OTP' | translate }}:</strong>
+                  <span class="text-muted ms-1">{{ rideDetail.otp }}</span>
+                </li>
+                <li class="mb-2">
+                  <i class="bi bi-geo-alt-fill me-2 text-secondary"></i>
+                  <strong>{{ 'Pickup location' | translate }}:</strong>
+                  <span class="text-muted ms-1">{{ rideDetail.pickup }}</span>
+                </li>
+                <li class="mb-2">
+                  <i class="bi bi-flag-fill me-2 text-secondary"></i>
+                  <strong>{{ 'Drop location' | translate }}:</strong>
+                  <span class="text-muted ms-1">{{ rideDetail.destination }}</span>
+                </li>
+                <li class="mb-2">
+                  <i class="bi bi-truck-front-fill me-2 text-secondary"></i>
+                  <strong>{{ 'Vehicle' | translate }}:</strong>
+                  <span class="text-muted ms-1">{{ rideDetail.vehicleRequired }}</span>
+                </li>
+                <li class="mb-2">
+                  <i class="bi bi-cash-coin me-2 text-secondary"></i>
+                  <strong>{{ 'Ride fare' | translate }}:</strong>
+                  <span class="text-muted ms-1">{{ rideDetail.fare }}</span>
+                </li>
+                <li>
+                  <i class="bi bi-credit-card-2-front-fill me-2 text-secondary"></i>
+                  <strong>{{ 'Payment type' | translate }}:</strong>
+                  <span class="text-muted ms-1">{{ rideDetail.paymentDetails?.paymentMethod }}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card rounded-4 shadow-sm border-0 mb-4">
+            <div class="card-body">
+              <h5 class="fw-bold border-bottom pb-2 mb-3">
+                <i class="bi bi-person-badge-fill me-2"></i>{{ 'Captain details' | translate }}
+              </h5>
+              <ul class="list-unstyled text-sm">
+                <li class="mb-2">
+                  <i class="bi bi-person-fill me-2 text-secondary"></i>
+                  <strong>{{ 'Name' | translate }}:</strong>
+                  <span class="text-muted ms-1">
+                    {{ rideDetail.captain?.fullname?.firstname }} {{ rideDetail.captain?.fullname?.lastname }}
+                  </span>
+                </li>
+                <!-- <li class="mb-2">
+                  <i class="bi bi-envelope-fill me-2 text-secondary"></i>
+                  <strong>{{ 'Email' | translate }}:</strong>
+                  <span class="text-muted ms-1">{{ rideDetail.captain?.email }}</span>
+                </li>
+                <li class="mb-2">
+                  <i class="bi bi-truck-front me-2 text-secondary"></i>
+                  <strong>{{ 'Vehicle' | translate }}:</strong>
+                  <span class="text-muted ms-1">{{ rideDetail.captain?.vehicle?.vehicleType }}</span>
+                </li> -->
+                <li>
+                  <i class="bi bi-hash me-2 text-secondary"></i>
+                  <strong>{{ 'Vehicle number' | translate }}:</strong>
+                  <span class="text-muted ms-1">{{ rideDetail.captain?.vehicle?.plate }}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="d-grid gap-2">
+            <button
+              *ngIf="userType == 'user' && rideDetail.status == 'accepted'"
+              class="btn btn-dark rounded-pill"
+              (click)="rideCancelledConfirmPopup()"
+            >
+              {{ 'Cancel ride' | translate }}
+            </button>
+            <button
+              *ngIf="userType == 'captain' && rideDetail.status == 'accepted'"
+              class="btn btn-dark rounded-pill"
+              (click)="verifyOtp()"
+            >
+              {{ 'Start ride' | translate }}
+            </button>
+            <button
+              *ngIf="userType == 'captain' && rideDetail.status == 'ongoing'"
+              class="btn btn-dark rounded-pill"
+              (click)="completeRide(rideDetail._id)"
+            >
+              {{ 'Complete ride' | translate }}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
