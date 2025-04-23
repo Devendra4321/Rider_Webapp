@@ -210,5 +210,10 @@
     "here": "here",
     "Your document is verified. You can go online for rides": "Your document is verified. You can go online for rides",
     "Your document is rejected. Contact to admin team": "Your document is rejected. Contact to admin team",
-    "Your wallet balance is less than 500 please recharge a wallet": "Your wallet balance is less than 500 please recharge a wallet"
+    "Your wallet balance is less than 500 please recharge a wallet": "Your wallet balance is less than 500 please recharge a wallet",
+    "Chat": "Chat",
+    "Chat with Captain": "Chat with Captain",
+    "Chat with User": "Chat with User",
+    "You are chatting with your ride captain. Please be respectful and keep the conversation professional": "You are chatting with your ride captain. Please be respectful and keep the conversation professional",
+    "You are chatting with your passenger. Ensure clear communication for a smooth ride experience": "You are chatting with your passenger. Ensure clear communication for a smooth ride experience"
 }  

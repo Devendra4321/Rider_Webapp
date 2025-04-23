@@ -72,7 +72,7 @@ export class RideOngoingInfoComponent {
     }, 2000);
   }
 
-  rideDetail: any = {};
+  rideDetail: any;
 
   getRideById(rideId: any) {
     this.spinner.show();

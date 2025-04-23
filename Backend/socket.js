@@ -46,6 +46,27 @@ function initializeSocket(server) {
       });
     });
 
+    //chat socket
+    socket.on('joinChat', ({ roomId }) => {
+      socket.join(roomId);
+      console.log(`${socket.id} joined room: ${roomId}`);
+    });
+
+    socket.on('isTyping', ({ roomId, userType, isTyping }) => {
+      socket.to(roomId).emit('typingStatus', { userType, isTyping });
+      // console.log(`${userType} is ${isTyping ? 'typing' : 'not typing'} in room: ${roomId}`);
+    });
+
+    socket.on('isOnline', ({ roomId, userType, isOnline }) => {
+      socket.to(roomId).emit('onlineStatus', { userType, isOnline });
+      // console.log(`${userType} is ${isOnline ? 'Online' : 'Offline'} in room: ${roomId}`);
+    });
+
+    socket.on('sendMessage', ({ roomId, sender, message, timeStamp }) => {
+      // console.log(roomId, sender, message, timeStamp);  
+      io.to(roomId).emit('receiveMessage', { sender, message, timeStamp });
+    });
+
     socket.on("disconnect", () => {
       console.log(`Client disconnected: ${socket.id}`);
     });

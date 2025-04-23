@@ -14,10 +14,13 @@
 
           <div class="card rounded-4 shadow-sm border-0 mb-4">
             <div class="card-body">
-              <h5 class="fw-bold border-bottom pb-2 mb-3">
-                <i class="bi bi-clock-history me-2"></i>{{ 'Ride Progress' | translate }}
-              </h5>
-              <ul class="timeline list-unstyled ms-2 ps-3">
+              <div class="d-flex justify-content-between border-bottom">
+                <h5 class="fw-bold  pb-2 mb-1">
+                  <i class="bi bi-clock-history me-2"></i>{{ 'Ride Progress' | translate }}
+                </h5>
+                <app-ride-chat *ngIf="rideDetail" [userType]="userType" [rideId]="rideId" [rideDetail]="rideDetail"></app-ride-chat>
+              </div>
+              <ul class="timeline list-unstyled ms-2 ps-3 mt-2">
                 <li class="mb-2">
                   <i class="bi bi-check-circle-fill text-success me-2"></i>
                   {{ 'Ride Accepted By Captain' | translate }}

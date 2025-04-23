@@ -210,5 +210,10 @@
     "here": "यहाँ",
     "Your document is verified. You can go online for rides": "आपका दस्तावेज़ सत्यापित हो गया है। आप सवारी के लिए ऑनलाइन जा सकते हैं",
     "Your document is rejected. Contact to admin team": "आपका दस्तावेज़ अस्वीकृत हो गया है। प्रशासन टीम से संपर्क करें",
-    "Your wallet balance is less than 500 please recharge a wallet": "आपका वॉलेट बैलेंस 500 से कम है, कृपया वॉलेट रिचार्ज करें"
+    "Your wallet balance is less than 500 please recharge a wallet": "आपका वॉलेट बैलेंस 500 से कम है, कृपया वॉलेट रिचार्ज करें",
+    "Chat": "चैट",
+    "Chat with Captain": "कैप्टन से चैट करें",
+    "Chat with User": "उपयोगकर्ता से चैट करें",
+    "You are chatting with your ride captain. Please be respectful and keep the conversation professional": "आप अपने राइड कैप्टन से चैट कर रहे हैं। कृपया सम्मानजनक रहें और बातचीत को पेशेवर रखें",
+    "You are chatting with your passenger. Ensure clear communication for a smooth ride experience": "आप अपने यात्री से चैट कर रहे हैं। सुचारू सवारी अनुभव के लिए स्पष्ट संचार सुनिश्चित करें"
 }

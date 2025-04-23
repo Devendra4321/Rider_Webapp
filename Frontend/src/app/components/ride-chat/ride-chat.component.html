@@ -1,0 +1,85 @@
+<button type="button" class="btn btn-outline-dark mb-2 m-0 open-chat-btn" (click)="togglePopup()">
+    {{'Chat' | translate}} <span class="badge text-bg-secondary" *ngIf="userType == 'captain' && !isMessageSeen">{{ userMessageNotification }}</span>
+    <span class="badge text-bg-secondary" *ngIf="userType == 'user' && !isMessageSeen">{{ captainMessageNotification }}</span>
+</button>
+
+<!-- Chat Pop-up Modal -->
+<div class="chat-popup-backdrop" *ngIf="showPopup">
+    <div class="chat-popup">
+      <div class="chat-header">
+        <div>
+          <span class="fs-4 fw-semibold" *ngIf="userType == 'user'"><i class="bi bi-truck-front-fill"></i> {{'Chat with Captain' | translate}}</span>
+        
+          <div>
+            <span class="fs-4 fw-semibold" *ngIf="userType == 'captain'"><i class="bi bi-person-fill"></i> {{'Chat with User' | translate}}</span>
+          </div>
+
+          <div class="user-status">
+            <span class="fs-6" [ngClass]="{'online-dot': userStatus === 'Online', 'offline-dot': userStatus === 'Offline'}"></span>
+            {{ userStatus }}
+          </div>
+        </div>
+
+        <button class="close-btn" (click)="togglePopup()">×</button>
+      </div>
+
+      <div class="chat-messages" #chatMessages>
+        <div>
+          <div class="chat-info mb-3"> 
+            <div class="info-message" *ngIf="userType == 'user'">
+              <i class="bi bi-info-circle"></i> {{'You are chatting with your ride captain. Please be respectful and keep the conversation professional' | translate}}.
+            </div>
+            <div class="info-message" *ngIf="userType == 'captain'">
+              <i class="bi bi-info-circle"></i> {{'You are chatting with your passenger. Ensure clear communication for a smooth ride experience' | translate}}.
+            </div>
+          </div>
+        </div>
+
+        <div
+          *ngFor="let msg of messages"
+          class="chat-msg"
+          [ngClass]="{ 'own-message': msg.sender === userType, 'other-message': msg.sender !== userType }"
+        >
+          <div class="msg-avatar" *ngIf="msg.sender === 'user'"><i class="bi bi-person-fill"></i></div>
+          <div class="msg-avatar" *ngIf="msg.sender === 'captain'"><i class="bi bi-truck-front-fill"></i></div>
+          <div class="msg-bubble">
+            <div class="msg-text">
+              {{ msg.message }}
+            </div>
+            <div class="msg-sender">{{ msg.sender }} {{ msg.timeStamp | date:'shortTime' }}</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="chat-msg typing-message" *ngIf="isTyping && userType == 'captain'">
+            <div class="msg-avatar"><i class="bi bi-person-fill"></i></div>
+            <div class="msg-bubble">
+              <div class="typing-indicator">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+              </div>
+            </div>
+          </div>
+          <div class="chat-msg typing-message" *ngIf="isTyping && userType == 'user'">
+            <div class="msg-avatar"><i class="bi bi-truck-front-fill"></i></div>
+            <div class="msg-bubble">
+              <div class="typing-indicator">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Sticky Input at Bottom -->
+      <div class="chat-input">
+        <input [(ngModel)]="message" placeholder="Type your message..." (input)="isTypingFun()" />
+        <button (click)="sendMessage()" [disabled]="message.trim() === ''" class="btn btn-primary">
+          <i class="bi bi-send-fill"></i>
+        </button>
+      </div>
+    </div>
+  </div>
