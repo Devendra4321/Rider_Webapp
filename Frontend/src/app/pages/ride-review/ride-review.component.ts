@@ -88,7 +88,6 @@ export class RideReviewComponent {
       timerProgressBar: true,
       allowOutsideClick: false,
       allowEscapeKey: false,
-      showCloseButton: true,
       didOpen: () => {
         Swal.showLoading();
         const timer = Swal.getPopup()?.querySelector('b');
@@ -114,7 +113,7 @@ export class RideReviewComponent {
       title: 'Ride Not Accepted!',
       text: 'Ride is not accepted by any captain',
       icon: 'warning',
-      confirmButtonText: 'Ok',
+      confirmButtonText: 'Regenrate',
       allowOutsideClick: false,
       allowEscapeKey: false,
       showCloseButton: true,
@@ -123,6 +122,12 @@ export class RideReviewComponent {
       },
     }).then((result) => {
       if (result.isConfirmed) {
+        this.sendNotification(this.newCreatedRide._id);
+      }
+      if (result.isDismissed) {
+        if(this.newCreatedRide.paymentDetails.paymentMethod == 'wallet' || this.newCreatedRide.paymentDetails.paymentMethod == 'online') {
+          this.creditToUserWallet(this.newCreatedRide._id);
+        }
       }
     });
   }
@@ -407,11 +412,7 @@ export class RideReviewComponent {
         if (result.statusCode == 200) {
           this.rideGeneratePopup();
           console.log('Send notification data', result);
-
-          this.rideConfirmInterval = setInterval(() => {
-            this.confirmRide();
-            console.log('confirm ride');
-          }, 2000);
+          this.confirmRide();
         }
       },
       error: (error) => {
@@ -527,7 +528,6 @@ export class RideReviewComponent {
       console.log('Ride Confirm Socket data', ride);
       Swal.close();
       this.rideAccepetedPopup();
-      clearInterval(this.rideConfirmInterval);
       this.route.navigate([`/ride-ongoing/${ride._id}`]);
     });
   }
@@ -596,6 +596,46 @@ export class RideReviewComponent {
       complete: () => {
         this.spinner.hide();
       },
+    });
+  }
+
+  creditToUserWallet(rideId: any) {
+    this.spinner.show();
+
+    this.userWalletService.creditToUserWallet({ rideId: rideId }).subscribe({
+      next: (result: any) => {
+        if (result.statusCode == 200) {
+          this.spinner.hide();
+          console.log('Credit to user wallet data', result);
+          this.closePopup();
+        }
+      },
+      error: (error) => {
+        console.log('Credit to user wallet data error', error.error);
+        this.spinner.hide();
+        this.toaster.error(error.error.message);
+      },
+      complete: () => {
+        this.spinner.hide();
+      },
+    });
+  }
+
+  closePopup() {
+    Swal.fire({
+      title: 'Ride Not Accepted!',
+      text: 'Ride amount will be credited to your wallet',
+      icon: 'warning',
+      confirmButtonText: 'ok',
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      customClass: {
+        confirmButton: 'swal-confirm-btn',
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.route.navigate(['/wallet-user']);
+      }
     });
   }
 }

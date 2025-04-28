@@ -164,8 +164,8 @@ export class CaptainHomeComponent {
           this.intervalId = setInterval(() => {
             this.getPlace(latitude, longitude);
             this.setCaptainCurrentLocation(latitude, longitude);
-            this.ridePopupComponent.getNewRideNotification();
           }, 1000);
+          this.ridePopupComponent.getNewRideNotification();
         },
         (error) => {
           switch (error.code) {

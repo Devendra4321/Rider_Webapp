@@ -32,9 +32,6 @@ export class RideOngoingInfoComponent {
   @ViewChild(MapComponent) mapComponent!: MapComponent;
   @Input() userType: String | undefined;
   rideId: any;
-  rideStartedInterval: any;
-  rideCompletedInterval: any;
-  rideCancelledInterval: any;
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
@@ -43,33 +40,9 @@ export class RideOngoingInfoComponent {
     });
 
     this.getRideById(this.rideId);
-    this.callRideStarted();
-    this.callRideCompleted();
-    this.callRideCancelled();
-  }
-
-  ngOnDestroy(): void {
-    clearInterval(this.rideStartedInterval);
-    clearInterval(this.rideCompletedInterval);
-    clearInterval(this.rideCancelledInterval);
-  }
-
-  callRideStarted() {
-    this.rideStartedInterval = setInterval(() => {
-      this.rideStarted();
-    }, 2000);
-  }
-
-  callRideCompleted() {
-    this.rideCompletedInterval = setInterval(() => {
-      this.rideCompleted();
-    }, 2000);
-  }
-
-  callRideCancelled() {
-    this.rideCancelledInterval = setInterval(() => {
-      this.rideUserCancelled();
-    }, 2000);
+    this.rideStarted();
+    this.rideCompleted();
+    this.rideUserCancelled();
   }
 
   rideDetail: any;
@@ -88,17 +61,8 @@ export class RideOngoingInfoComponent {
       },
       error: (error) => {
         console.log('Ride get by id data error', error.error);
-
-        if (
-          error.error.statusCode == 400 ||
-          error.error.statusCode == 404 ||
-          error.error.statusCode == 500
-        ) {
-          this.spinner.hide();
-          this.toaster.error(error.error.message);
-        } else {
-          this.toaster.error('Something went wrong');
-        }
+        this.spinner.hide();
+        this.toaster.error(error.error.message);
       },
       complete: () => {
         this.spinner.hide();
@@ -149,13 +113,8 @@ export class RideOngoingInfoComponent {
       },
       error: (error) => {
         console.log('Ride started data', error.error);
-
-        if (error.error.statusCode == 400 || error.error.statusCode == 500) {
-          this.spinner.hide();
-          this.toaster.error(error.error.message);
-        } else {
-          this.toaster.error('Something went wrong');
-        }
+        this.spinner.hide();
+        this.toaster.error(error.error.message);
       },
       complete: () => {
         this.spinner.hide();
@@ -169,16 +128,7 @@ export class RideOngoingInfoComponent {
     this.rideSocketService.startRide().subscribe((ride) => {
       this.rideDetail = ride;
       this.rideStartedPopup();
-      clearInterval(this.rideStartedInterval);
     });
-
-    if (
-      this.rideDetail.status == 'ongoing' ||
-      this.rideDetail.status == 'completed' ||
-      this.rideDetail.status == 'cancelled'
-    ) {
-      clearInterval(this.rideStartedInterval);
-    }
   }
 
   completeRide(rideId: any) {
@@ -199,13 +149,8 @@ export class RideOngoingInfoComponent {
       },
       error: (error) => {
         console.log('Ride complete data error', error.error);
-
-        if (error.error.statusCode == 400 || error.error.statusCode == 500) {
-          this.spinner.hide();
-          this.toaster.error(error.error.message);
-        } else {
-          this.toaster.error('Something went wrong');
-        }
+        this.spinner.hide();
+        this.toaster.error(error.error.message);
       },
       complete: () => {
         this.spinner.hide();
@@ -227,18 +172,8 @@ export class RideOngoingInfoComponent {
         },
         error: (error) => {
           console.log('Debit from captain wallet data error', error.error);
-
-          if (
-            error.error.statusCode == 400 ||
-            error.error.statusCode == 500 ||
-            error.error.statusCode == 404 ||
-            error.error.statusCode == 401
-          ) {
-            this.spinner.hide();
-            this.toaster.error(error.error.message);
-          } else {
-            this.toaster.error('Something went wrong');
-          }
+          this.spinner.hide();
+          this.toaster.error(error.error.message);
         },
         complete: () => {
           this.spinner.hide();
@@ -260,18 +195,8 @@ export class RideOngoingInfoComponent {
         },
         error: (error) => {
           console.log('Credit to captain wallet data error', error.error);
-
-          if (
-            error.error.statusCode == 400 ||
-            error.error.statusCode == 500 ||
-            error.error.statusCode == 404 ||
-            error.error.statusCode == 401
-          ) {
-            this.spinner.hide();
-            this.toaster.error(error.error.message);
-          } else {
-            this.toaster.error('Something went wrong');
-          }
+          this.spinner.hide();
+          this.toaster.error(error.error.message);
         },
         complete: () => {
           this.spinner.hide();
@@ -285,16 +210,7 @@ export class RideOngoingInfoComponent {
     this.rideSocketService.endRide().subscribe((ride) => {
       this.rideDetail = ride;
       this.rideCompletedPopup();
-      clearInterval(this.rideCompletedInterval);
     });
-
-    if (
-      this.rideDetail.status == 'completed' ||
-      this.rideDetail.status == 'cancelled' ||
-      this.rideDetail.status == 'accepted'
-    ) {
-      clearInterval(this.rideCompletedInterval);
-    }
   }
 
   cancelUserRide(rideId: any) {
@@ -316,13 +232,8 @@ export class RideOngoingInfoComponent {
       },
       error: (error) => {
         console.log('Ride cancelled data error', error.error);
-
-        if (error.error.statusCode == 400 || error.error.statusCode == 500) {
-          this.spinner.hide();
-          this.toaster.error(error.error.message);
-        } else {
-          this.toaster.error('Something went wrong');
-        }
+        this.spinner.hide();
+        this.toaster.error(error.error.message);
       },
       complete: () => {
         this.spinner.hide();
@@ -336,16 +247,7 @@ export class RideOngoingInfoComponent {
     this.rideSocketService.cancelUserRide().subscribe((ride) => {
       this.rideDetail = ride;
       this.rideCancelledPopup();
-      clearInterval(this.rideCancelledInterval);
     });
-
-    if (
-      this.rideDetail.status == 'cancelled' ||
-      this.rideDetail.status == 'ongoing' ||
-      this.rideDetail.status == 'completed'
-    ) {
-      clearInterval(this.rideCancelledInterval);
-    }
   }
 
   creditToUserWallet(rideId: any) {
@@ -360,18 +262,8 @@ export class RideOngoingInfoComponent {
       },
       error: (error) => {
         console.log('Credit to user wallet data error', error.error);
-
-        if (
-          error.error.statusCode == 400 ||
-          error.error.statusCode == 500 ||
-          error.error.statusCode == 404 ||
-          error.error.statusCode == 401
-        ) {
-          this.spinner.hide();
-          this.toaster.error(error.error.message);
-        } else {
-          this.toaster.error('Something went wrong');
-        }
+        this.spinner.hide();
+        this.toaster.error(error.error.message);
       },
       complete: () => {
         this.spinner.hide();
@@ -397,13 +289,8 @@ export class RideOngoingInfoComponent {
         },
         error: (error) => {
           console.log('Updatepaymentstatus data', error.error);
-
-          if (error.error.statusCode == 400 || error.error.statusCode == 500) {
-            this.spinner.hide();
-            this.toaster.error(error.error.message);
-          } else {
-            this.toaster.error('Something went wrong');
-          }
+          this.spinner.hide();
+          this.toaster.error(error.error.message);
         },
         complete: () => {
           this.spinner.hide();

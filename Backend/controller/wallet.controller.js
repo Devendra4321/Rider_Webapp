@@ -648,10 +648,10 @@ module.exports.creditInUserWallet = async (req, res, next) => {
       });
     }
 
-    if (ride.status !== "cancelled") {
+    if (ride.status !== "cancelled" && ride.status !== "pending") {
       return res.status(400).json({
         statusCode: 400,
-        message: "Ride is not in cancelled state",
+        message: "Ride is not cancelled or pending",
       });
     }
 
